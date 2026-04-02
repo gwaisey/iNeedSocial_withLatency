@@ -9,7 +9,7 @@ import { ThemeToggle } from "../components/theme-toggle"
 import { isTutorialDone, TutorialOverlay } from "../components/tutorial/TutorialOverlay"
 import { useStudyState } from "../context/study-context"
 import { socialFeedService } from "../services/feed-service"
-import { getRandomLatency } from "../config/latency"
+import { getProgressiveLatency } from "../config/latency"
 import { type FeedPayload, type ThemeMode } from "../types/social"
 
 export function FeedPage() {
@@ -123,8 +123,8 @@ export function FeedPage() {
           {/* Dark mode: hero carousel + posts */}
           {payload && isDark && (
             <div className={`divide-y ${dividerCls}`}>
-              {payload.posts.map((post) => (
-                <RevealPost key={post.id} isDark>
+              {payload.posts.map((post, idx) => (
+                <RevealPost key={post.id} isDark index={idx}>
                   <FeedPost
                     isDark
                     isLiked={Boolean(likedPosts[post.id])}
@@ -146,6 +146,7 @@ export function FeedPage() {
                 <RevealPost
                   key={post.id}
                   isDark={false}
+                  index={idx}
                   tutorialId={idx === 0 ? "tutorial-post" : undefined}
                 >
                   <FeedPost
@@ -292,10 +293,12 @@ function FeedSkeleton({ isDark }: { isDark: boolean }) {
 function RevealPost({
   children,
   isDark,
+  index = 0,
   tutorialId,
 }: {
   children: React.ReactNode
   isDark: boolean
+  index?: number
   tutorialId?: string
 }) {
   const [revealed, setRevealed] = useState(false)
@@ -309,7 +312,7 @@ function RevealPost({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          timer = window.setTimeout(() => setRevealed(true), getRandomLatency())
+          timer = window.setTimeout(() => setRevealed(true), getProgressiveLatency(index))
           observer.disconnect()
         }
       },
