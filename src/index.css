@@ -1,0 +1,205 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ─────────────────────────────────────────────── */
+:root {
+  font-family: "Poppins", sans-serif;
+  color: #27262f;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow-x: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent text selection on UI interactive elements */
+button {
+  user-select: none;
+  touch-action: manipulation;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ─── App Shell ─────────────────────────────────────────── */
+.app-shell {
+  display: flex;
+  /* Exact viewport height so main-content can scroll properly */
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: linear-gradient(180deg, #f7f4fb 0%, #ebe7f6 100%);
+}
+
+.app-shell.theme-dark {
+  background: linear-gradient(160deg, #27262f 0%, #3e3d4a 100%);
+}
+
+/* Sidebar – desktop only (≥1024px) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  display: none;
+  flex-direction: column;
+  z-index: 40;
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    display: flex;
+  }
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+@media (min-width: 1024px) {
+  .main-content {
+    margin-left: 280px;
+    margin-right: 320px;
+  }
+}
+
+/* Right suggestions panel – desktop only */
+.right-panel {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 320px;
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+}
+
+@media (min-width: 1024px) {
+  .right-panel {
+    display: block;
+  }
+}
+
+/* Bottom nav – mobile/tablet only */
+.bottom-nav {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none;
+  }
+}
+
+/* Feed stream */
+.feed-wrapper {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .feed-wrapper {
+    max-width: 470px;
+    margin: 0 auto;
+  }
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Backgrounds ───────────────────────────────────────── */
+.bg-page-light {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(62, 61, 74, 0.16), transparent 26%),
+    radial-gradient(circle at 80% 15%, rgba(119, 109, 255, 0.16), transparent 22%),
+    linear-gradient(180deg, #f7f4fb 0%, #edeaf5 100%);
+}
+
+.bg-page-dark {
+  background: linear-gradient(160deg, #27262f 0%, #3e3d4a 100%);
+}
+
+/* Legacy desktop-atmosphere alias */
+.desktop-atmosphere {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(62, 61, 74, 0.16), transparent 26%),
+    radial-gradient(circle at 80% 15%, rgba(119, 109, 255, 0.16), transparent 22%),
+    linear-gradient(180deg, #f7f4fb 0%, #edeaf5 100%);
+}
+
+/* ─── Animations ────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.animate-fade-in  { animation: fadeIn  0.25s ease-out both; }
+.animate-slide-up { animation: slideUp 0.3s  ease-out both; }
+
+/* Skeleton loading shimmer */
+.skeleton {
+  background: linear-gradient(90deg, #ebe7f6 25%, #f7f4fb 50%, #ebe7f6 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 0.5rem;
+}
