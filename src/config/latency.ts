@@ -1,16 +1,16 @@
 // ─── Progressive Latency Config ───────────────────────────────────────────────
-// Each post reveals slower as the user scrolls deeper into the feed.
-// Post 0 = MIN_MS, last post = MAX_MS, linear scale in between.
+// Latency increases by 0.5s every 10 posts.
+// Posts 0-9: 500ms, Posts 10-19: 1000ms, Posts 20-29: 1500ms, etc.
 
 export const LATENCY_CONFIG = {
-  MIN_MS: 800,
-  MAX_MS: 4000,
-  TOTAL_POSTS: 120,
+  BASE_MS: 500,       // starting latency for first 10 posts
+  STEP_MS: 500,       // how much to add every 10 posts
+  STEP_SIZE: 10,      // number of posts per step
 }
 
-/** Returns a linearly increasing delay based on post index (0 = first post) */
+/** Returns latency based on post index — increases every 10 posts */
 export function getProgressiveLatency(index: number): number {
-  const { MIN_MS, MAX_MS, TOTAL_POSTS } = LATENCY_CONFIG
-  const clamped = Math.min(index, TOTAL_POSTS - 1)
-  return Math.round(MIN_MS + (MAX_MS - MIN_MS) * (clamped / (TOTAL_POSTS - 1)))
+  const { BASE_MS, STEP_MS, STEP_SIZE } = LATENCY_CONFIG
+  const step = Math.floor(index / STEP_SIZE)
+  return BASE_MS + step * STEP_MS
 }
