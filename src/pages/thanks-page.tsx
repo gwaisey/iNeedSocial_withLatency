@@ -1,9 +1,4 @@
-import { RotateCcw } from "lucide-react"
-import { useNavigate } from "react-router-dom"
-
 export function ThanksPage() {
-  const navigate = useNavigate()
-
   return (
     <div className="min-h-svh flex items-center justify-center bg-app-radial p-6 animate-fade-in">
       {/* Card */}
@@ -19,28 +14,10 @@ export function ThanksPage() {
         </div>
 
         <p className="relative mt-6 text-base text-haze leading-relaxed">
-          Partisipasi Anda sangat berarti bagi penelitian kami.
-          <br />
-          <span className="italic">Your participation means a lot to our research.</span>
+          Terima kasih telah mengikuti simulasi ini, partisipasi Anda sangat berarti bagi penelitian kami. Silahkan keluar dari website ini.
+          <br /><br />
+          <span className="italic">Thank you for being a part of this simulation, your participation means a lot to our research. You may now exit this website.</span>
         </p>
-
-        {/* CTA */}
-        <div className="relative mt-12 flex justify-end">
-          <button
-            aria-label="Restart experience"
-            className="
-              flex h-14 w-14 items-center justify-center
-              rounded-full bg-ink text-white
-              shadow-[0_14px_28px_rgba(18,17,25,0.25)]
-              hover:bg-dusk transition-colors
-              active:scale-95
-            "
-            onClick={() => navigate("/splash")}
-            type="button"
-          >
-            <RotateCcw size={20} strokeWidth={2.2} />
-          </button>
-        </div>
       </div>
     </div>
   )

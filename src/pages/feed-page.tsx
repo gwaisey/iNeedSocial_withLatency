@@ -222,16 +222,9 @@ export function FeedPage() {
               </div>
             </div>
             <p className="text-sm font-semibold text-[#FF516B] max-w-[260px] leading-relaxed">
-              Don't forget to screenshot this page and submit to our post-questionnaire!
+              Jangan lupa untuk screenshot page ini dan submit ke form kuesioner kami ya!
             </p>
             <div className="flex gap-4 mt-2">
-              <button
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white active:scale-95 transition-transform"
-                onClick={() => setShowTimer(false)}
-                type="button"
-              >
-                ✕
-              </button>
               <button
                 aria-label="Continue to thank-you screen"
                 className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-lg active:scale-95 transition-transform"
