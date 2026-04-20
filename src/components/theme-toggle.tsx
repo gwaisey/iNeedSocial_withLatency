@@ -9,10 +9,11 @@ export function ThemeToggle({
 }) {
   return (
     <button
-      aria-label="Toggle theme"
+      aria-label="Ganti tema"
       className={`relative flex h-[33px] w-[42px] items-center rounded-full px-[5px] transition ${
         isDark ? "justify-start bg-white text-ink" : "justify-end bg-ink text-white"
       }`}
+      data-testid="theme-toggle-button"
       onClick={onClick}
       type="button"
     >

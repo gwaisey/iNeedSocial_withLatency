@@ -8,7 +8,7 @@ interface ProfileBadgeProps {
 export function ProfileBadge({ isDark, username = "123", hasStory = false }: ProfileBadgeProps) {
   const initials =
     username
-      .replaceAll(/[^a-zA-Z0-9]/g, " ")
+      .replace(/[^a-zA-Z0-9]/g, " ")
       .trim()
       .split(/\s+/)
       .slice(0, 2)

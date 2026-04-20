@@ -15,34 +15,30 @@ export function RightPanel({ theme }: RightPanelProps) {
   const isDark = theme === "dark"
 
   const textPrimary = isDark ? "text-mist" : "text-ink"
-  const textSecondary = isDark ? "text-haze" : "text-haze"
+  const textSecondary = "text-haze"
   const divider = isDark ? "border-white/10" : "border-ink/10"
   const hoverBg = isDark ? "hover:bg-white/5" : "hover:bg-ink/5"
 
   return (
     <div className={`right-panel ${isDark ? "bg-page-dark" : "bg-page-light"}`}>
-      {/* Suggested accounts */}
       <div className="mt-8">
-        <p className={`text-xs font-semibold uppercase tracking-wide mb-4 ${textSecondary}`}>
+        <p className={`mb-4 text-xs font-semibold uppercase tracking-wide ${textSecondary}`}>
           Saran untuk Anda
         </p>
         <div className={`space-y-1 divide-y ${divider}`}>
           {suggestedUsers.map((user) => (
             <div
               key={user.username}
-              className={`flex items-center gap-3 py-3 px-2 rounded-xl cursor-pointer transition-colors ${hoverBg}`}
+              className={`flex cursor-pointer items-center gap-3 rounded-xl px-2 py-3 transition-colors ${hoverBg}`}
             >
-              {/* Avatar */}
-              <div className="w-9 h-9 rounded-full bg-violet flex items-center justify-center flex-shrink-0">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-violet">
                 <span className="text-xs font-semibold text-white">{user.avatar}</span>
               </div>
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <p className={`text-sm font-semibold truncate ${textPrimary}`}>{user.name}</p>
-                <p className={`text-xs truncate ${textSecondary}`}>@{user.username}</p>
+              <div className="min-w-0 flex-1">
+                <p className={`truncate text-sm font-semibold ${textPrimary}`}>{user.name}</p>
+                <p className={`truncate text-xs ${textSecondary}`}>@{user.username}</p>
               </div>
-              {/* Follow button */}
-              <button className="text-xs font-semibold text-violet hover:text-violet/70 transition-colors flex-shrink-0">
+              <button className="flex-shrink-0 text-xs font-semibold text-violet transition-colors hover:text-violet/70">
                 Ikuti
               </button>
             </div>
@@ -50,9 +46,8 @@ export function RightPanel({ theme }: RightPanelProps) {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className={`mt-8 text-xs ${textSecondary} space-y-1`}>
-        <p>© 2024 iNeedSocial</p>
+      <div className={`mt-8 space-y-1 text-xs ${textSecondary}`}>
+        <p>(c) 2024 iNeedSocial</p>
         <p>Dibuat untuk keperluan penelitian</p>
       </div>
     </div>

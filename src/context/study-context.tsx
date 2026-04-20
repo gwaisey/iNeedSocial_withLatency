@@ -7,89 +7,117 @@ import {
   useMemo,
   useState,
 } from "react"
+import {
+  clearStudySession,
+  getSessionStorage,
+  readActiveStudySession,
+  readInteractionState,
+  startNewStudySession,
+  writeInteractionState,
+} from "./study-session-storage"
 
 type StudyContextValue = {
   commentSheet: string | null
-  feedStartedAt: number | null
   likedPosts: Record<string, boolean>
   repostedPosts: Record<string, boolean>
+  sessionId: string | null
   closeCommentSheet: () => void
+  discardStudySession: () => void
   openCommentSheet: (postId: string) => void
-  startFeedTimer: () => void
+  startStudySession: () => string
   toggleLiked: (postId: string) => void
   toggleReposted: (postId: string) => void
 }
 
 const StudyContext = createContext<StudyContextValue | null>(null)
 
-const STORAGE_KEY_LIKED = "gaby:liked"
-const STORAGE_KEY_REPOSTED = "gaby:reposted"
-
-function readStorage(key: string): Record<string, boolean> {
-  try {
-    const raw = localStorage.getItem(key)
-    return raw ? (JSON.parse(raw) as Record<string, boolean>) : {}
-  } catch {
-    return {}
-  }
-}
-
-function writeStorage(key: string, value: Record<string, boolean>) {
-  try {
-    localStorage.setItem(key, JSON.stringify(value))
-  } catch {
-    // Storage might be unavailable in private mode
-  }
-}
-
 export function StudyProvider({ children }: Readonly<{ children: ReactNode }>) {
+  const [sessionId, setSessionId] = useState<string | null>(() =>
+    readActiveStudySession(getSessionStorage())
+  )
   const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>(
-    () => readStorage(STORAGE_KEY_LIKED)
+    () => (sessionId ? readInteractionState(getSessionStorage(), sessionId, "liked") : {})
   )
   const [repostedPosts, setRepostedPosts] = useState<Record<string, boolean>>(
-    () => readStorage(STORAGE_KEY_REPOSTED)
+    () => (sessionId ? readInteractionState(getSessionStorage(), sessionId, "reposted") : {})
   )
   const [commentSheet, setCommentSheet] = useState<string | null>(null)
-  const [feedStartedAt, setFeedStartedAt] = useState<number | null>(null)
-
-  // Persist liked/reposted state across page refreshes
-  useEffect(() => {
-    writeStorage(STORAGE_KEY_LIKED, likedPosts)
-  }, [likedPosts])
 
   useEffect(() => {
-    writeStorage(STORAGE_KEY_REPOSTED, repostedPosts)
-  }, [repostedPosts])
+    if (!sessionId) {
+      return
+    }
+
+    writeInteractionState(getSessionStorage(), sessionId, "liked", likedPosts)
+  }, [likedPosts, sessionId])
+
+  useEffect(() => {
+    if (!sessionId) {
+      return
+    }
+
+    writeInteractionState(getSessionStorage(), sessionId, "reposted", repostedPosts)
+  }, [repostedPosts, sessionId])
 
   const toggleLiked = useCallback((postId: string) => {
+    if (!sessionId) {
+      return
+    }
+
     setLikedPosts((curr) => ({ ...curr, [postId]: !curr[postId] }))
-  }, [])
+  }, [sessionId])
 
   const toggleReposted = useCallback((postId: string) => {
+    if (!sessionId) {
+      return
+    }
+
     setRepostedPosts((curr) => ({ ...curr, [postId]: !curr[postId] }))
-  }, [])
+  }, [sessionId])
 
   const closeCommentSheet = useCallback(() => setCommentSheet(null), [])
   const openCommentSheet = useCallback((postId: string) => setCommentSheet(postId), [])
-
-  // Record the moment user first enters the feed — called once, idempotent
-  const startFeedTimer = useCallback(() => {
-    setFeedStartedAt((prev) => prev ?? Date.now())
+  const startStudySession = useCallback(() => {
+    const nextSessionId = startNewStudySession(getSessionStorage())
+    setSessionId(nextSessionId)
+    setLikedPosts({})
+    setRepostedPosts({})
+    setCommentSheet(null)
+    return nextSessionId
   }, [])
+  const discardStudySession = useCallback(() => {
+    clearStudySession(getSessionStorage(), sessionId)
+    setSessionId(null)
+    setLikedPosts({})
+    setRepostedPosts({})
+    setCommentSheet(null)
+  }, [sessionId])
 
   const value = useMemo(
     () => ({
       commentSheet,
-      feedStartedAt,
+      discardStudySession,
       likedPosts,
       repostedPosts,
+      sessionId,
       closeCommentSheet,
       openCommentSheet,
-      startFeedTimer,
+      startStudySession,
       toggleLiked,
       toggleReposted,
     }),
-    [commentSheet, feedStartedAt, likedPosts, repostedPosts, closeCommentSheet, openCommentSheet, startFeedTimer, toggleLiked, toggleReposted]
+    [
+      commentSheet,
+      discardStudySession,
+      likedPosts,
+      repostedPosts,
+      sessionId,
+      closeCommentSheet,
+      openCommentSheet,
+      startStudySession,
+      toggleLiked,
+      toggleReposted,
+    ]
   )
 
   return (

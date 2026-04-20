@@ -34,6 +34,11 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
+body.body-scroll-lock {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 button,
 input,
 textarea,
@@ -141,6 +146,10 @@ img {
   width: 100%;
 }
 
+.feed-post-shell {
+  contain: layout style paint;
+}
+
 @media (min-width: 768px) {
   .feed-wrapper {
     max-width: 470px;
@@ -202,4 +211,9 @@ img {
   background-size: 800px 100%;
   animation: shimmer 1.4s infinite linear;
   border-radius: 0.5rem;
+}
+
+.skeleton-dark {
+  background: linear-gradient(90deg, rgba(245, 244, 251, 0.08) 25%, rgba(245, 244, 251, 0.16) 50%, rgba(245, 244, 251, 0.08) 75%);
+  background-size: 800px 100%;
 }

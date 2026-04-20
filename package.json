@@ -1,36 +1,55 @@
 {
-  "name": "social-media-latency",
+  "name": "social-media",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "export:all-sessions": "node ./scripts/export-all-sessions.mjs",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@eslint/js": "^9.39.0",
     "@grida/refig": "^0.0.4",
     "@jridgewell/sourcemap-codec": "^1.5.5",
+    "@playwright/test": "^1.54.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.27",
+    "eslint": "^9.39.0",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "eslint-plugin-react-refresh": "^0.4.24",
     "fig-kiwi": "^0.0.1",
+    "globals": "^16.4.0",
+    "jsdom": "^27.0.1",
     "postcss": "^8.5.8",
+    "supabase": "^2.89.1",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.1",
     "vite": "^6.4.1",
-    "vite-plugin-pwa": "^0.21.1"
+    "vite-plugin-pwa": "^0.21.1",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.103.0",
     "lucide-react": "^0.577.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.13.1"
+    "react-router-dom": "^7.13.1",
+    "xlsx": "^0.18.5",
+    "zod": "^4.1.12"
   }
 }

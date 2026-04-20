@@ -1,9 +1,12 @@
 import { Home, Timer, User, LogOut } from "lucide-react"
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import { BrandLogo } from "../brand-logo"
 import type { ThemeMode } from "../../types/social"
 
 interface SidebarProps {
+  isEndingSession?: boolean
+  onEndSession: () => void
+  onExitSession: () => void
   theme: ThemeMode
 }
 
@@ -11,8 +14,12 @@ const navItems = [
   { to: "/feed", icon: Home, label: "Beranda" },
 ]
 
-export function Sidebar({ theme }: SidebarProps) {
-  const navigate = useNavigate()
+export function Sidebar({
+  isEndingSession = false,
+  onEndSession,
+  onExitSession,
+  theme,
+}: SidebarProps) {
   const isDark = theme === "dark"
 
   const textColor = isDark ? "text-mist" : "text-ink"
@@ -46,12 +53,16 @@ export function Sidebar({ theme }: SidebarProps) {
             <span>{label}</span>
           </NavLink>
         ))}
+        
+        {/* End-session button */}
         <button
-          onClick={() => window.dispatchEvent(new Event("timeropen"))}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all ${textColor} ${hoverBg}`}
+          data-testid="sidebar-timer-open-button"
+          disabled={isEndingSession}
+          onClick={onEndSession}
+          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all disabled:opacity-70 ${textColor} ${hoverBg}`}
         >
           <Timer size={20} strokeWidth={1.8} />
-          <span>Timer</span>
+          <span>Akhiri sesi</span>
         </button>
       </nav>
 
@@ -64,7 +75,8 @@ export function Sidebar({ theme }: SidebarProps) {
           <span>Profil</span>
         </button>
         <button
-          onClick={() => navigate("/splash")}
+          data-testid="sidebar-exit-button"
+          onClick={onExitSession}
           className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all ${textColor} ${hoverBg}`}
         >
           <LogOut size={20} strokeWidth={1.8} />

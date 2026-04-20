@@ -1,4 +1,4 @@
-const CACHE_NAME = "gaby-social-v1";
+const CACHE_NAME = "ineedsocial-social-v1";
 const STATIC_ASSETS = [
   "/",
   "/manifest.json",

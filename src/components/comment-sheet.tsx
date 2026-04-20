@@ -9,7 +9,7 @@ export function CommentSheet({ onClose }: CommentSheetProps) {
     <>
       {/* Backdrop */}
       <button
-        aria-label="Close comment overlay"
+        aria-label="Tutup overlay komentar"
         className="fixed inset-0 z-50 bg-black/40 animate-fade-in"
         onClick={onClose}
         type="button"
@@ -35,7 +35,7 @@ export function CommentSheet({ onClose }: CommentSheetProps) {
         <div className="flex items-center justify-between px-5 pb-3 border-b border-ink/8">
           <h2 className="text-sm font-semibold">Komentar</h2>
           <button
-            aria-label="Close"
+            aria-label="Tutup"
             className="p-1 rounded-full hover:bg-ink/5 transition-colors"
             onClick={onClose}
             type="button"

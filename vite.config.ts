@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
 import path from "node:path"
@@ -9,17 +10,6 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          react: ["react", "react-dom"],
-          router: ["react-router-dom"],
-          icons: ["lucide-react"],
-        },
-      },
-    },
-  },
   server: {
     port: 5173,
     // Proxy for future backend integration
@@ -29,5 +19,10 @@ export default defineConfig({
     //     changeOrigin: true,
     //   },
     // },
+  },
+  test: {
+    environment: "jsdom",
+    exclude: ["tests/e2e/**", "node_modules/**"],
+    setupFiles: "./src/test/setup.ts",
   },
 })

@@ -1,21 +1,4 @@
 {
-  "heroSlides": [
-    {
-      "id": "hero-1",
-      "src": "/content/files/cafe_desserts.jpg",
-      "alt": "Cafe dessert table"
-    },
-    {
-      "id": "hero-2",
-      "src": "/content/files/books.jpg",
-      "alt": "Studio Ghibli records"
-    },
-    {
-      "id": "hero-3",
-      "src": "/content/files/sheetmask-party.jpg",
-      "alt": "Friends wearing cartoon face masks"
-    }
-  ],
   "posts": [
     {
       "id": "post-snoopy",
@@ -28,7 +11,8 @@
           "src": "/content/files/snoopy.jpg",
           "alt": "Snoopy reading outside"
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-cat",
@@ -41,7 +25,8 @@
           "src": "/content/files/cat.jpg",
           "alt": "Cat in snow"
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-carousel",
@@ -62,7 +47,8 @@
           "src": "/content/files/sheetmask-party.jpg",
           "alt": "Friends wearing cartoon face masks"
         }
-      ]
+      ],
+      "genre": "makanan"
     },
     {
       "id": "post-barbie",
@@ -75,7 +61,8 @@
           "src": "/content/files/barbie.jpg",
           "alt": "Barbie in front of a fire"
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-video-sample",
@@ -88,7 +75,8 @@
           "src": "/content/videos/pinata.mp4",
           "alt": "Party with Pinata!"
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-maling-kepergok",
@@ -105,7 +93,8 @@
           "src": "/content/files/maling-2.jpg",
           "alt": "bapak gojek nontonin maling kepergok sampe rela di cancel orderannya"
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-prince-hisahito",
@@ -126,7 +115,8 @@
           "src": "/content/files/prince_hisahito3.jpg",
           "alt": "kekaisaran jepang"
         }
-      ]
+      ],
+      "genre": "berita"
     },
     {
       "id": "post-kopi-kak",
@@ -139,7 +129,8 @@
           "src": "/content/videos/kopi-kak.mp4",
           "alt": "yaa maaffff"
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-tumbler",
@@ -160,7 +151,8 @@
           "src": "/content/files/tumbler-kelindes3.jpg",
           "alt": "SEDIH BANGET TUMBLER KESAYANGAN GW KELINDES MOBIL AAAAAAAAAAAAAAA MANA GAK ADA STOCKNYA😭😭😭😭😭"
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-cewe-impulsif",
@@ -173,7 +165,8 @@
           "src": "/content/videos/cewe-impulsif.mp4",
           "alt": "Akibat mengikuti kata otak"
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-mie-goreng-telur",
@@ -186,7 +179,8 @@
           "src": "/content/files/miegoreng-telur.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "makanan"
     },
     {
       "id": "post-buffalo",
@@ -199,7 +193,8 @@
           "src": "/content/videos/babybuffalo.mp4",
           "alt": "So cute! 😭"
         }
-      ]
+      ],
+      "genre": "wisata"
     },
     {
       "id": "post-poster-buronan",
@@ -212,7 +207,8 @@
           "src": "/content/videos/poster-buronan.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-kartu-pokemon",
@@ -225,7 +221,8 @@
           "src": "/content/videos/kartu-pokemon.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "game"
     },
     {
       "id": "post-digigit-keong",
@@ -238,7 +235,8 @@
           "src": "/content/videos/digigit-keong.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "berita"
     },
     {
       "id": "post-game-controller",
@@ -251,7 +249,8 @@
           "src": "/content/videos/game-controller-pake-gpt.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "game"
     },
     {
       "id": "post-airdrop",
@@ -264,7 +263,8 @@
           "src": "/content/files/airdrop.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-ngambek",
@@ -277,7 +277,8 @@
           "src": "/content/videos/ngambek.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-nugget-gosong",
@@ -290,7 +291,8 @@
           "src": "/content/files/nugget-gosong.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "makanan"
     },
     {
       "id": "post-lightning-mcqueen",
@@ -303,7 +305,8 @@
           "src": "/content/videos/lightning-mcqueen.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "olahraga"
     },
     {
       "id": "post-kucing-masuk-bca",
@@ -316,7 +319,8 @@
           "src": "/content/files/kucing-masuk-bca.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-burger",
@@ -333,7 +337,8 @@
           "src": "/content/files/burger.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "makanan"
     },
     {
       "id": "post-rezaarap",
@@ -346,7 +351,8 @@
           "src": "/content/videos/rezaarap.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "game"
     },
     {
       "id": "post-dora",
@@ -359,7 +365,8 @@
           "src": "/content/videos/dora.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-ayam",
@@ -372,7 +379,8 @@
           "src": "/content/videos/ayam.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-makeup",
@@ -385,7 +393,8 @@
           "src": "/content/videos/makeup.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-hompimpa",
@@ -398,7 +407,8 @@
           "src": "/content/videos/hompimpa.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-gramedia",
@@ -411,7 +421,8 @@
           "src": "/content/files/gramedia.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "berita"
     },
     {
       "id": "post-lift",
@@ -424,7 +435,8 @@
           "src": "/content/videos/lift.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-rs",
@@ -437,7 +449,8 @@
           "src": "/content/files/rs.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "berita"
     },
     {
       "id": "post-absurd",
@@ -450,7 +463,8 @@
           "src": "/content/videos/absurd.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-pulu2",
@@ -463,7 +477,8 @@
           "src": "/content/videos/pulu2.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-chat",
@@ -484,7 +499,8 @@
           "src": "/content/files/chat_pake_stiker3.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-sedia-ikan",
@@ -497,7 +513,8 @@
           "src": "/content/videos/sedia-ikan.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-ojek-gunung",
@@ -514,7 +531,8 @@
           "src": "/content/files/ojek-gunung2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "wisata"
     },
     {
       "id": "post-giladiskon",
@@ -539,7 +557,8 @@
           "src": "/content/files/giladiskon4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "makanan"
     },
     {
       "id": "post-angel",
@@ -552,7 +571,8 @@
           "src": "/content/videos/angel.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-jaket-ojek",
@@ -565,7 +585,8 @@
           "src": "/content/videos/jaket-ojek.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-dokter-hewan",
@@ -578,7 +599,8 @@
           "src": "/content/files/dokter-hewan.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-cabut-gigi",
@@ -591,7 +613,8 @@
           "src": "/content/videos/cabut-gigi.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-orangutan",
@@ -604,7 +627,8 @@
           "src": "/content/videos/patrick-orangutan.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "wisata"
     },
     {
       "id": "post-frog-prank",
@@ -617,7 +641,8 @@
           "src": "/content/videos/frog-prank.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-pokemoncard_277miliar",
@@ -630,7 +655,8 @@
           "src": "/content/videos/pokemoncard_277miliar.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "game"
     },
     {
       "id": "post-pizza-surabaya",
@@ -655,7 +681,8 @@
           "src": "/content/files/pizza-surabaya4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "makanan"
     },
     {
       "id": "post-ceker",
@@ -668,7 +695,8 @@
           "src": "/content/videos/ceker.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-siamese",
@@ -681,7 +709,8 @@
           "src": "/content/files/siamese.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-jasa-santo-suruh",
@@ -706,7 +735,8 @@
           "src": "/content/files/jasa-santo-suruh4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-racoon-dog",
@@ -719,7 +749,8 @@
           "src": "/content/videos/racoon-dog.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "wisata"
     },
     {
       "id": "post-ibu-eska",
@@ -732,7 +763,8 @@
           "src": "/content/videos/ibu-eskalator.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "berita"
     },
     {
       "id": "post-iwak",
@@ -749,7 +781,8 @@
           "src": "/content/files/iwak-plenger2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-tabrakan",
@@ -762,7 +795,8 @@
           "src": "/content/files/tabrakan.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "berita"
     },
     {
       "id": "post-duck",
@@ -775,7 +809,8 @@
           "src": "/content/videos/duck.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "wisata"
     },
     {
       "id": "post-chagee",
@@ -788,7 +823,8 @@
           "src": "/content/files/chagee-full.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "makanan"
     },
     {
       "id": "post-ricestraw",
@@ -805,7 +841,8 @@
           "src": "/content/files/rice-straw2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "makanan"
     },
     {
       "id": "post-bapak2-bekasi",
@@ -818,7 +855,8 @@
           "src": "/content/videos/bapak2-bekasi.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-radit",
@@ -831,7 +869,8 @@
           "src": "/content/videos/radit.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-premis",
@@ -844,7 +883,8 @@
           "src": "/content/files/premis.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-sarangan-lake",
@@ -869,7 +909,8 @@
           "src": "/content/files/sarangan-lake4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-jerapah",
@@ -882,7 +923,8 @@
           "src": "/content/videos/jerapah-nyangkut.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-dikintrikin",
@@ -895,7 +937,8 @@
           "src": "/content/files/dikintrikin.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-sepedamotor",
@@ -908,7 +951,8 @@
           "src": "/content/videos/sepedamotor.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-kyokko-beach",
@@ -933,7 +977,8 @@
           "src": "/content/files/kyokko_beach4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-biawak",
@@ -946,7 +991,8 @@
           "src": "/content/files/biawak.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-bocah-usil",
@@ -959,7 +1005,8 @@
           "src": "/content/videos/bocah-usil.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-lombok",
@@ -984,7 +1031,8 @@
           "src": "/content/files/lombok4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-kitkat",
@@ -997,7 +1045,8 @@
           "src": "/content/files/kitkat.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-berita-pembunuhan",
@@ -1010,7 +1059,8 @@
           "src": "/content/files/berita-pembunuhan.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-bakul-mieayam",
@@ -1023,7 +1073,8 @@
           "src": "/content/videos/bakul-mieayam.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-taman",
@@ -1048,7 +1099,8 @@
           "src": "/content/files/taman4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-taylor-mbg",
@@ -1065,7 +1117,8 @@
           "src": "/content/files/taylor-mbg2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-redflag",
@@ -1078,7 +1131,8 @@
           "src": "/content/videos/redflag.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-lari",
@@ -1091,7 +1145,8 @@
           "src": "/content/videos/lari.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-captain-america",
@@ -1104,7 +1159,8 @@
           "src": "/content/videos/captain-america.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-exam",
@@ -1117,7 +1173,8 @@
           "src": "/content/videos/exam.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-picture",
@@ -1130,7 +1187,8 @@
           "src": "/content/videos/picture.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-org-susah",
@@ -1143,7 +1201,8 @@
           "src": "/content/files/org-susah.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-bahagia",
@@ -1156,7 +1215,8 @@
           "src": "/content/videos/bahagia.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-nyangkut",
@@ -1169,7 +1229,8 @@
           "src": "/content/files/nyangkut.webp",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-life",
@@ -1194,7 +1255,8 @@
           "src": "/content/files/life4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-prank",
@@ -1207,7 +1269,8 @@
           "src": "/content/videos/prank.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-bukti-sakit",
@@ -1220,7 +1283,8 @@
           "src": "/content/videos/bukti-sakit.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-univ",
@@ -1233,7 +1297,8 @@
           "src": "/content/files/univ.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-lake-como",
@@ -1258,7 +1323,8 @@
           "src": "/content/files/lake-como4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-before-after",
@@ -1275,7 +1341,8 @@
           "src": "/content/files/after.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-penyakit",
@@ -1288,7 +1355,8 @@
           "src": "/content/files/penyakit.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-nyetir",
@@ -1301,7 +1369,8 @@
           "src": "/content/files/nyetir.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-plenger",
@@ -1318,7 +1387,8 @@
           "src": "/content/files/plenger2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-indomaret",
@@ -1331,7 +1401,8 @@
           "src": "/content/videos/indomaret.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-lempar-batu",
@@ -1344,7 +1415,8 @@
           "src": "/content/videos/lempar-batu.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-influencer",
@@ -1357,7 +1429,8 @@
           "src": "/content/videos/influencer.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-tetap-waspada",
@@ -1370,7 +1443,8 @@
           "src": "/content/videos/tetap-waspada.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-ansos",
@@ -1383,7 +1457,8 @@
           "src": "/content/videos/ansos.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-ladybug",
@@ -1396,7 +1471,8 @@
           "src": "/content/videos/ladybug-hair.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-dek",
@@ -1409,7 +1485,8 @@
           "src": "/content/videos/dek.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-beban-keluarga",
@@ -1422,7 +1499,8 @@
           "src": "/content/files/beban-keluarga.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-ramadhan",
@@ -1435,7 +1513,8 @@
           "src": "/content/videos/serba-serbi-ramadhan.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-pernikahan",
@@ -1448,7 +1527,8 @@
           "src": "/content/videos/pernikahan.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-siram-air",
@@ -1461,7 +1541,8 @@
           "src": "/content/videos/siram-air.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-paskah",
@@ -1474,7 +1555,8 @@
           "src": "/content/videos/paskah.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-peribahasa",
@@ -1487,7 +1569,8 @@
           "src": "/content/videos/peribahasa.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-driver",
@@ -1500,7 +1583,8 @@
           "src": "/content/files/driver.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-jokowi",
@@ -1513,7 +1597,8 @@
           "src": "/content/files/jokowi.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-kandang",
@@ -1530,7 +1615,8 @@
           "src": "/content/files/kandang2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-jokowi",
@@ -1543,7 +1629,8 @@
           "src": "/content/files/jokowi.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-xingxing",
@@ -1556,7 +1643,8 @@
           "src": "/content/videos/xingxing.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-penembakan",
@@ -1569,7 +1657,8 @@
           "src": "/content/videos/penembakan.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-fore",
@@ -1582,7 +1671,8 @@
           "src": "/content/files/fore.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-jari-tengah",
@@ -1595,7 +1685,8 @@
           "src": "/content/videos/jari-tengah.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-konslet",
@@ -1608,7 +1699,8 @@
           "src": "/content/videos/konslet.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-spbu",
@@ -1621,7 +1713,8 @@
           "src": "/content/videos/spbu.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-pemkab",
@@ -1634,7 +1727,8 @@
           "src": "/content/files/pemkab.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-vili",
@@ -1647,7 +1741,8 @@
           "src": "/content/videos/vili.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-fuufaa",
@@ -1660,7 +1755,8 @@
           "src": "/content/files/fuufaa.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-kuda",
@@ -1685,7 +1781,8 @@
           "src": "/content/files/kuda4.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-muatan",
@@ -1698,7 +1795,8 @@
           "src": "/content/videos/muatan.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-pouch",
@@ -1715,7 +1813,8 @@
           "src": "/content/files/pouch2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-sepatu",
@@ -1732,7 +1831,8 @@
           "src": "/content/videos/sepatu.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-rusa",
@@ -1749,7 +1849,8 @@
           "src": "/content/files/rusa2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-budaya",
@@ -1766,7 +1867,8 @@
           "src": "/content/files/budaya2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-suasana",
@@ -1779,7 +1881,8 @@
           "src": "/content/videos/suasana.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-bahlil",
@@ -1792,7 +1895,8 @@
           "src": "/content/files/bahlil.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-duduk-sembarangan",
@@ -1805,7 +1909,8 @@
           "src": "/content/videos/duduk-sembarangan.mp4",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     },
     {
       "id": "post-paket",
@@ -1822,7 +1927,8 @@
           "src": "/content/files/paket2.jpg",
           "alt": ""
         }
-      ]
+      ],
+      "genre": "humor"
     }
   ]
 }
