@@ -1,0 +1,2598 @@
+{
+  "posts": [
+    {
+      "id": "post-snoopy",
+      "type": "image",
+      "username": "bq_bb",
+      "likes": "1.234",
+      "caption": "Baca buku di hari Minggu itu terasa mewah ✨",
+      "media": [
+        {
+          "src": "/content/files/snoopy.jpg",
+          "alt": "Snoopy reading outside"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-cat",
+      "type": "image",
+      "username": "miau_miau",
+      "likes": "567",
+      "caption": "Monday face 😐❄️",
+      "media": [
+        {
+          "src": "/content/files/cat.jpg",
+          "alt": "Cat in snow"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-carousel",
+      "type": "carousel",
+      "username": "lifestyle.id",
+      "likes": "3.456",
+      "caption": "Swipe untuk lihat semua koleksi musim ini 👉",
+      "media": [
+        {
+          "src": "/content/files/cafe_desserts.jpg",
+          "alt": "Cafe dessert table"
+        },
+        {
+          "src": "/content/files/books.jpg",
+          "alt": "Studio Ghibli records"
+        },
+        {
+          "src": "/content/files/sheetmask-party.jpg",
+          "alt": "Friends wearing cartoon face masks"
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-barbie",
+      "type": "image",
+      "username": "film_buffs",
+      "likes": "8.901",
+      "caption": "Barbie in front of a fire",
+      "media": [
+        {
+          "src": "/content/files/barbie.jpg",
+          "alt": "Barbie in front of a fire"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-video-sample",
+      "type": "video",
+      "username": "creator.id",
+      "likes": "12.345",
+      "caption": "Seru-seruan bareng pinata!",
+      "media": [
+        {
+          "src": "/content/videos/pinata.mp4",
+          "alt": "Seru-seruan bareng pinata!",
+          "streamUid": "ca22b4e893a4adc7f5c2cd76e0c4820c",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-maling-kepergok",
+      "type": "carousel",
+      "username": "ins.tax",
+      "likes": "4.231",
+      "caption": "duit masih bisa dicari lagi, tragedi maling kepergok kapan lagi😭😭😭",
+      "media": [
+        {
+          "src": "/content/files/maling-1.jpg",
+          "alt": "bapak gojek nontonin maling kepergok sampe rela di cancel orderannya"
+        },
+        {
+          "src": "/content/files/maling-2.jpg",
+          "alt": "bapak gojek nontonin maling kepergok sampe rela di cancel orderannya"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-prince-hisahito",
+      "type": "carousel",
+      "username": "folkotive",
+      "likes": "2.109",
+      "caption": "Kekaisaran Jepang yang telah bertahan lebih dari 2.600 tahun kini hanya bergantung pada satu sosok: Pangeran Hisahito. Ia menjadi satu-satunya pewaris laki-laki dan berada di urutan kedua setelah ayahnya. Dengan aturan yang hanya mengizinkan laki-laki naik takhta, muncul kekhawatiran bahwa garis kekaisaran bisa terputus jika ia tidak memiliki penerus laki-laki.",
+      "media": [
+        {
+          "src": "/content/files/prince_hisahito1.jpg",
+          "alt": "kekaisaran jepang"
+        },
+        {
+          "src": "/content/files/prince_hisahito2.jpg",
+          "alt": "kekaisaran jepang"
+        },
+        {
+          "src": "/content/files/prince_hisahito3.jpg",
+          "alt": "kekaisaran jepang"
+        }
+      ],
+      "genre": "berita"
+    },
+    {
+      "id": "post-kopi-kak",
+      "type": "video",
+      "username": "x.moments",
+      "likes": "987",
+      "caption": "yaa maaffff",
+      "media": [
+        {
+          "src": "/content/videos/kopi-kak.mp4",
+          "alt": "yaa maaffff",
+          "streamUid": "219d49b9c074cbfaee928038091ba239",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-tumbler",
+      "type": "carousel",
+      "username": "postingan.q",
+      "likes": "6.780",
+      "caption": "SEDIH BANGET TUMBLER KESAYANGAN GW KELINDES MOBIL AAAAAAAAAAAAAAA MANA GAK ADA STOCKNYA😭😭😭😭😭",
+      "media": [
+        {
+          "src": "/content/files/tumbler-kelindes1.jpg",
+          "alt": "SEDIH BANGET TUMBLER KESAYANGAN GW KELINDES MOBIL AAAAAAAAAAAAAAA MANA GAK ADA STOCKNYA😭😭😭😭😭"
+        },
+        {
+          "src": "/content/files/tumbler-kelindes2.jpg",
+          "alt": "SEDIH BANGET TUMBLER KESAYANGAN GW KELINDES MOBIL AAAAAAAAAAAAAAA MANA GAK ADA STOCKNYA😭😭😭😭😭"
+        },
+        {
+          "src": "/content/files/tumbler-kelindes3.jpg",
+          "alt": "SEDIH BANGET TUMBLER KESAYANGAN GW KELINDES MOBIL AAAAAAAAAAAAAAA MANA GAK ADA STOCKNYA😭😭😭😭😭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-cewe-impulsif",
+      "type": "video",
+      "username": "lambe_tur4h",
+      "likes": "3.412",
+      "caption": "Akibat mengikuti kata otak",
+      "media": [
+        {
+          "src": "/content/videos/cewe-impulsif.mp4",
+          "alt": "Akibat mengikuti kata otak",
+          "streamUid": "d8b04f208206d06a71e1b40787e8d888",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-mie-goreng-telur",
+      "type": "image",
+      "username": "postingan.q",
+      "likes": "5.023",
+      "caption": "Gue dulu pernah anter ponakan gue ke Sleman, Yogyakarta. Di sana gue mampir ke warmindo. Karena gue menghindari makan mie instan, gue pesen nasi dan omlet. Kalian tau apa yg datang? Yaak bener, kaya di gambar ini yg dateng. Gue gatau kalau di warmindo daerah Sleman omlet ini adalah mie goreng yg udah dimasak kemudian dicampur ke telur buat digoreng beneran 😅 Memang haram hukumnya berniat untuk ga makan mie instan. Mie instan akan selalu menemukan jalan untuk bisa kalian makan 😂",
+      "media": [
+        {
+          "src": "/content/files/miegoreng-telur.jpg",
+          "alt": "Gambar oleh postingan.q: Gue dulu pernah anter ponakan gue ke Sleman, Yogyakarta. Di sana gue mampir ke warmindo. Karena gue menghindari makan mie instan, gue pesen nasi dan omlet. Kalian tau apa yg datang? Yaak bener, kaya di gambar ini yg dateng. Gue gatau kalau di warmindo daerah Sleman omlet ini adalah mie goreng yg udah dimasak kemudian dicampur ke telur buat digoreng beneran 😅 Memang haram hukumnya berniat untuk ga makan mie instan. Mie instan akan selalu menemukan jalan untuk bisa kalian makan 😂"
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-buffalo",
+      "type": "video",
+      "username": "x.moments",
+      "likes": "7.654",
+      "caption": "So cute! 😭",
+      "media": [
+        {
+          "src": "/content/videos/babybuffalo.mp4",
+          "alt": "So cute! 😭",
+          "streamUid": "3704dbc49ea82ef80956e1a1b37e211a",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-poster-buronan",
+      "type": "video",
+      "username": "x.moments",
+      "likes": "1.876",
+      "caption": "Sebuah momen tak terduga terjadi ketika polisi membandingkan foto pada poster buronan dengan sosok yang baru saja mereka tangkap. Alih-alih tegang, suasana berubah jadi tawa karena perbedaannya yang mencolok. Kejadian ini jadi pengingat-realita di lapangan kadang jauh dari gambaran di kertas.",
+      "media": [
+        {
+          "src": "/content/videos/poster-buronan.mp4",
+          "alt": "Video oleh x.moments: Sebuah momen tak terduga terjadi ketika polisi membandingkan foto pada poster buronan dengan sosok yang baru saja mereka tangkap. Alih-alih tegang, suasana berubah jadi tawa karena perbedaannya yang mencolok. Kejadian ini jadi pengingat-realita di lapangan kadang jauh dari gambaran di kertas.",
+          "streamUid": "c67a6d9088b2cacfa928a45845a4a090",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-kartu-pokemon",
+      "type": "video",
+      "username": "ins.reels",
+      "likes": "9.102",
+      "caption": "Kartu Pokémon.",
+      "media": [
+        {
+          "src": "/content/videos/kartu-pokemon.mp4",
+          "alt": "Video oleh ins.reels: Kartu Pokémon.",
+          "streamUid": "e09e78a6057220204cb6e92c74b86505",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "game"
+    },
+    {
+      "id": "post-digigit-keong",
+      "type": "video",
+      "username": "ins.reels",
+      "likes": "11.340",
+      "caption": "Sebuah video viral memperlihatkan seorang bocah meminta pertolongan karena merasakan sakit di bagian bibir. Berdasarkan keterangan dalam unggahan, kondisi tersebut diduga terjadi setelah bibirnya kontak langsung dengan keong. Peristiwa ini menuai beragam reaksi warganet dan menjadi pengingat agar anak-anak lebih berhati-hati saat bermain di lingkungan sekitar, terutama dengan hewan atau benda yang berpotensi menimbulkan iritasi. Orang tua diimbau untuk meningkatkan pengawasan demi mencegah kejadian serupa terulang.",
+      "media": [
+        {
+          "src": "/content/videos/digigit-keong.mp4",
+          "alt": "Video oleh ins.reels: Sebuah video viral memperlihatkan seorang bocah meminta pertolongan karena merasakan sakit di bagian bibir. Berdasarkan keterangan dalam unggahan, kondisi tersebut diduga terjadi setelah bibirnya kontak langsung dengan keong. Peristiwa ini menuai beragam reaksi warganet dan menjadi pengingat agar anak-anak lebih berhati-hati saat bermain di lingkungan sekitar, terutama dengan hewan atau benda yang berpotensi menimbulkan iritasi. Orang tua diimbau untuk meningkatkan pengawasan demi mencegah kejadian serupa terulang.",
+          "streamUid": "89fb39472b45c62ea41478b9ac6bbeb7",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "berita"
+    },
+    {
+      "id": "post-game-controller",
+      "type": "video",
+      "username": "ins.reels",
+      "likes": "4.567",
+      "caption": "Nah yang Kayak Gini Nih yang Perlu Viral Jadi anak 11 tahun berhasil membuat game controller dengan bantuan chatgpt. Walaupun buatnya dengan bantuan chatgpt tapi dia juga mengerti secara teknis dan detail tentang pembuatannya Gen Alpha Combo Sama AI Memang menyeramkan 💀",
+      "media": [
+        {
+          "src": "/content/videos/game-controller-pake-gpt.mp4",
+          "alt": "Video oleh ins.reels: Nah yang Kayak Gini Nih yang Perlu Viral Jadi anak 11 tahun berhasil membuat game controller dengan bantuan chatgpt. Walaupun buatnya dengan bantuan chatgpt tapi dia juga mengerti secara teknis dan detail tentang pembuatannya Gen Alpha Combo Sama AI Memang menyeramkan 💀",
+          "streamUid": "fff0b7764e2913d60ee812d5e08cbbaa",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "game"
+    },
+    {
+      "id": "post-airdrop",
+      "type": "image",
+      "username": "gopal",
+      "likes": "2.890",
+      "caption": "Samsung juga sudah bisa airdrop tau gitu beli samsung aja.",
+      "media": [
+        {
+          "src": "/content/files/airdrop.jpg",
+          "alt": "Gambar oleh gopal: Samsung juga sudah bisa airdrop tau gitu beli samsung aja."
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-ngambek",
+      "type": "video",
+      "username": "darderdor",
+      "likes": "5.431",
+      "caption": "Lagi ngambek di tengah kota, eh yang turun tangan malah… pasukan hantu 🤣 Sebuah video viral memperlihatkan seorang pria di Bandung meminta bantuan pengamen yang ber-cosplay sosok hantu untuk membujuk pasangannya yang sedang kesal. Beberapa “hantu” terlihat mengerubungi sang wanita, pura-pura memarahi si pria agar suasana mencair. Awalnya wanita itu hanya diam sambil menangis. Tak disangka, aksi kocak tersebut berhasil. Sang wanita akhirnya tertawa, dan ekspresinya langsung jadi sorotan warganet. Netizen pun ramai menyebut cara ini sebagai “jurus damai paling anti mainstream” 😆",
+      "media": [
+        {
+          "src": "/content/videos/ngambek.mp4",
+          "alt": "Video oleh darderdor: Lagi ngambek di tengah kota, eh yang turun tangan malah… pasukan hantu 🤣 Sebuah video viral memperlihatkan seorang pria di Bandung meminta bantuan pengamen yang ber-cosplay sosok hantu untuk membujuk pasangannya yang sedang kesal. Beberapa “hantu” terlihat mengerubungi sang wanita, pura-pura memarahi si pria agar suasana mencair. Awalnya wanita itu hanya diam sambil menangis. Tak disangka, aksi kocak tersebut berhasil. Sang wanita akhirnya tertawa, dan ekspresinya langsung jadi sorotan warganet. Netizen pun ramai menyebut cara ini sebagai “jurus damai paling anti mainstream” 😆",
+          "streamUid": "f1ba4b04ee4ea5e643b554d6073bec2d",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-nugget-gosong",
+      "type": "image",
+      "username": "ins.reels",
+      "likes": "8.234",
+      "caption": "yap! ternyata bener kata om bahIiI, jgn lupa matiin kompor kalo udah mateng 😔😔😔 masih bisa dimakan ga ini 😭😭😔",
+      "media": [
+        {
+          "src": "/content/files/nugget-gosong.jpg",
+          "alt": "Gambar oleh ins.reels: yap! ternyata bener kata om bahIiI, jgn lupa matiin kompor kalo udah mateng 😔😔😔 masih bisa dimakan ga ini 😭😭😔"
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-lightning-mcqueen",
+      "type": "video",
+      "username": "nascar",
+      "likes": "3.211",
+      "caption": "Ka-chow! Para pembalap kami tampil maksimal di ronde tebak diecast kali ini. ⚡️",
+      "media": [
+        {
+          "src": "/content/videos/lightning-mcqueen.mp4",
+          "alt": "Video oleh nascar: Ka-chow! Para pembalap kami tampil maksimal di ronde tebak diecast kali ini. ⚡️",
+          "streamUid": "98fc346f137dc8750b1c434c9de93174",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "olahraga"
+    },
+    {
+      "id": "post-kucing-masuk-bca",
+      "type": "image",
+      "username": "mbak.kun",
+      "likes": "14.500",
+      "caption": "Nasabah Prioritas",
+      "media": [
+        {
+          "src": "/content/files/kucing-masuk-bca.jpg",
+          "alt": "Gambar oleh mbak.kun: Nasabah Prioritas"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-burger",
+      "type": "carousel",
+      "username": "x.moments",
+      "likes": "1.654",
+      "caption": "Ini lucu banget sih, Jadi ada mbak2 TikTokers yg mau beli 'Aldis burger cempaka putih rotinya lembut daging nya juicy lucy mahalini rizky febian', Tapi, tokonya tutup karna libur lebaran, Aldi Taher lalu bilang, 'Semua burger milik Allah' 😂😂😂",
+      "media": [
+        {
+          "src": "/content/videos/burger.mp4",
+          "alt": "Video 1 oleh x.moments: Ini lucu banget sih, Jadi ada mbak2 TikTokers yg mau beli 'Aldis burger cempaka putih rotinya lembut daging nya juicy lucy mahalini rizky febian', Tapi, tokonya tutup karna libur lebaran, Aldi Taher lalu bilang, 'Semua burger milik Allah' 😂😂😂",
+          "streamUid": "e2bccbbb54a8dce8459bc8ac0da8bab8",
+          "streamDelivery": "mp4"
+        },
+        {
+          "src": "/content/files/burger.jpg",
+          "alt": "Gambar 2 oleh x.moments: Ini lucu banget sih, Jadi ada mbak2 TikTokers yg mau beli 'Aldis burger cempaka putih rotinya lembut daging nya juicy lucy mahalini rizky febian', Tapi, tokonya tutup karna libur lebaran, Aldi Taher lalu bilang, 'Semua burger milik Allah' 😂😂😂"
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-rezaarap",
+      "type": "video",
+      "username": "xoxo.daily",
+      "likes": "7.890",
+      "caption": "GEMESSSS #YB #marapthon #rezaarap #aaaclan #rapstronaut",
+      "media": [
+        {
+          "src": "/content/videos/rezaarap.mp4",
+          "alt": "Video oleh xoxo.daily: GEMESSSS #YB #marapthon #rezaarap #aaaclan #rapstronaut",
+          "streamUid": "94450c2d360a6ef3da5f25a9c0f73e5c",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "game"
+    },
+    {
+      "id": "post-dora",
+      "type": "video",
+      "username": "_coreid_",
+      "likes": "6.123",
+      "caption": "Dora Buta Map Core >>> #dorabutamap #coreid #corementality #core #fypシ゚viralシfypシ゚",
+      "media": [
+        {
+          "src": "/content/videos/dora.mp4",
+          "alt": "Video oleh _coreid_: Dora Buta Map Core >>> #dorabutamap #coreid #corementality #core #fypシ゚viralシfypシ゚",
+          "streamDelivery": "mp4",
+          "streamUid": "fa98b07d64b896b80ccfca59f2e7f7f3"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-ayam",
+      "type": "video",
+      "username": "sosmedxkeras",
+      "likes": "3.908",
+      "caption": "aowkaowk",
+      "media": [
+        {
+          "src": "/content/videos/ayam.mp4",
+          "alt": "Video oleh sosmedxkeras: aowkaowk",
+          "streamUid": "0f6f2cb9e75f86dabecdd8eedc88bdb1",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-makeup",
+      "type": "video",
+      "username": "hello.beaute",
+      "likes": "19.234",
+      "caption": "Yang ditunggu-tunggu! Makeup rhay_david buat Syifa Hadju pas lamaran secantik ini. Nggak bisa dilewatkan buat dijadikan inspirasi. Menurut kalian, miripnya berapa persen? Tulis di bawah ya! 💖",
+      "media": [
+        {
+          "src": "/content/videos/makeup.mp4",
+          "alt": "Video oleh hello.beaute: Yang ditunggu-tunggu! Makeup rhay_david buat Syifa Hadju pas lamaran secantik ini. Nggak bisa dilewatkan buat dijadikan inspirasi. Menurut kalian, miripnya berapa persen? Tulis di bawah ya! 💖",
+          "streamUid": "23e910a2bd4c863bd613c67ca7033ba5",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-hompimpa",
+      "type": "video",
+      "username": "meme_4lyfe",
+      "likes": "8.765",
+      "caption": "Sakit hatinya sampe sini dekk😭😭😭",
+      "media": [
+        {
+          "src": "/content/videos/hompimpa.mp4",
+          "alt": "Video oleh meme_4lyfe: Sakit hatinya sampe sini dekk😭😭😭",
+          "streamDelivery": "mp4",
+          "streamUid": "9a8c2a29ec336f4a19230218da99a0d7"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-gramedia",
+      "type": "image",
+      "username": "irajenar",
+      "likes": "5.678",
+      "caption": "ada yang berak di lantai gramedia cibinong",
+      "media": [
+        {
+          "src": "/content/files/gramedia.jpg",
+          "alt": "Gambar oleh irajenar: ada yang berak di lantai gramedia cibinong"
+        }
+      ],
+      "genre": "berita"
+    },
+    {
+      "id": "post-lift",
+      "type": "video",
+      "username": "algo.daily",
+      "likes": "2.345",
+      "caption": "Sebuah video memperlihatkan aksi seorang pria yang bercanda ingin melepas ular peliharaannya di dalam lift mendadak viral di media sosial. Candaan tersebut sontak membuat suasana berubah tegang, terutama bagi sejumlah ibu-ibu yang berada di dalam lift dan langsung panik ketakutan.",
+      "media": [
+        {
+          "src": "/content/videos/lift.mp4",
+          "alt": "Video oleh algo.daily: Sebuah video memperlihatkan aksi seorang pria yang bercanda ingin melepas ular peliharaannya di dalam lift mendadak viral di media sosial. Candaan tersebut sontak membuat suasana berubah tegang, terutama bagi sejumlah ibu-ibu yang berada di dalam lift dan langsung panik ketakutan.",
+          "streamUid": "7e07240f3872652902a7b19c21aab4b5",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-rs",
+      "type": "image",
+      "username": "avvreceh",
+      "likes": "4.098",
+      "caption": "Bjir ada yg begini di dunia medis? Baru tau 😭",
+      "media": [
+        {
+          "src": "/content/files/rs.jpg",
+          "alt": "Gambar oleh avvreceh: Bjir ada yg begini di dunia medis? Baru tau 😭"
+        }
+      ],
+      "genre": "berita"
+    },
+    {
+      "id": "post-absurd",
+      "type": "video",
+      "username": "coyote_gangs",
+      "likes": "12.670",
+      "caption": "real no set set",
+      "media": [
+        {
+          "src": "/content/videos/absurd.mp4",
+          "alt": "Video oleh coyote_gangs: real no set set",
+          "streamUid": "265c43c15742d3ca18432b67e6a9e717",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-pulu2",
+      "type": "video",
+      "username": "ngakak_tiaphari",
+      "likes": "3.456",
+      "caption": "Masih lanjut pulu2 lagi 😭",
+      "media": [
+        {
+          "src": "/content/videos/pulu2.mp4",
+          "alt": "Video oleh ngakak_tiaphari: Masih lanjut pulu2 lagi 😭",
+          "streamUid": "e97e93dacf8bcebedf89def97933331d",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-chat",
+      "type": "carousel",
+      "username": "clxckrofil",
+      "likes": "6.789",
+      "caption": "pernah chat ke umkm pake sticker ky gini😭",
+      "media": [
+        {
+          "src": "/content/files/chat_pake_stiker1.jpg",
+          "alt": "Gambar 1 oleh clxckrofil: pernah chat ke umkm pake sticker ky gini😭"
+        },
+        {
+          "src": "/content/files/chat_pake_stiker2.jpg",
+          "alt": "Gambar 2 oleh clxckrofil: pernah chat ke umkm pake sticker ky gini😭"
+        },
+        {
+          "src": "/content/files/chat_pake_stiker3.jpg",
+          "alt": "Gambar 3 oleh clxckrofil: pernah chat ke umkm pake sticker ky gini😭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-sedia-ikan",
+      "type": "video",
+      "username": "xmidien",
+      "likes": "4.321",
+      "caption": "bapak kok gak ketawa? 😭",
+      "media": [
+        {
+          "src": "/content/videos/sedia-ikan.mp4",
+          "alt": "Video oleh xmidien: bapak kok gak ketawa? 😭",
+          "streamUid": "aa19ed7f0ab0ae9c649b17818e62ed40",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-ojek-gunung",
+      "type": "carousel",
+      "username": "capebgtz_",
+      "likes": "2.987",
+      "caption": "Hari pertama naik ojek gunung malah jatuh 😭✌🏻 sudah jatuh, ketimpa motor lagi.",
+      "media": [
+        {
+          "src": "/content/files/ojek-gunung1.jpg",
+          "alt": "Gambar 1 oleh capebgtz_: Hari pertama naik ojek gunung malah jatuh 😭✌🏻 sudah jatuh, ketimpa motor lagi."
+        },
+        {
+          "src": "/content/files/ojek-gunung2.jpg",
+          "alt": "Gambar 2 oleh capebgtz_: Hari pertama naik ojek gunung malah jatuh 😭✌🏻 sudah jatuh, ketimpa motor lagi."
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-giladiskon",
+      "type": "carousel",
+      "username": "giladiskon_indo",
+      "likes": "5.102",
+      "caption": "Berlaku di semua store Superindo ya. Selamat jajan es grim, sobat Giladiskon.",
+      "media": [
+        {
+          "src": "/content/files/giladiskon1.jpg",
+          "alt": "Gambar 1 oleh giladiskon_indo: Berlaku di semua store Superindo ya. Selamat jajan es grim, sobat Giladiskon."
+        },
+        {
+          "src": "/content/files/giladiskon2.jpg",
+          "alt": "Gambar 2 oleh giladiskon_indo: Berlaku di semua store Superindo ya. Selamat jajan es grim, sobat Giladiskon."
+        },
+        {
+          "src": "/content/files/giladiskon3.jpg",
+          "alt": "Gambar 3 oleh giladiskon_indo: Berlaku di semua store Superindo ya. Selamat jajan es grim, sobat Giladiskon."
+        },
+        {
+          "src": "/content/files/giladiskon4.jpg",
+          "alt": "Gambar 4 oleh giladiskon_indo: Berlaku di semua store Superindo ya. Selamat jajan es grim, sobat Giladiskon."
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-angel",
+      "type": "video",
+      "username": "txserh",
+      "likes": "7.231",
+      "caption": "...angel wkwk",
+      "media": [
+        {
+          "src": "/content/videos/angel.mp4",
+          "alt": "Video oleh txserh: ...angel wkwk",
+          "streamDelivery": "mp4",
+          "streamUid": "2c0dd35dc68db2a60f23efb2fb6d560a"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-jaket-ojek",
+      "type": "video",
+      "username": "harih4ri_",
+      "likes": "9.876",
+      "caption": "cape banget😭🤣🤣",
+      "media": [
+        {
+          "src": "/content/videos/jaket-ojek.mp4",
+          "alt": "Video oleh harih4ri_: cape banget😭🤣🤣",
+          "streamUid": "1c843bf40b0acf73db41c0dc4dbb8054",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-dokter-hewan",
+      "type": "image",
+      "username": "moodyyy_days",
+      "likes": "3.678",
+      "caption": "siapa sangka",
+      "media": [
+        {
+          "src": "/content/files/dokter-hewan.jpg",
+          "alt": "Gambar oleh moodyyy_days: siapa sangka"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-cabut-gigi",
+      "type": "video",
+      "username": "tersereels",
+      "likes": "8.109",
+      "caption": "#reelschallengereelschallenge #viralvideo",
+      "media": [
+        {
+          "src": "/content/videos/cabut-gigi.mp4",
+          "alt": "Video oleh tersereels: #reelschallengereelschallenge #viralvideo",
+          "streamUid": "ea81f2f2d84538b380da407fec5fc6d3",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-orangutan",
+      "type": "video",
+      "username": "natureunited",
+      "likes": "5.432",
+      "caption": "Patrick adalah orangutan berusia 34 tahun di Kebun Binatang Metro Richmond yang baru-baru ini jadi sensasi internet setelah video dirinya mengikat simpul ganda dengan rapi menjadi viral. Untuk merayakan ulang tahunnya, kebun binatang memberinya jubah kerajaan yang langsung ia ikat sendiri dengan rapi 🦧",
+      "media": [
+        {
+          "src": "/content/videos/patrick-orangutan.mp4",
+          "alt": "Video oleh natureunited: Patrick adalah orangutan berusia 34 tahun di Kebun Binatang Metro Richmond yang baru-baru ini jadi sensasi internet setelah video dirinya mengikat simpul ganda dengan rapi menjadi viral. Untuk merayakan ulang tahunnya, kebun binatang memberinya jubah kerajaan yang langsung ia ikat sendiri dengan rapi 🦧",
+          "streamUid": "a224d497f23a7dc755971a7190e6eccd",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-frog-prank",
+      "type": "video",
+      "username": "syulid_",
+      "likes": "4.876",
+      "caption": "#fypreelsシ゚viralシ HAPPY NEW YEAR! 🎉 #exchangegifttrend",
+      "media": [
+        {
+          "src": "/content/videos/frog-prank.mp4",
+          "alt": "Video oleh syulid_: #fypreelsシ゚viralシ HAPPY NEW YEAR! 🎉 #exchangegifttrend",
+          "streamDelivery": "mp4",
+          "streamUid": "9c7c310d388a7fc5e383a6fe15f1010c"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-pokemoncard_277miliar",
+      "type": "video",
+      "username": "genz_talk",
+      "likes": "2.654",
+      "caption": "Kartu Pokemon super langka milik kreator YouTube asal Amerika Serikat, Logan Paul, terjual seharga US$16,49 juta atau sekitar Rp277,7 miliar pada 16 Februari. Penjualan itu sekaligus memecahkan rekor dunia sebagai kartu Pokemon dan kartu koleksi termahal menurut Guinness World Records. Kartu bernama Pikachu Illustrator dengan peringkat PSA 10 itu sebelumnya dibeli Paul pada 2021 seharga US$5,28 juta. Lelangnya diselenggarakan oleh Goldin, dengan pembeli AJ Scaramucci, putra mantan pejabat Gedung Putih Anthony Scaramucci. Kartu langka dari waralaba Pokemon ini sangat diburu karena dirancang oleh Atsuko Nishida, kreator asli karakter Pikachu, dan hanya dibagikan sebagai hadiah kontes ilustrasi pada 1998. Nilainya melonjak tajam seiring meningkatnya minat kolektor dan investor, dengan harga yang sangat dipengaruhi oleh kelangkaan, popularitas karakter, serta kondisi kartu yang sempurna. Paul sendiri sebelumnya sempat memamerkan kartu tersebut saat tampil di acara gulat WWE.",
+      "media": [
+        {
+          "src": "/content/videos/pokemoncard_277miliar.mp4",
+          "alt": "Video oleh genz_talk: Kartu Pokemon super langka milik kreator YouTube asal Amerika Serikat, Logan Paul, terjual seharga US$16,49 juta atau sekitar Rp277,7 miliar pada 16 Februari. Penjualan itu sekaligus memecahkan rekor dunia sebagai kartu Pokemon dan kartu koleksi termahal menurut Guinness World Records. Kartu bernama Pikachu Illustrator dengan peringkat PSA 10 itu sebelumnya dibeli Paul pada 2021 seharga US$5,28 juta. Lelangnya diselenggarakan oleh Goldin, dengan pembeli AJ Scaramucci, putra mantan pejabat Gedung Putih Anthony Scaramucci. Kartu langka dari waralaba Pokemon ini sangat diburu karena dirancang oleh Atsuko Nishida, kreator asli karakter Pikachu, dan hanya dibagikan sebagai hadiah kontes ilustrasi pada 1998. Nilainya melonjak tajam seiring meningkatnya minat kolektor dan investor, dengan harga yang sangat dipengaruhi oleh kelangkaan, popularitas karakter, serta kondisi kartu yang sempurna. Paul sendiri sebelumnya sempat memamerkan kartu tersebut saat tampil di acara gulat WWE.",
+          "streamUid": "eabda7211d8d06b2f2fe4de6e7bd414a",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "game"
+    },
+    {
+      "id": "post-pizza-surabaya",
+      "type": "carousel",
+      "username": "representatif",
+      "likes": "11.234",
+      "caption": "Kalau di Surabaya. Salah satu pizza neapolitan terbaik itu di Salomon Pizzeria. Doughnya BUKAN SOURDOUGH, tetap pakai ragi instan tetapi diproses sebagai preferment dulu sebelum dipanggang di OVEN KAYU (homemade) pakai kayu jati—yes, jati—dari Tuban. Dari hasil berbincang, beliau sampai sekarang masih suka eksperimen metode preferment. Seingatku, sekarang rata-rata di 72 jam lama fermentasinya. Fermentasi ini yang melunakkan gluten sehingga ya tetap bersahabat di perut.",
+      "media": [
+        {
+          "src": "/content/files/pizza-surabaya1.jpg",
+          "alt": "Gambar 1 oleh representatif: Kalau di Surabaya. Salah satu pizza neapolitan terbaik itu di Salomon Pizzeria. Doughnya BUKAN SOURDOUGH, tetap pakai ragi instan tetapi diproses sebagai preferment dulu sebelum dipanggang di OVEN KAYU (homemade) pakai kayu jati—yes, jati—dari Tuban. Dari hasil berbincang, beliau sampai sekarang masih suka eksperimen metode preferment. Seingatku, sekarang rata-rata di 72 jam lama fermentasinya. Fermentasi ini yang melunakkan gluten sehingga ya tetap bersahabat di perut."
+        },
+        {
+          "src": "/content/files/pizza-surabaya2.jpg",
+          "alt": "Gambar 2 oleh representatif: Kalau di Surabaya. Salah satu pizza neapolitan terbaik itu di Salomon Pizzeria. Doughnya BUKAN SOURDOUGH, tetap pakai ragi instan tetapi diproses sebagai preferment dulu sebelum dipanggang di OVEN KAYU (homemade) pakai kayu jati—yes, jati—dari Tuban. Dari hasil berbincang, beliau sampai sekarang masih suka eksperimen metode preferment. Seingatku, sekarang rata-rata di 72 jam lama fermentasinya. Fermentasi ini yang melunakkan gluten sehingga ya tetap bersahabat di perut."
+        },
+        {
+          "src": "/content/files/pizza-surabaya3.jpg",
+          "alt": "Gambar 3 oleh representatif: Kalau di Surabaya. Salah satu pizza neapolitan terbaik itu di Salomon Pizzeria. Doughnya BUKAN SOURDOUGH, tetap pakai ragi instan tetapi diproses sebagai preferment dulu sebelum dipanggang di OVEN KAYU (homemade) pakai kayu jati—yes, jati—dari Tuban. Dari hasil berbincang, beliau sampai sekarang masih suka eksperimen metode preferment. Seingatku, sekarang rata-rata di 72 jam lama fermentasinya. Fermentasi ini yang melunakkan gluten sehingga ya tetap bersahabat di perut."
+        },
+        {
+          "src": "/content/files/pizza-surabaya4.jpg",
+          "alt": "Gambar 4 oleh representatif: Kalau di Surabaya. Salah satu pizza neapolitan terbaik itu di Salomon Pizzeria. Doughnya BUKAN SOURDOUGH, tetap pakai ragi instan tetapi diproses sebagai preferment dulu sebelum dipanggang di OVEN KAYU (homemade) pakai kayu jati—yes, jati—dari Tuban. Dari hasil berbincang, beliau sampai sekarang masih suka eksperimen metode preferment. Seingatku, sekarang rata-rata di 72 jam lama fermentasinya. Fermentasi ini yang melunakkan gluten sehingga ya tetap bersahabat di perut."
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-ceker",
+      "type": "video",
+      "username": "berrryyyskin",
+      "likes": "16.780",
+      "caption": "#กวางเรนเดีย #คลิบตลกๆ",
+      "media": [
+        {
+          "src": "/content/videos/ceker.mp4",
+          "alt": "Video oleh berrryyyskin: #กวางเรนเดีย #คลิบตลกๆ",
+          "streamUid": "2284f777bf5577f25a4df36b32b0f24e",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-siamese",
+      "type": "image",
+      "username": "wxrldofcats",
+      "likes": "3.210",
+      "caption": "Siamese cat itu aslinya walking heat maps karena mereka adalah albino yang sensitif terhadap suhu, jadinya bagian tubuh yang lebih dingin menjadi lebih gelap dan bagian yang lebih hangat menjadi lebih terang karena enzim tirosinase, yang sensitif terhadap panas..",
+      "media": [
+        {
+          "src": "/content/files/siamese.jpg",
+          "alt": "Gambar oleh wxrldofcats: Siamese cat itu aslinya walking heat maps karena mereka adalah albino yang sensitif terhadap suhu, jadinya bagian tubuh yang lebih dingin menjadi lebih gelap dan bagian yang lebih hangat menjadi lebih terang karena enzim tirosinase, yang sensitif terhadap panas.."
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-jasa-santo-suruh",
+      "type": "carousel",
+      "username": "ard_dhila",
+      "likes": "22.345",
+      "caption": "Udah 2x pake jasa santo suruh🥹 Bener2 repot deh kalo punya keluarga hobi nimbung barang ga kepake... bisa diliat itu frame pintu ngapain disimpen ending ngasih makan rayap doang😭",
+      "media": [
+        {
+          "src": "/content/files/jasa-santo-suruh1.jpg",
+          "alt": "Gambar 1 oleh ard_dhila: Udah 2x pake jasa santo suruh🥹 Bener2 repot deh kalo punya keluarga hobi nimbung barang ga kepake... bisa diliat itu frame pintu ngapain disimpen ending ngasih makan rayap doang😭"
+        },
+        {
+          "src": "/content/files/jasa-santo-suruh2.jpg",
+          "alt": "Gambar 2 oleh ard_dhila: Udah 2x pake jasa santo suruh🥹 Bener2 repot deh kalo punya keluarga hobi nimbung barang ga kepake... bisa diliat itu frame pintu ngapain disimpen ending ngasih makan rayap doang😭"
+        },
+        {
+          "src": "/content/files/jasa-santo-suruh3.jpg",
+          "alt": "Gambar 3 oleh ard_dhila: Udah 2x pake jasa santo suruh🥹 Bener2 repot deh kalo punya keluarga hobi nimbung barang ga kepake... bisa diliat itu frame pintu ngapain disimpen ending ngasih makan rayap doang😭"
+        },
+        {
+          "src": "/content/files/jasa-santo-suruh4.jpg",
+          "alt": "Gambar 4 oleh ard_dhila: Udah 2x pake jasa santo suruh🥹 Bener2 repot deh kalo punya keluarga hobi nimbung barang ga kepake... bisa diliat itu frame pintu ngapain disimpen ending ngasih makan rayap doang😭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-racoon-dog",
+      "type": "video",
+      "username": "natureunedited",
+      "likes": "4.567",
+      "caption": "Anjing rakun Jepang, yang juga dikenal sebagai tanuki, adalah hewan kecil seukuran rubah yang berasal dari Jepang.",
+      "media": [
+        {
+          "src": "/content/videos/racoon-dog.mp4",
+          "alt": "Video oleh natureunedited: Anjing rakun Jepang, yang juga dikenal sebagai tanuki, adalah hewan kecil seukuran rubah yang berasal dari Jepang.",
+          "streamUid": "748f4dccef29768c3a7a9320bc93a2e3",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-ibu-eska",
+      "type": "video",
+      "username": "daily_newz",
+      "likes": "7.654",
+      "caption": "Seorang wanita yang sebelumnya viral karena aksinya marah-marah di eskalator kembali mencuri perhatian publik usai terekam melakukan hal serupa di dalam bus TransJakarta. Dalam video yang beredar, wanita tersebut tampak berbicara dengan nada tinggi di dalam bus, sehingga menarik perhatian penumpang. Sejumlah warganet pun menduga bahwa sosok tersebut adalah orang yang sama dengan wanita yang sempat viral dalam insiden di eskalator sebelumnya. Sampai saat ini, belum diketahui secara pasti penyebab kemarahan wanita tersebut dalam kejadian di TransJakarta. Bagaimana menurut Sahabat Antara? 🤔🤔 #TransJakarta #Viral #IbuBajuHijau #Reserse #IbuEskalator",
+      "media": [
+        {
+          "src": "/content/videos/ibu-eskalator.mp4",
+          "alt": "Video oleh daily_newz: Seorang wanita yang sebelumnya viral karena aksinya marah-marah di eskalator kembali mencuri perhatian publik usai terekam melakukan hal serupa di dalam bus TransJakarta. Dalam video yang beredar, wanita tersebut tampak berbicara dengan nada tinggi di dalam bus, sehingga menarik perhatian penumpang. Sejumlah warganet pun menduga bahwa sosok tersebut adalah orang yang sama dengan wanita yang sempat viral dalam insiden di eskalator sebelumnya. Sampai saat ini, belum diketahui secara pasti penyebab kemarahan wanita tersebut dalam kejadian di TransJakarta. Bagaimana menurut Sahabat Antara? 🤔🤔 #TransJakarta #Viral #IbuBajuHijau #Reserse #IbuEskalator",
+          "streamUid": "ca3c799d21e49e23e57c89f722eb1baa",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "berita"
+    },
+    {
+      "id": "post-iwak",
+      "type": "carousel",
+      "username": "xhampooo_",
+      "likes": "6.098",
+      "caption": "IWAK PLENGER BARU KELUARIN WARGA YANG LAINNYA 🤣 versi ini lebih planga-plongoo tapi gemes bgt bentuknya dari yang sebelumnya",
+      "media": [
+        {
+          "src": "/content/files/iwak-plenger1.jpg",
+          "alt": "Gambar 1 oleh xhampooo_: IWAK PLENGER BARU KELUARIN WARGA YANG LAINNYA 🤣 versi ini lebih planga-plongoo tapi gemes bgt bentuknya dari yang sebelumnya"
+        },
+        {
+          "src": "/content/files/iwak-plenger2.jpg",
+          "alt": "Gambar 2 oleh xhampooo_: IWAK PLENGER BARU KELUARIN WARGA YANG LAINNYA 🤣 versi ini lebih planga-plongoo tapi gemes bgt bentuknya dari yang sebelumnya"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-tabrakan",
+      "type": "image",
+      "username": "anonimous",
+      "likes": "31.456",
+      "caption": "ada insiden kah, CEO kita kenapa ini",
+      "media": [
+        {
+          "src": "/content/files/tabrakan.jpg",
+          "alt": "Gambar oleh anonimous: ada insiden kah, CEO kita kenapa ini"
+        }
+      ],
+      "genre": "berita"
+    },
+    {
+      "id": "post-duck",
+      "type": "video",
+      "username": "japan_tourss",
+      "likes": "1.987",
+      "caption": "Duck gliding through cherry blossom water",
+      "media": [
+        {
+          "src": "/content/videos/duck.mp4",
+          "alt": "Video oleh japan_tourss: Duck gliding through cherry blossom water",
+          "streamDelivery": "mp4",
+          "streamUid": "1550dff4634189618e2557a8af95a893"
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-chagee",
+      "type": "image",
+      "username": "taiwanjxice",
+      "likes": "8.432",
+      "caption": "beli chagee no ice biar nanti tinggal masukin es batu eh malah kaget karna isinya full",
+      "media": [
+        {
+          "src": "/content/files/chagee-full.jpg",
+          "alt": "Gambar oleh taiwanjxice: beli chagee no ice biar nanti tinggal masukin es batu eh malah kaget karna isinya full"
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-ricestraw",
+      "type": "carousel",
+      "username": "foodnbevs",
+      "likes": "15.678",
+      "caption": ":O lucu banget sedotannya pakai sedotan nasi. Kalau lihat di bon, tambah 1 ribu, tapi memang bawaan standarnya ini, terus bisa dikunyah.",
+      "media": [
+        {
+          "src": "/content/files/rice-straw1.jpg",
+          "alt": "Gambar 1 oleh foodnbevs: :O lucu banget sedotannya pakai sedotan nasi. Kalau lihat di bon, tambah 1 ribu, tapi memang bawaan standarnya ini, terus bisa dikunyah."
+        },
+        {
+          "src": "/content/files/rice-straw2.jpg",
+          "alt": "Gambar 2 oleh foodnbevs: :O lucu banget sedotannya pakai sedotan nasi. Kalau lihat di bon, tambah 1 ribu, tapi memang bawaan standarnya ini, terus bisa dikunyah."
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-bapak2-bekasi",
+      "type": "video",
+      "username": "hiatuz",
+      "likes": "5.321",
+      "caption": "Bekasi Lagi Bekasi Lagi Jadi bapak ini, secara tiba-tiba meremas bagian tubuh 2 wanita saat mutar balik motor. Karna gk terima diperlakukan seperti itu, mereka langsung mengejarnya dan berusaha untuk menangkapnya. Sedihnya, saat kejadian mereka sudah minta tolong kepada warga. Tapi warga sekitar minim empati dan bilang 'Udah neng dia mah udah biasa kek gitu'. Menurut warga, pelaku juga ada gangguan jiwa Karna sudah tau pelaku sering berprilaku seperti ini, harusnya ada tindakan dari RT setempat atau dinas sosial. Karna bisa aja ada korban berikutnya 😞",
+      "media": [
+        {
+          "src": "/content/videos/bapak2-bekasi.mp4",
+          "alt": "Video oleh hiatuz: Bekasi Lagi Bekasi Lagi Jadi bapak ini, secara tiba-tiba meremas bagian tubuh 2 wanita saat mutar balik motor. Karna gk terima diperlakukan seperti itu, mereka langsung mengejarnya dan berusaha untuk menangkapnya. Sedihnya, saat kejadian mereka sudah minta tolong kepada warga. Tapi warga sekitar minim empati dan bilang 'Udah neng dia mah udah biasa kek gitu'. Menurut warga, pelaku juga ada gangguan jiwa Karna sudah tau pelaku sering berprilaku seperti ini, harusnya ada tindakan dari RT setempat atau dinas sosial. Karna bisa aja ada korban berikutnya 😞",
+          "streamUid": "26433f469810dac12804d3e90cb78fd1",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-radit",
+      "type": "video",
+      "username": "meme.daily",
+      "likes": "61.002",
+      "caption": "radit: apasih isi kepala lu tuh? ceo aldis burger: gada isinya bang awokawok 😭",
+      "media": [
+        {
+          "src": "/content/videos/radit.mp4",
+          "alt": "Video oleh meme.daily: radit: apasih isi kepala lu tuh? ceo aldis burger: gada isinya bang awokawok 😭",
+          "streamUid": "aad8c14ba812fd812ff122e44c483dec",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-premis",
+      "type": "image",
+      "username": "pikirkan_secara_logika",
+      "likes": "5.321",
+      "caption": "soal ppu macam apa ini",
+      "media": [
+        {
+          "src": "/content/files/premis.jpg",
+          "alt": "Gambar oleh pikirkan_secara_logika: soal ppu macam apa ini"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-sarangan-lake",
+      "type": "carousel",
+      "username": "michaelas_",
+      "likes": "908",
+      "caption": "Menikmati udara yang tenang di Danau Sarangan.",
+      "media": [
+        {
+          "src": "/content/files/sarangan-lake1.jpg",
+          "alt": "Gambar 1 oleh michaelas_: Menikmati udara yang tenang di Danau Sarangan."
+        },
+        {
+          "src": "/content/files/sarangan-lake2.jpg",
+          "alt": "Gambar 2 oleh michaelas_: Menikmati udara yang tenang di Danau Sarangan."
+        },
+        {
+          "src": "/content/files/sarangan-lake3.jpg",
+          "alt": "Gambar 3 oleh michaelas_: Menikmati udara yang tenang di Danau Sarangan."
+        },
+        {
+          "src": "/content/files/sarangan-lake4.jpg",
+          "alt": "Gambar 4 oleh michaelas_: Menikmati udara yang tenang di Danau Sarangan."
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-jerapah",
+      "type": "video",
+      "username": "africanzoo_",
+      "likes": "233",
+      "caption": "kobisaaaaa 😭😭 kek bocil kesangkut leher di pager 😭😭😭",
+      "media": [
+        {
+          "src": "/content/videos/jerapah-nyangkut.mp4",
+          "alt": "Video oleh africanzoo_: kobisaaaaa 😭😭 kek bocil kesangkut leher di pager 😭😭😭",
+          "streamUid": "cbcdb33b6a30849a3a99c04a95d9282f",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-dikintrikin",
+      "type": "image",
+      "username": "cius_dong",
+      "likes": "18.927",
+      "caption": "ying bitih kintrikin bisi hibingin nimir dibiwih ini.",
+      "media": [
+        {
+          "src": "/content/files/dikintrikin.jpg",
+          "alt": "Gambar oleh cius_dong: ying bitih kintrikin bisi hibingin nimir dibiwih ini."
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-sepedamotor",
+      "type": "video",
+      "username": "cius_dong",
+      "likes": "18.927",
+      "caption": "Menyikapi isu krisis dan kelangkaan BBM:",
+      "media": [
+        {
+          "src": "/content/videos/sepedamotor.mp4",
+          "alt": "Video oleh cius_dong: Menyikapi isu krisis dan kelangkaan BBM:",
+          "streamUid": "cf76256e0c32747635741d666435ee9a",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-kyokko-beach",
+      "type": "carousel",
+      "username": "product1vity",
+      "likes": "1.780",
+      "caption": "📍Kyokko Beach, Pesawaran, Lampung",
+      "media": [
+        {
+          "src": "/content/files/kyokko_beach1.jpg",
+          "alt": "Gambar 1 oleh product1vity: 📍Kyokko Beach, Pesawaran, Lampung"
+        },
+        {
+          "src": "/content/files/kyokko_beach2.jpg",
+          "alt": "Gambar 2 oleh product1vity: 📍Kyokko Beach, Pesawaran, Lampung"
+        },
+        {
+          "src": "/content/files/kyokko_beach3.jpg",
+          "alt": "Gambar 3 oleh product1vity: 📍Kyokko Beach, Pesawaran, Lampung"
+        },
+        {
+          "src": "/content/files/kyokko_beach4.jpg",
+          "alt": "Gambar 4 oleh product1vity: 📍Kyokko Beach, Pesawaran, Lampung"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-biawak",
+      "type": "image",
+      "username": "selikurr_",
+      "likes": "45.211",
+      "caption": "minggu paling NORMAL di Bekasi 😭",
+      "media": [
+        {
+          "src": "/content/files/biawak.jpg",
+          "alt": "Gambar oleh selikurr_: minggu paling NORMAL di Bekasi 😭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-bocah-usil",
+      "type": "video",
+      "username": "jokesrecehan",
+      "likes": "88.555",
+      "caption": "Akibatnya, pintu lift berulang kali terbuka dan membuat mereka tidak kunjung bergerak dari tempat. Wanita dalam video tampak mulai kesal dan sempat menegur anak tersebut, namun tidak diindahkan. Karena situasi semakin mengganggu, wanita itu akhirnya menepis ringan tangan si anak agar tidak lagi menekan tombol. Setelah itu, lift pun akhirnya berhasil tertutup dan bergerak turun, terlebih setelah posisi anak tersebut sedikit dihalangi. Diduga, anak tersebut berada di area lift tanpa pengawasan orang dewasa. Kejadian ini pun memicu beragam reaksi dari warganet, mulai dari rasa kesal hingga imbauan agar orang tua lebih memperhatikan anak-anaknya di tempat umum.",
+      "media": [
+        {
+          "src": "/content/videos/bocah-usil.mp4",
+          "alt": "Video oleh jokesrecehan: Akibatnya, pintu lift berulang kali terbuka dan membuat mereka tidak kunjung bergerak dari tempat. Wanita dalam video tampak mulai kesal dan sempat menegur anak tersebut, namun tidak diindahkan. Karena situasi semakin mengganggu, wanita itu akhirnya menepis ringan tangan si anak agar tidak lagi menekan tombol. Setelah itu, lift pun akhirnya berhasil tertutup dan bergerak turun, terlebih setelah posisi anak tersebut sedikit dihalangi. Diduga, anak tersebut berada di area lift tanpa pengawasan orang dewasa. Kejadian ini pun memicu beragam reaksi dari warganet, mulai dari rasa kesal hingga imbauan agar orang tua lebih memperhatikan anak-anaknya di tempat umum.",
+          "streamUid": "21ca7e11e1f724ce29962a3692d7361c",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-lombok",
+      "type": "carousel",
+      "username": "wisataindonesia",
+      "likes": "9.000",
+      "caption": "One visit to Lombok will never be enough.",
+      "media": [
+        {
+          "src": "/content/files/lombok1.jpg",
+          "alt": "Gambar 1 oleh wisataindonesia: One visit to Lombok will never be enough."
+        },
+        {
+          "src": "/content/files/lombok2.jpg",
+          "alt": "Gambar 2 oleh wisataindonesia: One visit to Lombok will never be enough."
+        },
+        {
+          "src": "/content/files/lombok3.jpg",
+          "alt": "Gambar 3 oleh wisataindonesia: One visit to Lombok will never be enough."
+        },
+        {
+          "src": "/content/files/lombok4.jpg",
+          "alt": "Gambar 4 oleh wisataindonesia: One visit to Lombok will never be enough."
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-kitkat",
+      "type": "image",
+      "username": "kitkat",
+      "likes": "11.938",
+      "caption": "Regarding recent press coverage",
+      "media": [
+        {
+          "src": "/content/files/kitkat.jpg",
+          "alt": "Gambar oleh kitkat: Regarding recent press coverage"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-berita-pembunuhan",
+      "type": "image",
+      "username": "news_dsily",
+      "likes": "876",
+      "caption": "Serem banget kejadian di Planet Bekasi nih di kedai ayam geprek. Pak Bedu ditemukan didalam freezer dalam keadaan meninggoy dan termutilasi. Kejadiannya di kios ayam geprek di Perumahan Mega Regency desa Sukaragam Kecamatan Serang Baru kabupaten Bekasi. Pak bedu yang merupakan karyawan di temukan pada hari sabtu 28/03/26 oleh pemilik kedai Ali. Ali saat itu sedang mengecek situasi kedai menemukan korban terbungkus kain dan plastik didalam freezer. Kaki dan tangan korban juga ngga ditemukan sementara 2 buah motor menurut pemilik kios juga hilang. Saat ini polisi sudah mengamankan sejumlah barang bukti dan meminta keterangan dari dua orang karyawan lain yang juga bekerja di kedai tersebut. Semoga cepet terungkap.",
+      "media": [
+        {
+          "src": "/content/files/berita-pembunuhan.jpg",
+          "alt": "Gambar oleh news_dsily: Serem banget kejadian di Planet Bekasi nih di kedai ayam geprek. Pak Bedu ditemukan didalam freezer dalam keadaan meninggoy dan termutilasi. Kejadiannya di kios ayam geprek di Perumahan Mega Regency desa Sukaragam Kecamatan Serang Baru kabupaten Bekasi. Pak bedu yang merupakan karyawan di temukan pada hari sabtu 28/03/26 oleh pemilik kedai Ali. Ali saat itu sedang mengecek situasi kedai menemukan korban terbungkus kain dan plastik didalam freezer. Kaki dan tangan korban juga ngga ditemukan sementara 2 buah motor menurut pemilik kios juga hilang. Saat ini polisi sudah mengamankan sejumlah barang bukti dan meminta keterangan dari dua orang karyawan lain yang juga bekerja di kedai tersebut. Semoga cepet terungkap."
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-bakul-mieayam",
+      "type": "video",
+      "username": "mieamor_",
+      "likes": "585",
+      "caption": "Grafik kek gini gaperna ga lucu",
+      "media": [
+        {
+          "src": "/content/videos/bakul-mieayam.mp4",
+          "alt": "Video oleh mieamor_: Grafik kek gini gaperna ga lucu",
+          "streamUid": "48a0db9d4c597b9fea103ed010e7d7e3",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-taman",
+      "type": "carousel",
+      "username": "china_updates",
+      "likes": "11.938",
+      "caption": "China desain taman 'rebahan' di Shanghai, jadi tempat istirahat sejenak untuk warga.",
+      "media": [
+        {
+          "src": "/content/files/taman1.jpg",
+          "alt": "Gambar 1 oleh china_updates: China desain taman 'rebahan' di Shanghai, jadi tempat istirahat sejenak untuk warga."
+        },
+        {
+          "src": "/content/files/taman2.jpg",
+          "alt": "Gambar 2 oleh china_updates: China desain taman 'rebahan' di Shanghai, jadi tempat istirahat sejenak untuk warga."
+        },
+        {
+          "src": "/content/files/taman3.jpg",
+          "alt": "Gambar 3 oleh china_updates: China desain taman 'rebahan' di Shanghai, jadi tempat istirahat sejenak untuk warga."
+        },
+        {
+          "src": "/content/files/taman4.jpg",
+          "alt": "Gambar 4 oleh china_updates: China desain taman 'rebahan' di Shanghai, jadi tempat istirahat sejenak untuk warga."
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-taylor-mbg",
+      "type": "carousel",
+      "username": "journalingz",
+      "likes": "43.286",
+      "caption": "Tahukah kalian? Kalau Taylor Swift ngasih MBG ke anak-anak di Indonesia, hanya dalam 28 hari, Taylor Swift langsung jatuh miskin 🤣",
+      "media": [
+        {
+          "src": "/content/files/taylor-mbg1.jpg",
+          "alt": "Gambar 1 oleh journalingz: Tahukah kalian? Kalau Taylor Swift ngasih MBG ke anak-anak di Indonesia, hanya dalam 28 hari, Taylor Swift langsung jatuh miskin 🤣"
+        },
+        {
+          "src": "/content/files/taylor-mbg2.jpg",
+          "alt": "Gambar 2 oleh journalingz: Tahukah kalian? Kalau Taylor Swift ngasih MBG ke anak-anak di Indonesia, hanya dalam 28 hari, Taylor Swift langsung jatuh miskin 🤣"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-redflag",
+      "type": "video",
+      "username": "kkocakk.id",
+      "likes": "12.928",
+      "caption": "kagetan",
+      "media": [
+        {
+          "src": "/content/videos/redflag.mp4",
+          "alt": "Video oleh kkocakk.id: kagetan",
+          "streamUid": "a37b3e41983fa9c7a3cd786b831a38cc",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-lari",
+      "type": "video",
+      "username": "bs.inside",
+      "likes": "43.345",
+      "caption": "HAHAHAA",
+      "media": [
+        {
+          "src": "/content/videos/lari.mp4",
+          "alt": "Video oleh bs.inside: HAHAHAA",
+          "streamUid": "5d8fd58d024c82af43a3dc4a45b7041e",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-captain-america",
+      "type": "video",
+      "username": "mcuworlds",
+      "likes": "43.345",
+      "caption": "cap was so perfectly written #captainamerica #marvel #steverogers #chrisevans #fyp",
+      "media": [
+        {
+          "src": "/content/videos/captain-america.mp4",
+          "alt": "Video oleh mcuworlds: cap was so perfectly written #captainamerica #marvel #steverogers #chrisevans #fyp",
+          "streamUid": "06afaa98830ff49cb5973538fb37a335",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-exam",
+      "type": "video",
+      "username": "geekslife_",
+      "likes": "38.202",
+      "caption": "Kita semua pasti kenal seseorang yang bakal ngirim ini 💀",
+      "media": [
+        {
+          "src": "/content/videos/exam.mp4",
+          "alt": "Video oleh geekslife_: Kita semua pasti kenal seseorang yang bakal ngirim ini 💀",
+          "streamUid": "e97d8ce6961c288b231f890a06b35f73",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-picture",
+      "type": "video",
+      "username": "stanley.tan",
+      "likes": "23.231",
+      "caption": "4000 pictures later…😅",
+      "media": [
+        {
+          "src": "/content/videos/picture.mp4",
+          "alt": "Video oleh stanley.tan: 4000 pictures later…😅",
+          "streamUid": "5c21c4fd7309207aeb57026ef65e6ee0",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-org-susah",
+      "type": "image",
+      "username": "duh_seball",
+      "likes": "21.139",
+      "caption": "Entahlah...",
+      "media": [
+        {
+          "src": "/content/files/org-susah.jpg",
+          "alt": "Gambar oleh duh_seball: Entahlah..."
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-bahagia",
+      "type": "video",
+      "username": "wkwkgjls",
+      "likes": "21.139",
+      "caption": "Pokoknya bahagia......",
+      "media": [
+        {
+          "src": "/content/videos/bahagia.mp4",
+          "alt": "Video oleh wkwkgjls: Pokoknya bahagia......",
+          "streamUid": "3380e9e7937c6e8e2a68b339f6ba9eb3",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-nyangkut",
+      "type": "image",
+      "username": "woiiilahh",
+      "likes": "39.229",
+      "caption": "Terlihat banget mukanya sangat gembira",
+      "media": [
+        {
+          "src": "/content/files/nyangkut.webp",
+          "alt": "Gambar oleh woiiilahh: Terlihat banget mukanya sangat gembira"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-life",
+      "type": "carousel",
+      "username": "daisy.chan",
+      "likes": "6.459",
+      "caption": "Life lately ₊˚⊹ ᰔ",
+      "media": [
+        {
+          "src": "/content/files/life1.jpg",
+          "alt": "Gambar 1 oleh daisy.chan: Life lately ₊˚⊹ ᰔ"
+        },
+        {
+          "src": "/content/files/life2.jpg",
+          "alt": "Gambar 2 oleh daisy.chan: Life lately ₊˚⊹ ᰔ"
+        },
+        {
+          "src": "/content/files/life3.jpg",
+          "alt": "Gambar 3 oleh daisy.chan: Life lately ₊˚⊹ ᰔ"
+        },
+        {
+          "src": "/content/files/life4.jpg",
+          "alt": "Gambar 4 oleh daisy.chan: Life lately ₊˚⊹ ᰔ"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-prank",
+      "type": "video",
+      "username": "ehbujet_",
+      "likes": "39.245",
+      "caption": "#prankviral",
+      "media": [
+        {
+          "src": "/content/videos/prank.mp4",
+          "alt": "Video oleh ehbujet_: #prankviral",
+          "streamUid": "01bcbe70fcff88a074489ff6d93d2be4",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-bukti-sakit",
+      "type": "video",
+      "username": "ah.elah",
+      "likes": "92.293",
+      "caption": "lelah...",
+      "media": [
+        {
+          "src": "/content/videos/bukti-sakit.mp4",
+          "alt": "Video oleh ah.elah: lelah...",
+          "streamUid": "9b2cd0f8baf87853f2637d865a73df2b",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-univ",
+      "type": "image",
+      "username": "milaa.sw",
+      "likes": "2.392",
+      "caption": "universitas terbaik satu Indonesia dengan UKT dua digit",
+      "media": [
+        {
+          "src": "/content/files/univ.jpg",
+          "alt": "Gambar oleh milaa.sw: universitas terbaik satu Indonesia dengan UKT dua digit"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-lake-como",
+      "type": "carousel",
+      "username": "georginaac",
+      "likes": "392",
+      "caption": "Lake Como, Italy",
+      "media": [
+        {
+          "src": "/content/files/lake-como1.jpg",
+          "alt": "Gambar 1 oleh georginaac: Lake Como, Italy"
+        },
+        {
+          "src": "/content/files/lake-como2.jpg",
+          "alt": "Gambar 2 oleh georginaac: Lake Como, Italy"
+        },
+        {
+          "src": "/content/files/lake-como3.jpg",
+          "alt": "Gambar 3 oleh georginaac: Lake Como, Italy"
+        },
+        {
+          "src": "/content/files/lake-como4.jpg",
+          "alt": "Gambar 4 oleh georginaac: Lake Como, Italy"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-before-after",
+      "type": "carousel",
+      "username": "yikezz_",
+      "likes": "2.392",
+      "caption": "Before - After",
+      "media": [
+        {
+          "src": "/content/files/before.jpg",
+          "alt": "Gambar 1 oleh yikezz_: Before - After"
+        },
+        {
+          "src": "/content/files/after.jpg",
+          "alt": "Gambar 2 oleh yikezz_: Before - After"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-penyakit",
+      "type": "image",
+      "username": "demmgurl",
+      "likes": "20.002",
+      "caption": "Masih lucu aja anjir",
+      "media": [
+        {
+          "src": "/content/files/penyakit.jpg",
+          "alt": "Gambar oleh demmgurl: Masih lucu aja anjir"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-nyetir",
+      "type": "image",
+      "username": "sippp.dh",
+      "likes": "998",
+      "caption": "Gue kalo nyetir bilek:",
+      "media": [
+        {
+          "src": "/content/files/nyetir.jpg",
+          "alt": "Gambar oleh sippp.dh: Gue kalo nyetir bilek:"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-plenger",
+      "type": "carousel",
+      "username": "audi23",
+      "likes": "235",
+      "caption": "WEILAH INI SIH GEMES PARAHH 😭 si plenger aja ada versi nikahan, lengkap sama cincin, kalian kapan? 🤭",
+      "media": [
+        {
+          "src": "/content/files/plenger1.jpg",
+          "alt": "Gambar 1 oleh audi23: WEILAH INI SIH GEMES PARAHH 😭 si plenger aja ada versi nikahan, lengkap sama cincin, kalian kapan? 🤭"
+        },
+        {
+          "src": "/content/files/plenger2.jpg",
+          "alt": "Gambar 2 oleh audi23: WEILAH INI SIH GEMES PARAHH 😭 si plenger aja ada versi nikahan, lengkap sama cincin, kalian kapan? 🤭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-indomaret",
+      "type": "video",
+      "username": "cyntia2p",
+      "likes": "217",
+      "caption": "jadi sungkan mau beli air☺️bru pertama kali liat indomaret semewah ini😯",
+      "media": [
+        {
+          "src": "/content/videos/indomaret.mp4",
+          "alt": "Video oleh cyntia2p: jadi sungkan mau beli air☺️bru pertama kali liat indomaret semewah ini😯",
+          "streamUid": "2f47b7ef3817abfbba6b60b34360335f",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-lempar-batu",
+      "type": "video",
+      "username": "kesun",
+      "likes": "475",
+      "caption": "Makasi yaa kak udah mau rekamin🙏🏻",
+      "media": [
+        {
+          "src": "/content/videos/lempar-batu.mp4",
+          "alt": "Video oleh kesun: Makasi yaa kak udah mau rekamin🙏🏻",
+          "streamUid": "ea6452d5d231ba034cef60759095a25d",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-influencer",
+      "type": "video",
+      "username": "emilmario",
+      "likes": "6.320",
+      "caption": "kek drama bgt",
+      "media": [
+        {
+          "src": "/content/videos/influencer.mp4",
+          "alt": "Video oleh emilmario: kek drama bgt",
+          "streamUid": "290760e0735ad37fd30a58726ab7e8c9",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-tetap-waspada",
+      "type": "video",
+      "username": "sourceofmemes",
+      "likes": "392",
+      "caption": "tetap waspada ya tmn2",
+      "media": [
+        {
+          "src": "/content/videos/tetap-waspada.mp4",
+          "alt": "Video oleh sourceofmemes: tetap waspada ya tmn2",
+          "streamUid": "0302ad63520750709a67fffb22dc1228",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-ansos",
+      "type": "video",
+      "username": "kwekkwekk",
+      "likes": "734",
+      "caption": "jangan mendadak dong😭",
+      "media": [
+        {
+          "src": "/content/videos/ansos.mp4",
+          "alt": "Video oleh kwekkwekk: jangan mendadak dong😭",
+          "streamUid": "4d833189c35f603d68823bce6c5c7eae",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-ladybug",
+      "type": "video",
+      "username": "widyaanindira",
+      "likes": "555",
+      "caption": "aku gak tau dah",
+      "media": [
+        {
+          "src": "/content/videos/ladybug-hair.mp4",
+          "alt": "Video oleh widyaanindira: aku gak tau dah",
+          "streamUid": "be6eeeef34654221ff9f338740e097f4",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-dek",
+      "type": "video",
+      "username": "ddjaakii",
+      "likes": "423",
+      "caption": "#fyp",
+      "media": [
+        {
+          "src": "/content/videos/dek.mp4",
+          "alt": "Video oleh ddjaakii: #fyp",
+          "streamUid": "2765b8699627ec0f696eb625540ee0a1",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-beban-keluarga",
+      "type": "image",
+      "username": "channelapaaja",
+      "likes": "246",
+      "caption": "Selamat pagi beban keluarga 😊",
+      "media": [
+        {
+          "src": "/content/files/beban-keluarga.jpg",
+          "alt": "Gambar oleh channelapaaja: Selamat pagi beban keluarga 😊"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-ramadhan",
+      "type": "video",
+      "username": "paijoo_",
+      "likes": "837",
+      "caption": "Baru satu Minggu sudah banyak momen",
+      "media": [
+        {
+          "src": "/content/videos/serba-serbi-ramadhan.mp4",
+          "alt": "Video oleh paijoo_: Baru satu Minggu sudah banyak momen",
+          "streamUid": "8bc918927df27a1af68b7023303ad0b3",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-pernikahan",
+      "type": "video",
+      "username": "recehpoll",
+      "likes": "821",
+      "caption": "Viral di media sosial, aksi unik seorang tamu undangan pernikahan di Sukoharjo, Lamongan, yang memberikan “amplop” dengan cara tak biasa. Dalam video yang diunggah akun cak_gendon30 pada Rabu (25/3/2026), tamu tersebut terlihat membawa bukti transfer bank yang telah dicetak dalam ukuran besar saat naik ke pelaminan. Bukti tersebut menunjukkan nominal sekitar Rp1 juta, lengkap dengan detail pengirim dan penerima yang terpampang jelas. Aksi ini pun langsung mencuri perhatian para tamu dan warganet, karena dianggap berbeda dari tradisi pemberian amplop pada umumnya. Sebagian menilai cara ini praktis dan mengikuti perkembangan zaman, namun tak sedikit pula yang menganggapnya sebagai aksi yang cukup mencolok di tengah acara pernikahan.",
+      "media": [
+        {
+          "src": "/content/videos/pernikahan.mp4",
+          "alt": "Video oleh recehpoll: Viral di media sosial, aksi unik seorang tamu undangan pernikahan di Sukoharjo, Lamongan, yang memberikan “amplop” dengan cara tak biasa. Dalam video yang diunggah akun cak_gendon30 pada Rabu (25/3/2026), tamu tersebut terlihat membawa bukti transfer bank yang telah dicetak dalam ukuran besar saat naik ke pelaminan. Bukti tersebut menunjukkan nominal sekitar Rp1 juta, lengkap dengan detail pengirim dan penerima yang terpampang jelas. Aksi ini pun langsung mencuri perhatian para tamu dan warganet, karena dianggap berbeda dari tradisi pemberian amplop pada umumnya. Sebagian menilai cara ini praktis dan mengikuti perkembangan zaman, namun tak sedikit pula yang menganggapnya sebagai aksi yang cukup mencolok di tengah acara pernikahan.",
+          "streamUid": "0a89b883d63010d823de59367e7d6606",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-siram-air",
+      "type": "video",
+      "username": "jkt_updates",
+      "likes": "552",
+      "caption": "Aksi warga membubarkan t4wvran terjadi dengan cara tak biasa di kawasan Tamansari, Jakarta, Kamis (25/12/2025). Dari lantai atas bangunan, warga menyiram air hingga mel3mp4r galon ke arah para pelaku. Sebuah galon terlihat mengenai salah satu pelaku hingga membuatnya sempoyongan dan menghentikan aksinya. Setelah itu, situasi berangsur kondusif dan t4wvran pun mereda.",
+      "media": [
+        {
+          "src": "/content/videos/siram-air.mp4",
+          "alt": "Video oleh jkt_updates: Aksi warga membubarkan t4wvran terjadi dengan cara tak biasa di kawasan Tamansari, Jakarta, Kamis (25/12/2025). Dari lantai atas bangunan, warga menyiram air hingga mel3mp4r galon ke arah para pelaku. Sebuah galon terlihat mengenai salah satu pelaku hingga membuatnya sempoyongan dan menghentikan aksinya. Setelah itu, situasi berangsur kondusif dan t4wvran pun mereda.",
+          "streamUid": "5b9234247d1338261ea2a299f1872b50",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-paskah",
+      "type": "video",
+      "username": "ngakaknyuss",
+      "likes": "237",
+      "caption": "Loh kok kebalik? 🤔",
+      "media": [
+        {
+          "src": "/content/videos/paskah.mp4",
+          "alt": "Video oleh ngakaknyuss: Loh kok kebalik? 🤔",
+          "streamUid": "b0d7290ed8d73878ee51a9fe00734831",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-peribahasa",
+      "type": "video",
+      "username": "drew_memes",
+      "likes": "1.303",
+      "caption": "sambung peribahasa",
+      "media": [
+        {
+          "src": "/content/videos/peribahasa.mp4",
+          "alt": "Video oleh drew_memes: sambung peribahasa",
+          "streamUid": "b9ab6b5bf61219e6bdb5fdc8def9be99",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-driver",
+      "type": "image",
+      "username": "memeharianku",
+      "likes": "4.392",
+      "caption": "Takut banget, sepanjang jalan berasa diawasin sopirnya 😢",
+      "media": [
+        {
+          "src": "/content/files/driver.jpg",
+          "alt": "Gambar oleh memeharianku: Takut banget, sepanjang jalan berasa diawasin sopirnya 😢"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-jokowi",
+      "type": "image",
+      "username": "mbak.kun",
+      "likes": "4.238",
+      "caption": "udah ga nganggur nih ye?",
+      "media": [
+        {
+          "src": "/content/files/jokowi.jpg",
+          "alt": "Gambar oleh mbak.kun: udah ga nganggur nih ye?"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-kandang",
+      "type": "carousel",
+      "username": "omg_fakta",
+      "likes": "4.112",
+      "caption": "Jadi dia bilang ada seorang pria bernama Ibrahim di Turki, yang sudah merokok selama 26 tahun (sejak umur 16 tahun, bahkan sampai 2 bungkus sehari), memutuskan berhenti setelah ayahnya meninggal karena kanker paru-paru akibat rokok. Masalahnya, dia selalu gagal berhenti karena tidak kuat menahan keinginan. Akhirnya dia bikin keputusan ekstrem: - Dia membuat kandang dari kawat untuk kepalanya sendiri - Supaya dia secara fisik tidak bisa merokok Dia bahkan: - Mengunci kandang itu dengan 2 gembok - Menyerahkan kuncinya ke istri dan anaknya - Hanya dibuka saat makan - Dipakai terus, bahkan saat keluar rumah Ini bukan sekadar aksi aneh, tapi nunjukin: -Kecanduan nikotin itu serius banget -Kadang niat aja gak cukup -Orang bisa sampai mengorbankan kebebasan diri demi berhenti Dan yang paling kena Dia lakukan itu karena nggak mau keluarganya kehilangan dia seperti dia kehilangan ayahnya",
+      "media": [
+        {
+          "src": "/content/files/kandang1.jpg",
+          "alt": "Gambar 1 oleh omg_fakta: Jadi dia bilang ada seorang pria bernama Ibrahim di Turki, yang sudah merokok selama 26 tahun (sejak umur 16 tahun, bahkan sampai 2 bungkus sehari), memutuskan berhenti setelah ayahnya meninggal karena kanker paru-paru akibat rokok. Masalahnya, dia selalu gagal berhenti karena tidak kuat menahan keinginan. Akhirnya dia bikin keputusan ekstrem: - Dia membuat kandang dari kawat untuk kepalanya sendiri - Supaya dia secara fisik tidak bisa merokok Dia bahkan: - Mengunci kandang itu dengan 2 gembok - Menyerahkan kuncinya ke istri dan anaknya - Hanya dibuka saat makan - Dipakai terus, bahkan saat keluar rumah Ini bukan sekadar aksi aneh, tapi nunjukin: -Kecanduan nikotin itu serius banget -Kadang niat aja gak cukup -Orang bisa sampai mengorbankan kebebasan diri demi berhenti Dan yang paling kena Dia lakukan itu karena nggak mau keluarganya kehilangan dia seperti dia kehilangan ayahnya"
+        },
+        {
+          "src": "/content/files/kandang2.jpg",
+          "alt": "Gambar 2 oleh omg_fakta: Jadi dia bilang ada seorang pria bernama Ibrahim di Turki, yang sudah merokok selama 26 tahun (sejak umur 16 tahun, bahkan sampai 2 bungkus sehari), memutuskan berhenti setelah ayahnya meninggal karena kanker paru-paru akibat rokok. Masalahnya, dia selalu gagal berhenti karena tidak kuat menahan keinginan. Akhirnya dia bikin keputusan ekstrem: - Dia membuat kandang dari kawat untuk kepalanya sendiri - Supaya dia secara fisik tidak bisa merokok Dia bahkan: - Mengunci kandang itu dengan 2 gembok - Menyerahkan kuncinya ke istri dan anaknya - Hanya dibuka saat makan - Dipakai terus, bahkan saat keluar rumah Ini bukan sekadar aksi aneh, tapi nunjukin: -Kecanduan nikotin itu serius banget -Kadang niat aja gak cukup -Orang bisa sampai mengorbankan kebebasan diri demi berhenti Dan yang paling kena Dia lakukan itu karena nggak mau keluarganya kehilangan dia seperti dia kehilangan ayahnya"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-xingxing",
+      "type": "video",
+      "username": "china_arc",
+      "likes": "5.209",
+      "caption": "Xingxing hari ini lagi-lagi mau menggigit turis dan langsung dimarahi neneknya.",
+      "media": [
+        {
+          "src": "/content/videos/xingxing.mp4",
+          "alt": "Video oleh china_arc: Xingxing hari ini lagi-lagi mau menggigit turis dan langsung dimarahi neneknya.",
+          "streamUid": "f1170c593b5471d82f37a5dd462b26e9",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-penembakan",
+      "type": "video",
+      "username": "viralz.xyz",
+      "likes": "5.229",
+      "caption": "astaga, ngeri banget Kolombia ini, yaa. ada psikolog ditembak OTK, sampai kritis. padahal ybs, lagi duduk santai di rumahnya sendiri.",
+      "media": [
+        {
+          "src": "/content/videos/penembakan.mp4",
+          "alt": "Video oleh viralz.xyz: astaga, ngeri banget Kolombia ini, yaa. ada psikolog ditembak OTK, sampai kritis. padahal ybs, lagi duduk santai di rumahnya sendiri.",
+          "streamUid": "5594a2a009dd25cc8ed1c52ae4ea4351",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-fore",
+      "type": "image",
+      "username": "penghunifore",
+      "likes": "993",
+      "caption": "niatnya ambil jatah terus balik karena mau nonton timnas, ternyata orderanku kena skip hampir sejam mau ngamuk tapi staffnya pake baju putih dengan celana ketumpahan kopi mau ngamuk gajadi",
+      "media": [
+        {
+          "src": "/content/files/fore.jpg",
+          "alt": "Gambar oleh penghunifore: niatnya ambil jatah terus balik karena mau nonton timnas, ternyata orderanku kena skip hampir sejam mau ngamuk tapi staffnya pake baju putih dengan celana ketumpahan kopi mau ngamuk gajadi"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-jari-tengah",
+      "type": "video",
+      "username": "apalah__",
+      "likes": "133",
+      "caption": "Istri lagi videoin nganter suami kerja, tetiba diberikan salam jari tengah oleh orang tidak dikenal. Uthi kayanya lagi punya beban hidup yang berat sekali 😂",
+      "media": [
+        {
+          "src": "/content/videos/jari-tengah.mp4",
+          "alt": "Video oleh apalah__: Istri lagi videoin nganter suami kerja, tetiba diberikan salam jari tengah oleh orang tidak dikenal. Uthi kayanya lagi punya beban hidup yang berat sekali 😂",
+          "streamUid": "dfe962f650166351c265a368e39d9625",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-konslet",
+      "type": "video",
+      "username": "lambe_w4ras",
+      "likes": "268",
+      "caption": "Moment saat terjadi korsleting listrik yang berpotensi jadi kebakaran, beruntung karyawan gercep memadamkan arus di tempat terjadinya korslet Kalian berdua layak dapat bonus!, iya engga sih?",
+      "media": [
+        {
+          "src": "/content/videos/konslet.mp4",
+          "alt": "Video oleh lambe_w4ras: Moment saat terjadi korsleting listrik yang berpotensi jadi kebakaran, beruntung karyawan gercep memadamkan arus di tempat terjadinya korslet Kalian berdua layak dapat bonus!, iya engga sih?",
+          "streamUid": "4155b905edba04d768e4d7f0d8326339",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-spbu",
+      "type": "video",
+      "username": "seputaridn",
+      "likes": "999",
+      "caption": "Detik-detik saat mobil brio merah tidak mau bayar setelah ngisi bensin. Bahkan petugas SPBU nya sampai ngejar-ngejar agar dia bayar 🥺 walaupun petugasnya gk sesuai SOP karna gk buat penghalang jalan saat pengisian bensin Tapi bukan berarti dia bisa gk bayar",
+      "media": [
+        {
+          "src": "/content/videos/spbu.mp4",
+          "alt": "Video oleh seputaridn: Detik-detik saat mobil brio merah tidak mau bayar setelah ngisi bensin. Bahkan petugas SPBU nya sampai ngejar-ngejar agar dia bayar 🥺 walaupun petugasnya gk sesuai SOP karna gk buat penghalang jalan saat pengisian bensin Tapi bukan berarti dia bisa gk bayar",
+          "streamUid": "7bc6e71d5c17da60114f8cad63c1f849",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-pemkab",
+      "type": "image",
+      "username": "gimmick_teruss",
+      "likes": "2.390",
+      "caption": "Lain kali kalau bikin gimmick pastikan kunci mobilnya dikantongi dlu, pak🙏 Ngajakin masyarakat untuk hemat energi dengan naik sepeda, tapi dia sendiri ngantor bawa mobil Piye toh🤷🏿",
+      "media": [
+        {
+          "src": "/content/files/pemkab.jpg",
+          "alt": "Gambar oleh gimmick_teruss: Lain kali kalau bikin gimmick pastikan kunci mobilnya dikantongi dlu, pak🙏 Ngajakin masyarakat untuk hemat energi dengan naik sepeda, tapi dia sendiri ngantor bawa mobil Piye toh🤷🏿"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-vili",
+      "type": "video",
+      "username": "biology_lover",
+      "likes": "293",
+      "caption": "Cuplikan dari bagian tubuh manusia yang paling indah 🤩",
+      "media": [
+        {
+          "src": "/content/videos/vili.mp4",
+          "alt": "Video oleh biology_lover: Cuplikan dari bagian tubuh manusia yang paling indah 🤩",
+          "streamUid": "e65bec1e9cad93d2fdd7d190124205dc",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-fuufaa",
+      "type": "image",
+      "username": "blokmyuk",
+      "likes": "930",
+      "caption": "Ah mungkin perasaanku saja",
+      "media": [
+        {
+          "src": "/content/files/fuufaa.jpg",
+          "alt": "Gambar oleh blokmyuk: Ah mungkin perasaanku saja"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-kuda",
+      "type": "carousel",
+      "username": "ridhan20",
+      "likes": "290",
+      "caption": "Persiapan bensin mahal dan langka, di rumah sudah ada mobil listrik, motor listrik sama kuda",
+      "media": [
+        {
+          "src": "/content/files/kuda1.jpg",
+          "alt": "Gambar 1 oleh ridhan20: Persiapan bensin mahal dan langka, di rumah sudah ada mobil listrik, motor listrik sama kuda"
+        },
+        {
+          "src": "/content/files/kuda2.jpg",
+          "alt": "Gambar 2 oleh ridhan20: Persiapan bensin mahal dan langka, di rumah sudah ada mobil listrik, motor listrik sama kuda"
+        },
+        {
+          "src": "/content/files/kuda3.jpg",
+          "alt": "Gambar 3 oleh ridhan20: Persiapan bensin mahal dan langka, di rumah sudah ada mobil listrik, motor listrik sama kuda"
+        },
+        {
+          "src": "/content/files/kuda4.jpg",
+          "alt": "Gambar 4 oleh ridhan20: Persiapan bensin mahal dan langka, di rumah sudah ada mobil listrik, motor listrik sama kuda"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-muatan",
+      "type": "video",
+      "username": "halah_halahh",
+      "likes": "443",
+      "caption": "Salah satu fungsi jalan tol dibikin berbayar adalah selain untuk memperpendek waktu tempuh juga agar bisa terfilter juga dari sisi pengendara²nya jadi diharapkan agar lebih aman juga dalam berkendara Pertanyaan saya adalah, petugas yang ada di gerbang & sepanjang jalan tol tuh ngapaeeenn coba mobil beginian kok dibolehin lewat, iso kerjo pora jane?",
+      "media": [
+        {
+          "src": "/content/videos/muatan.mp4",
+          "alt": "Video oleh halah_halahh: Salah satu fungsi jalan tol dibikin berbayar adalah selain untuk memperpendek waktu tempuh juga agar bisa terfilter juga dari sisi pengendara²nya jadi diharapkan agar lebih aman juga dalam berkendara Pertanyaan saya adalah, petugas yang ada di gerbang & sepanjang jalan tol tuh ngapaeeenn coba mobil beginian kok dibolehin lewat, iso kerjo pora jane?",
+          "streamUid": "80b6f9dc7a4b1467fb4be8a3b065a9e8",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-pouch",
+      "type": "carousel",
+      "username": "parampampam",
+      "likes": "1.999",
+      "caption": "kresek dari singkong aja udah wow, ini ada pouch dari RUMPUT LAUT 😭🌱",
+      "media": [
+        {
+          "src": "/content/files/pouch1.jpg",
+          "alt": "Gambar 1 oleh parampampam: kresek dari singkong aja udah wow, ini ada pouch dari RUMPUT LAUT 😭🌱"
+        },
+        {
+          "src": "/content/files/pouch2.jpg",
+          "alt": "Gambar 2 oleh parampampam: kresek dari singkong aja udah wow, ini ada pouch dari RUMPUT LAUT 😭🌱"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-sepatu",
+      "type": "carousel",
+      "username": "chelly_angela",
+      "likes": "391",
+      "caption": "di stop satpam CP gara gara pake sepatu bothsides nct jnjm pas nonton live viewing encore tds4 di CGV CP😭 dari jauh diterakin “kak itu bener begitu” 😭😭😭😭😭😭😭😭 sempet linglung “apanya pak yang begitu?” 😭 dijawab “itu kak sepatunya” 😭😭😭 sampe disamperin",
+      "media": [
+        {
+          "src": "/content/videos/sepatu.mp4",
+          "alt": "Video 1 oleh chelly_angela: di stop satpam CP gara gara pake sepatu bothsides nct jnjm pas nonton live viewing encore tds4 di CGV CP😭 dari jauh diterakin “kak itu bener begitu” 😭😭😭😭😭😭😭😭 sempet linglung “apanya pak yang begitu?” 😭 dijawab “itu kak sepatunya” 😭😭😭 sampe disamperin",
+          "streamUid": "61067b0022213426f8bca9b1ccee8f19",
+          "streamDelivery": "mp4"
+        },
+        {
+          "src": "/content/files/sepatu.jpg",
+          "alt": "Gambar 2 oleh chelly_angela: di stop satpam CP gara gara pake sepatu bothsides nct jnjm pas nonton live viewing encore tds4 di CGV CP😭 dari jauh diterakin “kak itu bener begitu” 😭😭😭😭😭😭😭😭 sempet linglung “apanya pak yang begitu?” 😭 dijawab “itu kak sepatunya” 😭😭😭 sampe disamperin"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-rusa",
+      "type": "carousel",
+      "username": "folkotive",
+      "likes": "9.292",
+      "caption": "Potret rusa paling kecil di dunia, yaitu Pudu, hewan mungil nan lucu yang hidup di wilayah Amerika Selatan.",
+      "media": [
+        {
+          "src": "/content/files/rusa1.jpg",
+          "alt": "Gambar 1 oleh folkotive: Potret rusa paling kecil di dunia, yaitu Pudu, hewan mungil nan lucu yang hidup di wilayah Amerika Selatan."
+        },
+        {
+          "src": "/content/files/rusa2.jpg",
+          "alt": "Gambar 2 oleh folkotive: Potret rusa paling kecil di dunia, yaitu Pudu, hewan mungil nan lucu yang hidup di wilayah Amerika Selatan."
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-budaya",
+      "type": "carousel",
+      "username": "oki_widagdo",
+      "likes": "8.393",
+      "caption": "Siapa bilang budaya kita gotong royong? Budaya kita adalah mengambil hak pejalan kaki 😌",
+      "media": [
+        {
+          "src": "/content/files/budaya1.jpg",
+          "alt": "Gambar 1 oleh oki_widagdo: Siapa bilang budaya kita gotong royong? Budaya kita adalah mengambil hak pejalan kaki 😌"
+        },
+        {
+          "src": "/content/files/budaya2.jpg",
+          "alt": "Gambar 2 oleh oki_widagdo: Siapa bilang budaya kita gotong royong? Budaya kita adalah mengambil hak pejalan kaki 😌"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-suasana",
+      "type": "video",
+      "username": "wkwkgjls",
+      "likes": "667",
+      "caption": "Suasana tegang sempat terasa di dalam sebuah ruang kelas ketika plafon bangunan dilaporkan dalam kondisi nyaris roboh. Para siswa dan guru diliputi kekhawatiran setelah melihat bagian atap menunjukkan tanda-tanda kerusakan dan berpotensi runtuh sewaktu-waktu. Beruntung, peristiwa itu tidak sampai menimbulkan korban. Sebuah foto Wakil Presiden Gibran Rakabuming Raka yang tergantung di dinding disebut-sebut ikut menahan bagian plafon sehingga tidak langsung jatuh ke area belajar. “Terima kasih, Mas Gibran,” ujar warganet menanggapi kejadian tersebut.",
+      "media": [
+        {
+          "src": "/content/videos/suasana.mp4",
+          "alt": "Video oleh wkwkgjls: Suasana tegang sempat terasa di dalam sebuah ruang kelas ketika plafon bangunan dilaporkan dalam kondisi nyaris roboh. Para siswa dan guru diliputi kekhawatiran setelah melihat bagian atap menunjukkan tanda-tanda kerusakan dan berpotensi runtuh sewaktu-waktu. Beruntung, peristiwa itu tidak sampai menimbulkan korban. Sebuah foto Wakil Presiden Gibran Rakabuming Raka yang tergantung di dinding disebut-sebut ikut menahan bagian plafon sehingga tidak langsung jatuh ke area belajar. “Terima kasih, Mas Gibran,” ujar warganet menanggapi kejadian tersebut.",
+          "streamUid": "7da857f461af460eb5478e26c119ad40",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-bahlil",
+      "type": "image",
+      "username": "ohshite",
+      "likes": "1.283",
+      "caption": "siapa sangka",
+      "media": [
+        {
+          "src": "/content/files/bahlil.jpg",
+          "alt": "Gambar oleh ohshite: siapa sangka"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-duduk-sembarangan",
+      "type": "video",
+      "username": "sosmedxkeras",
+      "likes": "7.382",
+      "caption": "Izinnn🫷🏼",
+      "media": [
+        {
+          "src": "/content/videos/duduk-sembarangan.mp4",
+          "alt": "Video oleh sosmedxkeras: Izinnn🫷🏼",
+          "streamUid": "d9e7be36714f23409eafeed1e5857099",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-paket",
+      "type": "carousel",
+      "username": "lambe_tur4h",
+      "likes": "5.444",
+      "caption": "gw pesen shopee instant dialamatin ke laki gw di rumah. kaget dikit yg nerima kok cewek??? ternyata foto istri kurirnya😭😭😭 kurirnya berkali-kali minta maaf😭😭😭",
+      "media": [
+        {
+          "src": "/content/files/paket1.jpg",
+          "alt": "Gambar 1 oleh lambe_tur4h: gw pesen shopee instant dialamatin ke laki gw di rumah. kaget dikit yg nerima kok cewek??? ternyata foto istri kurirnya😭😭😭 kurirnya berkali-kali minta maaf😭😭😭"
+        },
+        {
+          "src": "/content/files/paket2.jpg",
+          "alt": "Gambar 2 oleh lambe_tur4h: gw pesen shopee instant dialamatin ke laki gw di rumah. kaget dikit yg nerima kok cewek??? ternyata foto istri kurirnya😭😭😭 kurirnya berkali-kali minta maaf😭😭😭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-mudik-imlek",
+      "type": "video",
+      "username": "keluarga.santai",
+      "likes": "151.300",
+      "caption": "Setiap pulang kampung saat Imlek selalu begini, pasrah deh. #pulangkampung",
+      "media": [
+        {
+          "src": "/content/videos/mudik-imlek.mp4",
+          "alt": "Video oleh keluarga.santai: Setiap pulang kampung saat Imlek selalu begini, pasrah deh. #pulangkampung",
+          "streamUid": "42187101b79e4c947611b41cb341bc96",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-nunggu-pemilik-rumah",
+      "type": "image",
+      "username": "warga.kontrakan",
+      "likes": "11.171",
+      "caption": "Menunggu respon yang punya rumah",
+      "media": [
+        {
+          "src": "/content/files/nunggu-pemilik-rumah.jpg",
+          "alt": "Gambar oleh warga.kontrakan: Menunggu respon yang punya rumah"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-pulau-kucing-aoshima",
+      "type": "carousel",
+      "username": "jalanjalan.warga",
+      "likes": "7.980",
+      "caption": "Pulau Aoshima, Jepang jadi surga untuk pecinta kucing dengan jumlah kucing lebih banyak dari manusia.",
+      "media": [
+        {
+          "src": "/content/files/pulau-kucing-aoshima1.jpg",
+          "alt": "Gambar oleh jalanjalan.warga: Pulau Aoshima, Jepang jadi surga untuk pecinta kucing dengan jumlah kucing lebih banyak dari manusia."
+        },
+        {
+          "src": "/content/files/pulau-kucing-aoshima2.jpg",
+          "alt": "Gambar oleh jalanjalan.warga: Pulau Aoshima, Jepang jadi surga untuk pecinta kucing dengan jumlah kucing lebih banyak dari manusia."
+        },
+        {
+          "src": "/content/files/pulau-kucing-aoshima3.jpg",
+          "alt": "Gambar oleh jalanjalan.warga: Pulau Aoshima, Jepang jadi surga untuk pecinta kucing dengan jumlah kucing lebih banyak dari manusia."
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-meme-bener-juga",
+      "type": "image",
+      "username": "receh.sejenak",
+      "likes": "16.609",
+      "caption": "benar juga",
+      "media": [
+        {
+          "src": "/content/files/meme-bener-juga.jpg",
+          "alt": "Gambar oleh receh.sejenak: benar juga"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-bapmericano",
+      "type": "carousel",
+      "username": "kuliner.ngopi",
+      "likes": "7.304",
+      "caption": "tomoro ngeluarin menu baru namanya bapmericano (nasi + americano) yang viral di korea😭",
+      "media": [
+        {
+          "src": "/content/files/bapmericano1.jpg",
+          "alt": "Gambar oleh kuliner.ngopi: tomoro ngeluarin menu baru namanya bapmericano (nasi + americano) yang viral di korea😭"
+        },
+        {
+          "src": "/content/files/bapmericano2.jpg",
+          "alt": "Gambar oleh kuliner.ngopi: tomoro ngeluarin menu baru namanya bapmericano (nasi + americano) yang viral di korea😭"
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-manspreading-transuman",
+      "type": "image",
+      "username": "cerita.transit",
+      "likes": "9.003",
+      "caption": "Hari pertama naik transum lagi, terus mbak-mbak di sebelah gue malah duduk melebar banget 😭😭😭",
+      "media": [
+        {
+          "src": "/content/files/manspreading-transuman.jpg",
+          "alt": "Gambar oleh cerita.transit: Hari pertama naik transum lagi, terus mbak-mbak di sebelah gue malah duduk melebar banget 😭😭😭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-etika-sushi",
+      "type": "image",
+      "username": "etika.kuliner",
+      "likes": "17.165",
+      "caption": "Tau nggak apa yang salah di foto ini? Kata Chef Uki, togarashi atau bubuk cabai lebih cocok untuk makanan berkuah seperti ramen atau udon, bukan untuk sushi, apalagi dicampur ke dalam shoyu. Salah satu etiket makan sushi adalah tidak mencampur wasabi ke dalam shoyu karena dianggap kurang sopan di restoran Jepang.",
+      "media": [
+        {
+          "src": "/content/files/etika-sushi.jpg",
+          "alt": "Gambar oleh etika.kuliner: Tau nggak apa yang salah di foto ini? Kata Chef Uki, togarashi atau bubuk cabai lebih cocok untuk makanan berkuah seperti ramen atau udon, bukan untuk sushi, apalagi dicampur ke dalam shoyu. Salah satu etiket makan sushi adalah tidak mencampur wasabi ke dalam shoyu karena dianggap kurang sopan di restoran Jepang."
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-strava-seni-jalanan",
+      "type": "carousel",
+      "username": "lari.kreatif",
+      "likes": "2.148",
+      "caption": "Pelari ini mengubah rute lari di Strava jadi karya seni street art yang unik.",
+      "media": [
+        {
+          "src": "/content/files/strava-seni-jalanan1.jpg",
+          "alt": "Gambar oleh lari.kreatif: Pelari ini mengubah rute lari di Strava jadi karya seni street art yang unik."
+        },
+        {
+          "src": "/content/files/strava-seni-jalanan2.jpg",
+          "alt": "Gambar oleh lari.kreatif: Pelari ini mengubah rute lari di Strava jadi karya seni street art yang unik."
+        },
+        {
+          "src": "/content/files/strava-seni-jalanan3.jpg",
+          "alt": "Gambar oleh lari.kreatif: Pelari ini mengubah rute lari di Strava jadi karya seni street art yang unik."
+        },
+        {
+          "src": "/content/files/strava-seni-jalanan4.jpg",
+          "alt": "Gambar oleh lari.kreatif: Pelari ini mengubah rute lari di Strava jadi karya seni street art yang unik."
+        }
+      ],
+      "genre": "olahraga"
+    },
+    {
+      "id": "post-bau-kolam-renang",
+      "type": "carousel",
+      "username": "fakta.olahraga",
+      "likes": "10.387",
+      "caption": "Bau khas kolam renang yang menyengat ternyata bukan murni berasal dari kaporit. Bau itu muncul dari kloramin, yaitu senyawa yang terbentuk saat klorin bereaksi dengan keringat, urine, dan kotoran lain di air kolam.",
+      "media": [
+        {
+          "src": "/content/files/bau-kolam-renang1.jpg",
+          "alt": "Gambar oleh fakta.olahraga: Bau khas kolam renang yang menyengat ternyata bukan murni berasal dari kaporit. Bau itu muncul dari kloramin, yaitu senyawa yang terbentuk saat klorin bereaksi dengan keringat, urine, dan kotoran lain di air kolam."
+        },
+        {
+          "src": "/content/files/bau-kolam-renang2.jpg",
+          "alt": "Gambar oleh fakta.olahraga: Bau khas kolam renang yang menyengat ternyata bukan murni berasal dari kaporit. Bau itu muncul dari kloramin, yaitu senyawa yang terbentuk saat klorin bereaksi dengan keringat, urine, dan kotoran lain di air kolam."
+        }
+      ],
+      "genre": "olahraga"
+    },
+    {
+      "id": "post-awan-beneran",
+      "type": "image",
+      "username": "langit.harian",
+      "likes": "1.324",
+      "caption": "Apakah ini awan beneran?",
+      "media": [
+        {
+          "src": "/content/files/awan-beneran.jpg",
+          "alt": "Gambar oleh langit.harian: Apakah ini awan beneran?"
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-anjing-polisi-poncho",
+      "type": "carousel",
+      "username": "hewan.sigap",
+      "likes": "653.800",
+      "caption": "Anjing polisi Madrid bernama Poncho mencuri perhatian setelah menunjukkan kemampuan penyelamatan yang mengesankan dalam sebuah latihan. Saat seorang petugas berbaring di tanah, Poncho langsung berlari mendekat dan melakukan CPR dengan tekanan dada yang ritmis dan presisi sesuai latihan yang ia kuasai. Momen ini tidak hanya viral, tetapi juga menyoroti pentingnya peran anjing layanan yang terlatih dalam situasi darurat. Poncho menjadi contoh bahwa hewan pendamping bisa berkontribusi nyata ketika setiap detik sangat berarti.",
+      "media": [
+        {
+          "src": "/content/files/anjing-polisi-poncho1.jpg",
+          "alt": "Gambar oleh hewan.sigap: Poster tentang anjing polisi Poncho yang viral setelah melakukan CPR saat latihan."
+        },
+        {
+          "src": "/content/videos/anjing-polisi-poncho.mp4",
+          "alt": "Video oleh hewan.sigap: Anjing polisi Madrid bernama Poncho mencuri perhatian setelah menunjukkan kemampuan penyelamatan yang mengesankan dalam sebuah latihan. Saat seorang petugas berbaring di tanah, Poncho langsung berlari mendekat dan melakukan CPR dengan tekanan dada yang ritmis dan presisi sesuai latihan yang ia kuasai.",
+          "streamUid": "1c22981c8b498846e7caa32f049ef100",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-ikan-kaget",
+      "type": "video",
+      "username": "akuarium.lucu",
+      "likes": "209.791",
+      "caption": "Sebuah video lucu beredar di media sosial memperlihatkan momen seekor ikan di dalam akuarium yang tampak kaget setelah dikejutkan oleh pemiliknya. Dalam rekaman tersebut, ikan itu terlihat tiba-tiba bereaksi cepat seolah terkejut oleh rangsangan mendadak dari luar akuarium. Momen spontan itu pun membuat banyak warganet merasa gemas melihat reaksinya. Meski terlihat menghibur, momen ini juga menjadi pengingat bahwa ikan memiliki sistem saraf yang cukup peka terhadap rangsangan mendadak di sekitarnya. Video tersebut pun ramai dibagikan dan menuai berbagai komentar dari pengguna media sosial. #VideoLucu #Hewan #Viral #MomenGemes #MediaSosial",
+      "media": [
+        {
+          "src": "/content/videos/ikan-kaget.mp4",
+          "alt": "Video oleh akuarium.lucu: Sebuah video lucu beredar di media sosial memperlihatkan momen seekor ikan di dalam akuarium yang tampak kaget setelah dikejutkan oleh pemiliknya. Dalam rekaman tersebut, ikan itu terlihat tiba-tiba bereaksi cepat seolah terkejut oleh rangsangan mendadak dari luar akuarium. Momen spontan itu pun membuat banyak warganet merasa gemas melihat reaksinya. Meski terlihat menghibur, momen ini juga menjadi pengingat bahwa ikan memiliki sistem saraf yang cukup peka terhadap rangsangan mendadak di sekitarnya. Video tersebut pun ramai dibagikan dan menuai berbagai komentar dari pengguna media sosial. #VideoLucu #Hewan #Viral #MomenGemes #MediaSosial",
+          "streamUid": "38b8a9acda8f41224352e65b4dc61bd7",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-plastik-ke-kebon",
+      "type": "image",
+      "username": "curhat.harian",
+      "likes": "18.805",
+      "caption": "Gue tau harga plastik semua naik tapi gue ga ekspek bakal ke kebon dulu 😭😭😭😭😭😭😭",
+      "media": [
+        {
+          "src": "/content/files/plastik-ke-kebon.jpg",
+          "alt": "Gambar oleh curhat.harian: Gue tau harga plastik semua naik tapi gue ga ekspek bakal ke kebon dulu 😭😭😭😭😭😭😭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-bocah-lapor-ibu",
+      "type": "carousel",
+      "username": "kabar.receh",
+      "likes": "3.778",
+      "caption": "Seorang anak laki-laki di China menangis usai dimarahi ibunya, dan laporin ibunya ke Pak Polisi. 😭😭",
+      "media": [
+        {
+          "src": "/content/files/bocah-lapor-ibu1.jpg",
+          "alt": "Gambar oleh kabar.receh: Seorang anak laki-laki di China menangis usai dimarahi ibunya, dan laporin ibunya ke Pak Polisi. 😭😭"
+        },
+        {
+          "src": "/content/videos/bocah-lapor-ibu.mp4",
+          "alt": "Video oleh kabar.receh: Seorang anak laki-laki di China menangis usai dimarahi ibunya, dan laporin ibunya ke Pak Polisi. 😭😭",
+          "streamUid": "f48dd7d1d3b962206788f5eca473e743",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-penyu-salting",
+      "type": "carousel",
+      "username": "laut.gemas",
+      "likes": "2.638",
+      "caption": "Potret penyu ini terlihat malu-malu saat difoto seorang instruktur selam, bikin salting.",
+      "media": [
+        {
+          "src": "/content/files/penyu-salting1.jpg",
+          "alt": "Gambar oleh laut.gemas: Potret penyu ini terlihat malu-malu saat difoto seorang instruktur selam, bikin salting."
+        },
+        {
+          "src": "/content/files/penyu-salting2.jpg",
+          "alt": "Gambar oleh laut.gemas: Potret penyu ini terlihat malu-malu saat difoto seorang instruktur selam, bikin salting."
+        },
+        {
+          "src": "/content/files/penyu-salting3.jpg",
+          "alt": "Gambar oleh laut.gemas: Potret penyu ini terlihat malu-malu saat difoto seorang instruktur selam, bikin salting."
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-dunia-perkecapan",
+      "type": "carousel",
+      "username": "kuliner.nusantara",
+      "likes": "10.650",
+      "caption": "Sekaya ini ternyata dunia PERKECAPAN INDONESIA 😭",
+      "media": [
+        {
+          "src": "/content/files/dunia-perkecapan1.jpg",
+          "alt": "Gambar oleh kuliner.nusantara: Sekaya ini ternyata dunia PERKECAPAN INDONESIA 😭"
+        },
+        {
+          "src": "/content/files/dunia-perkecapan2.jpg",
+          "alt": "Gambar oleh kuliner.nusantara: Sekaya ini ternyata dunia PERKECAPAN INDONESIA 😭"
+        }
+      ],
+      "genre": "makanan"
+    },
+    {
+      "id": "post-kucing-gigi-taring",
+      "type": "carousel",
+      "username": "kucing.manis",
+      "likes": "4.176",
+      "caption": "Potret kucing yang kehilangan gigi taring atasnya yang bikin menggemaskan. Kucing ini sempet kehilangan gigi taringnya karena menabrak furnitur. Walaupun sempat terluka, insiden tersebut tidak mempengaruhi kesehatannya, sehingga ia tetap aktif dan ceria. 😭😭😭😭",
+      "media": [
+        {
+          "src": "/content/files/kucing-gigi-taring1.jpg",
+          "alt": "Gambar oleh kucing.manis: Potret kucing yang kehilangan gigi taring atasnya yang bikin menggemaskan. Kucing ini sempet kehilangan gigi taringnya karena menabrak furnitur. Walaupun sempat terluka, insiden tersebut tidak mempengaruhi kesehatannya, sehingga ia tetap aktif dan ceria. 😭😭😭😭"
+        },
+        {
+          "src": "/content/files/kucing-gigi-taring2.jpg",
+          "alt": "Gambar oleh kucing.manis: Potret kucing yang kehilangan gigi taring atasnya yang bikin menggemaskan. Kucing ini sempet kehilangan gigi taringnya karena menabrak furnitur. Walaupun sempat terluka, insiden tersebut tidak mempengaruhi kesehatannya, sehingga ia tetap aktif dan ceria. 😭😭😭😭"
+        },
+        {
+          "src": "/content/files/kucing-gigi-taring3.jpg",
+          "alt": "Gambar oleh kucing.manis: Potret kucing yang kehilangan gigi taring atasnya yang bikin menggemaskan. Kucing ini sempet kehilangan gigi taringnya karena menabrak furnitur. Walaupun sempat terluka, insiden tersebut tidak mempengaruhi kesehatannya, sehingga ia tetap aktif dan ceria. 😭😭😭😭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-windah-kartu-luffy",
+      "type": "carousel",
+      "username": "game.kolektor",
+      "likes": "4.339",
+      "caption": "Potret Windah Basudara beli kartu 'Luffy Red Manga Black Label', langka cuma ada 9 di dunia, disinyalir senilai Rp1,7 Miliar.",
+      "media": [
+        {
+          "src": "/content/files/windah-kartu-luffy1.jpg",
+          "alt": "Gambar oleh game.kolektor: Potret Windah Basudara beli kartu 'Luffy Red Manga Black Label', langka cuma ada 9 di dunia, disinyalir senilai Rp1,7 Miliar."
+        },
+        {
+          "src": "/content/files/windah-kartu-luffy2.jpg",
+          "alt": "Gambar oleh game.kolektor: Potret Windah Basudara beli kartu 'Luffy Red Manga Black Label', langka cuma ada 9 di dunia, disinyalir senilai Rp1,7 Miliar."
+        },
+        {
+          "src": "/content/files/windah-kartu-luffy3.jpg",
+          "alt": "Gambar oleh game.kolektor: Potret Windah Basudara beli kartu 'Luffy Red Manga Black Label', langka cuma ada 9 di dunia, disinyalir senilai Rp1,7 Miliar."
+        }
+      ],
+      "genre": "game"
+    },
+    {
+      "id": "post-keliling-dunia-berdua",
+      "type": "video",
+      "username": "travel.bareng",
+      "likes": "263.300",
+      "caption": "Keliling dunia sambil berpegangan tangan <33 #sahabat #temanterbaik #belahanjiwa #goalsbareng #sahabatselamanya",
+      "media": [
+        {
+          "src": "/content/videos/keliling-dunia-berdua.mp4",
+          "alt": "Video oleh travel.bareng: Keliling dunia sambil berpegangan tangan <33 #sahabat #temanterbaik #belahanjiwa #goalsbareng #sahabatselamanya",
+          "streamUid": "eb87fe548524dad3c3146338b0387e08",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-saling-timpa",
+      "type": "image",
+      "username": "foto.receh",
+      "likes": "9.469",
+      "caption": "Lu timpa gw timpa juga bos",
+      "media": [
+        {
+          "src": "/content/files/saling-timpa.jpg",
+          "alt": "Gambar oleh foto.receh: Lu timpa gw timpa juga bos"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-game-pc-jadul",
+      "type": "carousel",
+      "username": "game.arsip",
+      "likes": "2.333",
+      "caption": "Aku nemu sekitar 130 game PC jadul yang sekarang sudah susah banget dicari 😭🙌",
+      "media": [
+        {
+          "src": "/content/files/game-pc-jadul1.jpg",
+          "alt": "Gambar oleh game.arsip: Aku nemu sekitar 130 game PC jadul yang sekarang sudah susah banget dicari 😭🙌"
+        },
+        {
+          "src": "/content/files/game-pc-jadul2.jpg",
+          "alt": "Gambar oleh game.arsip: Aku nemu sekitar 130 game PC jadul yang sekarang sudah susah banget dicari 😭🙌"
+        },
+        {
+          "src": "/content/files/game-pc-jadul3.jpg",
+          "alt": "Gambar oleh game.arsip: Aku nemu sekitar 130 game PC jadul yang sekarang sudah susah banget dicari 😭🙌"
+        },
+        {
+          "src": "/content/files/game-pc-jadul4.jpg",
+          "alt": "Gambar oleh game.arsip: Aku nemu sekitar 130 game PC jadul yang sekarang sudah susah banget dicari 😭🙌"
+        }
+      ],
+      "genre": "game"
+    },
+    {
+      "id": "post-stickman-lari",
+      "type": "video",
+      "username": "animasi.lari",
+      "likes": "13.441",
+      "caption": "Seorang pelari menghabiskan 10 bulan untuk mengubah rute larinya menjadi animasi stickman.",
+      "media": [
+        {
+          "src": "/content/videos/stickman-lari.mp4",
+          "alt": "Video oleh animasi.lari: Seorang pelari menghabiskan 10 bulan untuk mengubah rute larinya menjadi animasi stickman.",
+          "streamUid": "d46e15ba40e7ae6c65bb897ea3c70438",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "olahraga"
+    },
+    {
+      "id": "post-kambing-jenggot-ditarik",
+      "type": "video",
+      "username": "kampung.ngakak",
+      "likes": "364.400",
+      "caption": "Kambing berjenggot panjang ini langsung melet saat jenggotnya ditarik-tarik.",
+      "media": [
+        {
+          "src": "/content/videos/kambing-jenggot-ditarik.mp4",
+          "alt": "Video oleh kampung.ngakak: Kambing berjenggot panjang ini langsung melet saat jenggotnya ditarik-tarik.",
+          "streamUid": "9b1670dac27c220d195ae6972d25d5ed",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-cairpakbos",
+      "type": "video",
+      "username": "reel.santai",
+      "likes": "36.712",
+      "caption": "🌟 Cairpakbos - jasa pencairan limit aplikasi pay later kamu, amanah dan terpercaya menurut admin.",
+      "media": [
+        {
+          "src": "/content/videos/cairpakbos.mp4",
+          "alt": "Video oleh reel.santai: 🌟 Cairpakbos - jasa pencairan limit aplikasi pay later kamu, amanah dan terpercaya menurut admin.",
+          "streamUid": "cfddee95677f574c312e9c03f6c41c93",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-reel-gleazyballz",
+      "type": "video",
+      "username": "kartun.receh",
+      "likes": "71.920",
+      "caption": "Cuplikan video dari gleazyballz.",
+      "media": [
+        {
+          "src": "/content/videos/reel-gleazyballz.mp4",
+          "alt": "Video oleh kartun.receh: Cuplikan video dari gleazyballz.",
+          "streamUid": "8e6e90bafb4dee53065c61e2c55c48cd",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-mirip-semua",
+      "type": "video",
+      "username": "skrinsit.id",
+      "likes": "341.258",
+      "caption": "masa kacamata, rambut, badan.. iyupnya juga mirip",
+      "media": [
+        {
+          "src": "/content/videos/mirip-semua.mp4",
+          "alt": "Video oleh skrinsit.id: masa kacamata, rambut, badan.. iyupnya juga mirip",
+          "streamUid": "19b32373ae9daf216e16ddd386b0223b",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-truk-bawa-anak",
+      "type": "video",
+      "username": "jalanan.receh",
+      "likes": "3.354",
+      "caption": "truk nya bawa anak 😭🤏",
+      "media": [
+        {
+          "src": "/content/videos/truk-bawa-anak.mp4",
+          "alt": "Video oleh jalanan.receh: truk nya bawa anak 😭🤏",
+          "streamUid": "9f43da8103a0044b456e57006696cfc0",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-cape-banget",
+      "type": "image",
+      "username": "capek.harian",
+      "likes": "13.336",
+      "caption": "cape bgt😭😭😭",
+      "media": [
+        {
+          "src": "/content/files/cape-banget.jpg",
+          "alt": "Gambar oleh capek.harian: cape bgt😭😭😭"
+        }
+      ],
+      "genre": "humor"
+    },
+    {
+      "id": "post-pari-manta-pink",
+      "type": "carousel",
+      "username": "laut.langka",
+      "likes": "3.792",
+      "caption": "Potret Pari Manta berwarna pink langka, terlihat di Perairan Dekat Pulau Lady Elliot, Australia.",
+      "media": [
+        {
+          "src": "/content/files/pari-manta-pink1.jpg",
+          "alt": "Gambar oleh laut.langka: Potret Pari Manta berwarna pink langka, terlihat di Perairan Dekat Pulau Lady Elliot, Australia."
+        },
+        {
+          "src": "/content/files/pari-manta-pink2.jpg",
+          "alt": "Gambar oleh laut.langka: Potret Pari Manta berwarna pink langka, terlihat di Perairan Dekat Pulau Lady Elliot, Australia."
+        },
+        {
+          "src": "/content/files/pari-manta-pink3.jpg",
+          "alt": "Gambar oleh laut.langka: Potret Pari Manta berwarna pink langka, terlihat di Perairan Dekat Pulau Lady Elliot, Australia."
+        },
+        {
+          "src": "/content/files/pari-manta-pink4.jpg",
+          "alt": "Gambar oleh laut.langka: Potret Pari Manta berwarna pink langka, terlihat di Perairan Dekat Pulau Lady Elliot, Australia."
+        }
+      ],
+      "genre": "wisata"
+    },
+    {
+      "id": "post-orang-orangan-sawah-beyonce",
+      "type": "image",
+      "username": "kabar.aneh",
+      "likes": "2.962",
+      "caption": "Viral di media sosial, petani di Bali pakai potongan gambar berukuran besar dari diva dunia, Beyoncé, sebagai orang-orangan sawah.",
+      "media": [
+        {
+          "src": "/content/files/orang-orangan-sawah-beyonce.jpg",
+          "alt": "Gambar oleh kabar.aneh: Viral di media sosial, petani di Bali pakai potongan gambar berukuran besar dari diva dunia, Beyoncé, sebagai orang-orangan sawah."
+        }
+      ],
+      "genre": "berita"
+    },
+    {
+      "id": "post-tolongin-roberto",
+      "type": "video",
+      "username": "ikan.santai",
+      "likes": "219.200",
+      "caption": "Sumpah, tolongin. Roberto sudah dua hari tidak mau makan padahal sudah dikasih apel kesukaannya.",
+      "media": [
+        {
+          "src": "/content/videos/tolongin-roberto.mp4",
+          "alt": "Video oleh ikan.santai: Sumpah, tolongin. Roberto sudah dua hari tidak mau makan padahal sudah dikasih apel kesukaannya.",
+          "streamUid": "cdff7220ade75da93dde7b82c81d2ac0",
+          "streamDelivery": "mp4"
+        }
+      ],
+      "genre": "humor"
+    }
+  ]
+}

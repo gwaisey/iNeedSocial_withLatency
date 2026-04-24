@@ -12,8 +12,10 @@ import {
   getSessionStorage,
   readActiveStudySession,
   readInteractionState,
+  readVideoAudioPreference,
   startNewStudySession,
   writeInteractionState,
+  writeVideoAudioPreference,
 } from "./study-session-storage"
 
 type StudyContextValue = {
@@ -21,9 +23,11 @@ type StudyContextValue = {
   likedPosts: Record<string, boolean>
   repostedPosts: Record<string, boolean>
   sessionId: string | null
+  isVideoMutedByDefault: boolean
   closeCommentSheet: () => void
   discardStudySession: () => void
   openCommentSheet: (postId: string) => void
+  setVideoMutedPreference: (isMuted: boolean) => void
   startStudySession: () => string
   toggleLiked: (postId: string) => void
   toggleReposted: (postId: string) => void
@@ -41,6 +45,10 @@ export function StudyProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [repostedPosts, setRepostedPosts] = useState<Record<string, boolean>>(
     () => (sessionId ? readInteractionState(getSessionStorage(), sessionId, "reposted") : {})
   )
+  const [preferredVideoMuted, setPreferredVideoMuted] = useState<boolean>(
+    () => (sessionId ? readVideoAudioPreference(getSessionStorage(), sessionId).muted : true)
+  )
+  const [canAutoplayVideoWithSound, setCanAutoplayVideoWithSound] = useState(false)
   const [commentSheet, setCommentSheet] = useState<string | null>(null)
 
   useEffect(() => {
@@ -58,6 +66,27 @@ export function StudyProvider({ children }: Readonly<{ children: ReactNode }>) {
 
     writeInteractionState(getSessionStorage(), sessionId, "reposted", repostedPosts)
   }, [repostedPosts, sessionId])
+
+  useEffect(() => {
+    if (!sessionId) {
+      setPreferredVideoMuted(true)
+      setCanAutoplayVideoWithSound(false)
+      return
+    }
+
+    setPreferredVideoMuted(readVideoAudioPreference(getSessionStorage(), sessionId).muted)
+    setCanAutoplayVideoWithSound(false)
+  }, [sessionId])
+
+  useEffect(() => {
+    if (!sessionId) {
+      return
+    }
+
+    writeVideoAudioPreference(getSessionStorage(), sessionId, {
+      muted: preferredVideoMuted,
+    })
+  }, [preferredVideoMuted, sessionId])
 
   const toggleLiked = useCallback((postId: string) => {
     if (!sessionId) {
@@ -77,11 +106,19 @@ export function StudyProvider({ children }: Readonly<{ children: ReactNode }>) {
 
   const closeCommentSheet = useCallback(() => setCommentSheet(null), [])
   const openCommentSheet = useCallback((postId: string) => setCommentSheet(postId), [])
+  const setVideoMutedPreference = useCallback((isMuted: boolean) => {
+    setPreferredVideoMuted(isMuted)
+    if (!isMuted) {
+      setCanAutoplayVideoWithSound(true)
+    }
+  }, [])
   const startStudySession = useCallback(() => {
     const nextSessionId = startNewStudySession(getSessionStorage())
     setSessionId(nextSessionId)
     setLikedPosts({})
     setRepostedPosts({})
+    setPreferredVideoMuted(true)
+    setCanAutoplayVideoWithSound(false)
     setCommentSheet(null)
     return nextSessionId
   }, [])
@@ -90,18 +127,24 @@ export function StudyProvider({ children }: Readonly<{ children: ReactNode }>) {
     setSessionId(null)
     setLikedPosts({})
     setRepostedPosts({})
+    setPreferredVideoMuted(true)
+    setCanAutoplayVideoWithSound(false)
     setCommentSheet(null)
   }, [sessionId])
+
+  const isVideoMutedByDefault = preferredVideoMuted || !canAutoplayVideoWithSound
 
   const value = useMemo(
     () => ({
       commentSheet,
       discardStudySession,
+      isVideoMutedByDefault,
       likedPosts,
       repostedPosts,
       sessionId,
       closeCommentSheet,
       openCommentSheet,
+      setVideoMutedPreference,
       startStudySession,
       toggleLiked,
       toggleReposted,
@@ -109,11 +152,13 @@ export function StudyProvider({ children }: Readonly<{ children: ReactNode }>) {
     [
       commentSheet,
       discardStudySession,
+      isVideoMutedByDefault,
       likedPosts,
       repostedPosts,
       sessionId,
       closeCommentSheet,
       openCommentSheet,
+      setVideoMutedPreference,
       startStudySession,
       toggleLiked,
       toggleReposted,

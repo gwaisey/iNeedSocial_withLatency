@@ -21,6 +21,7 @@ type UseFeedSessionArgs = {
 
 type PersistSessionOptions = {
   commitActivePost?: boolean
+  now?: number
   finalizedGenreTimes?: ReturnType<typeof useFeedTiming>["genreTimes"] | null
   finalReport?: ReturnType<typeof useFeedSessionSnapshot>["finalReport"]
   hasSubmitted?: boolean
@@ -54,7 +55,7 @@ export function useFeedSession({
   const persistSessionSnapshot = useCallback(
     (options: PersistSessionOptions = {}) => {
       const nextGenreTimes = options.commitActivePost
-        ? timing.commitActivePostDuration()
+        ? timing.commitActivePostDuration(options.now)
         : timing.genreTimesRef.current
 
       return snapshot.persistSnapshot({
@@ -82,7 +83,9 @@ export function useFeedSession({
     }
 
     hasFlushedLifecycleSnapshotRef.current = true
-    return persistSessionSnapshot({ commitActivePost: true })
+    // Date.now() has millisecond resolution; bump by 1ms so lifecycle flushes never lose time
+    // when a scroll/frame update and pagehide happen within the same clock tick.
+    return persistSessionSnapshot({ commitActivePost: true, now: Date.now() + 1 })
   }, [persistSessionSnapshot, timing.genreTimesRef])
 
   useEffect(() => {
@@ -100,15 +103,20 @@ export function useFeedSession({
     const handlePageHide = () => {
       persistLifecycleSnapshot()
     }
+    const handleBeforeUnload = () => {
+      persistLifecycleSnapshot()
+    }
     const handlePageShow = () => {
       hasFlushedLifecycleSnapshotRef.current = false
     }
 
     window.addEventListener("pagehide", handlePageHide)
     window.addEventListener("pageshow", handlePageShow)
+    window.addEventListener("beforeunload", handleBeforeUnload)
     return () => {
       window.removeEventListener("pagehide", handlePageHide)
       window.removeEventListener("pageshow", handlePageShow)
+      window.removeEventListener("beforeunload", handleBeforeUnload)
     }
   }, [persistLifecycleSnapshot])
 
@@ -119,7 +127,7 @@ export function useFeedSession({
       }
 
       hasFlushedLifecycleSnapshotRef.current = true
-      persistOnUnmountRef.current({ commitActivePost: true })
+      persistOnUnmountRef.current({ commitActivePost: true, now: Date.now() + 1 })
     }
   }, [])
 

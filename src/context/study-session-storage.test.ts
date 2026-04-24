@@ -7,10 +7,12 @@ import {
   readFeedSessionSnapshot,
   readInteractionState,
   readTutorialState,
+  readVideoAudioPreference,
   startNewStudySession,
   writeInteractionState,
   writeFeedSessionSnapshot,
   writeTutorialState,
+  writeVideoAudioPreference,
   type StorageLike,
 } from "./study-session-storage"
 import { createEmptyGenreTimes } from "../utils/feed-session"
@@ -60,13 +62,14 @@ describe("study session storage", () => {
     expect(readInteractionState(storage, secondSessionId, "reposted")).toEqual({})
   })
 
-  it("persists tutorial progress and feed snapshots inside the session namespace", () => {
+  it("persists tutorial progress, media preferences, and feed snapshots inside the session namespace", () => {
     const storage = createMemoryStorage()
     const sessionId = startNewStudySession(storage)
     const genreTimes = createEmptyGenreTimes()
     genreTimes.humor = 2_000
 
     writeTutorialState(storage, sessionId, { completed: false, currentStep: 2 })
+    writeVideoAudioPreference(storage, sessionId, { muted: false })
     writeFeedSessionSnapshot(storage, sessionId, {
       status: "active",
       genreTimes,
@@ -81,6 +84,9 @@ describe("study session storage", () => {
       completed: false,
       currentStep: 2,
     })
+    expect(readVideoAudioPreference(storage, sessionId)).toEqual({
+      muted: false,
+    })
     expect(readFeedSessionSnapshot(storage, sessionId)).toMatchObject({
       status: "active",
       genreTimes: {
@@ -89,11 +95,12 @@ describe("study session storage", () => {
     })
   })
 
-  it("resets tutorial progress and feed snapshots when a new study session starts", () => {
+  it("resets tutorial progress, media preferences, and feed snapshots when a new study session starts", () => {
     const storage = createMemoryStorage()
     const firstSessionId = startNewStudySession(storage)
 
     writeTutorialState(storage, firstSessionId, { completed: false, currentStep: 1 })
+    writeVideoAudioPreference(storage, firstSessionId, { muted: false })
     writeFeedSessionSnapshot(storage, firstSessionId, {
       status: "ended",
       genreTimes: createEmptyGenreTimes(),
@@ -110,6 +117,9 @@ describe("study session storage", () => {
     expect(readTutorialState(storage, secondSessionId)).toEqual({
       completed: false,
       currentStep: 0,
+    })
+    expect(readVideoAudioPreference(storage, secondSessionId)).toEqual({
+      muted: true,
     })
     expect(readFeedSessionSnapshot(storage, secondSessionId)).toBeNull()
   })
@@ -141,6 +151,7 @@ describe("study session storage", () => {
 
     writeInteractionState(storage, sessionId, "liked", { "post-1": true })
     writeTutorialState(storage, sessionId, { completed: false, currentStep: 3 })
+    writeVideoAudioPreference(storage, sessionId, { muted: false })
     writeFeedSessionSnapshot(storage, sessionId, {
       status: "active",
       genreTimes: createEmptyGenreTimes(),
@@ -158,6 +169,9 @@ describe("study session storage", () => {
     expect(readTutorialState(storage, sessionId)).toEqual({
       completed: false,
       currentStep: 0,
+    })
+    expect(readVideoAudioPreference(storage, sessionId)).toEqual({
+      muted: true,
     })
     expect(readFeedSessionSnapshot(storage, sessionId)).toBeNull()
   })

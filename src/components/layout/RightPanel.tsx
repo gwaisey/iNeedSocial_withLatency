@@ -13,6 +13,7 @@ const suggestedUsers = [
 
 export function RightPanel({ theme }: RightPanelProps) {
   const isDark = theme === "dark"
+  const currentYear = new Date().getFullYear()
 
   const textPrimary = isDark ? "text-mist" : "text-ink"
   const textSecondary = "text-haze"
@@ -47,7 +48,7 @@ export function RightPanel({ theme }: RightPanelProps) {
       </div>
 
       <div className={`mt-8 space-y-1 text-xs ${textSecondary}`}>
-        <p>(c) 2024 iNeedSocial</p>
+        <p>(c) {currentYear} iNeedSocial</p>
         <p>Dibuat untuk keperluan penelitian</p>
       </div>
     </div>

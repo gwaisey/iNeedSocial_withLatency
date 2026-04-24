@@ -147,10 +147,11 @@ export function RevealPost({
   return (
     <div
       ref={ref}
-      className={`feed-post-shell ${revealed ? "" : "min-h-[400px]"}`}
+      className="feed-post-shell"
+      data-revealed={revealed}
       {...(tutorialId ? { "data-tutorial-id": tutorialId } : {})}
     >
-      {revealed ? children : <SinglePostSkeleton isDark={isDark} />}
+      {children}
     </div>
   )
 }

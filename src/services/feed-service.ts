@@ -3,9 +3,11 @@ import {
   GENRE_KEYS,
   type FeedPayload,
   type GenreKey,
+  type MediaItem,
   type Post,
   type ThemeMode,
 } from "../types/social"
+import { reportRuntimeIssue } from "../utils/runtime-monitoring"
 
 const VALID_GENRES = new Set<GenreKey>(GENRE_KEYS)
 
@@ -17,11 +19,45 @@ type RawFeedPayload = {
   posts: RawPost[]
 }
 
+function isVideoMediaSource(media: Pick<MediaItem, "src" | "streamUid">) {
+  return Boolean(media.streamUid?.trim()) || /\.mp4($|\?)/i.test(media.src)
+}
+
+function validatePostMediaShape(post: RawPost, context: z.RefinementCtx) {
+  const mediaKinds = post.media.map((item) => isVideoMediaSource(item))
+
+  if (post.type === "image" && mediaKinds.some(Boolean)) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Image posts cannot include video media.",
+      path: ["media"],
+    })
+  }
+
+  if (post.type === "video" && mediaKinds.some((isVideo) => !isVideo)) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Video posts must use video media sources.",
+      path: ["media"],
+    })
+  }
+
+  if (post.type === "carousel" && post.media.length < 2) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Carousel posts must contain at least two media items.",
+      path: ["media"],
+    })
+  }
+}
+
 const rawMediaSchema = z
   .object({
     src: z.string().min(1),
-    alt: z.string(),
+    alt: z.string().trim().min(1),
     poster: z.string().optional(),
+    streamUid: z.string().trim().min(1).optional(),
+    streamDelivery: z.enum(["hls", "mp4"]).optional(),
   })
   .strict()
 
@@ -36,6 +72,7 @@ const rawPostSchema = z
     genre: z.string().nullable().optional(),
   })
   .strict()
+  .superRefine(validatePostMediaShape)
 
 const rawFeedPayloadSchema = z
   .object({
@@ -76,7 +113,15 @@ export function validateFeedPayload(payload: unknown): RawFeedPayload {
     return result.data
   }
 
-  console.error("[feed-service:validation]", result.error)
+  reportRuntimeIssue({
+    error: result.error,
+    level: "error",
+    message: "Feed payload validation failed.",
+    metadata: {
+      issueCount: result.error.issues.length,
+    },
+    scope: "feed-service",
+  })
   throw new Error("Format feed tidak valid.")
 }
 

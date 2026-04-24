@@ -10,6 +10,7 @@ const STORAGE_NAMESPACE = "ineedsocial:study"
 const ACTIVE_SESSION_KEY = `${STORAGE_NAMESPACE}:active-session`
 const FEED_SNAPSHOT_SUFFIX = "feed-session"
 const TUTORIAL_STATE_SUFFIX = "tutorial"
+const VIDEO_AUDIO_PREFERENCE_SUFFIX = "video-audio-preference"
 let hasWarnedStorageFallback = false
 
 export type TutorialState = {
@@ -27,6 +28,10 @@ export type FeedSessionSnapshot = {
   hasSubmitted: boolean
   submissionHasError: boolean
   submissionMessage: string | null
+}
+
+export type VideoAudioPreference = {
+  muted: boolean
 }
 
 function buildInteractionKey(sessionId: string, kind: InteractionKind) {
@@ -48,6 +53,12 @@ function createDefaultTutorialState(): TutorialState {
   }
 }
 
+function createDefaultVideoAudioPreference(): VideoAudioPreference {
+  return {
+    muted: true,
+  }
+}
+
 function safeParse<T>(value: string | null, fallback: T): T {
   if (!value) {
     return fallback
@@ -65,6 +76,7 @@ function removeStudySessionData(storage: StorageLike, sessionId: string) {
   storage.removeItem(buildInteractionKey(sessionId, "reposted"))
   storage.removeItem(buildSessionScopedKey(sessionId, FEED_SNAPSHOT_SUFFIX))
   storage.removeItem(buildSessionScopedKey(sessionId, TUTORIAL_STATE_SUFFIX))
+  storage.removeItem(buildSessionScopedKey(sessionId, VIDEO_AUDIO_PREFERENCE_SUFFIX))
 }
 
 export function getSessionStorage(): StorageLike | null {
@@ -198,6 +210,39 @@ export function writeTutorialState(
   try {
     storage.setItem(
       buildSessionScopedKey(sessionId, TUTORIAL_STATE_SUFFIX),
+      JSON.stringify(value)
+    )
+  } catch {
+    // Storage can be unavailable in restricted environments.
+  }
+}
+
+export function readVideoAudioPreference(
+  storage: StorageLike | null,
+  sessionId: string
+): VideoAudioPreference {
+  if (!storage) {
+    return createDefaultVideoAudioPreference()
+  }
+
+  return safeParse(
+    storage.getItem(buildSessionScopedKey(sessionId, VIDEO_AUDIO_PREFERENCE_SUFFIX)),
+    createDefaultVideoAudioPreference()
+  )
+}
+
+export function writeVideoAudioPreference(
+  storage: StorageLike | null,
+  sessionId: string,
+  value: VideoAudioPreference
+) {
+  if (!storage) {
+    return
+  }
+
+  try {
+    storage.setItem(
+      buildSessionScopedKey(sessionId, VIDEO_AUDIO_PREFERENCE_SUFFIX),
       JSON.stringify(value)
     )
   } catch {
