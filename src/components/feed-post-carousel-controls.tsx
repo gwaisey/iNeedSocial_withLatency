@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Volume2, VolumeX } from "lucide-react"
 
 type MediaMuteButtonProps = {
   readonly isMuted: boolean
@@ -28,16 +28,18 @@ export function MediaMuteButton({
   onClick,
   postId,
 }: MediaMuteButtonProps) {
+  const Icon = isMuted ? VolumeX : Volume2
+
   return (
     <button
       aria-label={isMuted ? "Nyalakan suara" : "Matikan suara"}
-      className="absolute bottom-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-[10px] font-semibold text-white"
+      className="absolute bottom-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/55 text-white shadow-sm transition-transform active:scale-95"
       data-muted={isMuted ? "true" : "false"}
       data-testid={`mute-button-${postId}`}
       onClick={onClick}
       type="button"
     >
-      {isMuted ? "Mati" : "Nyala"}
+      <Icon aria-hidden="true" size={16} strokeWidth={2.4} />
     </button>
   )
 }
