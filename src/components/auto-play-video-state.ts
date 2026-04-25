@@ -256,23 +256,29 @@ export function shouldEarlyLoadNearViewport({
   )
 }
 
-export function shouldPromoteForwardPlaybackHandoff({
+export function shouldPromotePlaybackHandoff({
   isInViewport,
+  rootBottom,
   rootTop,
   scrollDirection,
+  targetBottom,
   targetTop,
   visibleFraction,
 }: {
   readonly isInViewport: boolean
+  readonly rootBottom: number
   readonly rootTop: number
   readonly scrollDirection: VideoScrollDirection
+  readonly targetBottom: number
   readonly targetTop: number
   readonly visibleFraction: number
 }) {
+  const isEnteringFromBelow = scrollDirection === "down" && targetTop >= rootTop
+  const isEnteringFromAbove = scrollDirection === "up" && targetBottom <= rootBottom
+
   return (
-    scrollDirection === "down" &&
     isInViewport &&
-    targetTop >= rootTop &&
+    (isEnteringFromBelow || isEnteringFromAbove) &&
     visibleFraction >= VIDEO_PLAY_HANDOFF_VISIBLE_RATIO
   )
 }

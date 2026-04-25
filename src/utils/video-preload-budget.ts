@@ -14,6 +14,7 @@ const MAX_AUTO_PRELOAD_VIDEOS = 4
 const MAX_BELOW_PRELOAD_DISTANCE_PX = 12000
 const MAX_ABOVE_PRELOAD_DISTANCE_PX = 900
 const registry = new Map<string, VideoPreloadCandidate>()
+let preferredPreloadDirection: Exclude<VideoPreloadDirection, "visible"> = "below"
 
 function getEligibleCandidates({
   direction,
@@ -37,19 +38,22 @@ function getEligibleCandidates({
 }
 
 function recomputeBudget() {
-  const belowCandidates = getEligibleCandidates({
-    direction: "below",
-    maxDistancePx: MAX_BELOW_PRELOAD_DISTANCE_PX,
+  const preferredCandidates = getEligibleCandidates({
+    direction: preferredPreloadDirection,
+    maxDistancePx:
+      preferredPreloadDirection === "below"
+        ? MAX_BELOW_PRELOAD_DISTANCE_PX
+        : MAX_ABOVE_PRELOAD_DISTANCE_PX,
+  })
+  const fallbackDirection = preferredPreloadDirection === "below" ? "above" : "below"
+  const fallbackCandidates = getEligibleCandidates({
+    direction: fallbackDirection,
+    maxDistancePx:
+      fallbackDirection === "below" ? MAX_BELOW_PRELOAD_DISTANCE_PX : MAX_ABOVE_PRELOAD_DISTANCE_PX,
   })
 
   const preloadRanks = new Map<string, number>(
-    (belowCandidates.length > 0
-      ? belowCandidates
-      : getEligibleCandidates({
-          direction: "above",
-          maxDistancePx: MAX_ABOVE_PRELOAD_DISTANCE_PX,
-        })
-    )
+    (preferredCandidates.length > 0 ? preferredCandidates : fallbackCandidates)
       .slice(0, MAX_AUTO_PRELOAD_VIDEOS)
       .map(([candidateId], index) => [candidateId, index])
   )
@@ -57,6 +61,16 @@ function recomputeBudget() {
   registry.forEach((candidate, candidateId) => {
     candidate.notify(preloadRanks.get(candidateId) ?? null)
   })
+}
+
+export function setVideoPreloadScrollDirection(direction: "down" | "none" | "up") {
+  const nextPreferredDirection = direction === "up" ? "above" : "below"
+  if (preferredPreloadDirection === nextPreferredDirection) {
+    return
+  }
+
+  preferredPreloadDirection = nextPreferredDirection
+  recomputeBudget()
 }
 
 export function registerVideoPreloadCandidate(
@@ -105,4 +119,5 @@ export function updateVideoPreloadCandidate(
 
 export function resetVideoPreloadBudgetForTests() {
   registry.clear()
+  preferredPreloadDirection = "below"
 }

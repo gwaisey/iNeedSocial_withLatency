@@ -1,7 +1,7 @@
 import { act, fireEvent, render, waitFor } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { AutoPlayVideo } from "./auto-play-video"
-import { resetCloudflareStreamWarmupState } from "./auto-play-video-stream-warmup"
+import { resetStreamWarmupState } from "./auto-play-video-stream-warmup"
 
 const hlsAttachMediaSpy = vi.fn()
 const hlsLoadSourceSpy = vi.fn()
@@ -100,7 +100,7 @@ describe("AutoPlayVideo", () => {
     HTMLMediaElement.prototype.play = originalPlay
     HTMLMediaElement.prototype.pause = originalPause
     HTMLMediaElement.prototype.load = originalLoad
-    resetCloudflareStreamWarmupState()
+    resetStreamWarmupState()
 
     if (typeof originalRequestVideoFrameCallback === "undefined") {
       Reflect.deleteProperty(HTMLVideoElement.prototype, "requestVideoFrameCallback")
@@ -306,79 +306,7 @@ describe("AutoPlayVideo", () => {
     expect(shell.style.aspectRatio).toBe("720 / 400")
   })
 
-  it("uses hls.js for Cloudflare Stream manifests when native HLS is unavailable", async () => {
-    vi.stubEnv("VITE_CLOUDFLARE_STREAM_CUSTOMER_CODE", "mjiwvs3h8hhcy2t8")
-    vi.spyOn(HTMLMediaElement.prototype, "canPlayType").mockReturnValue("")
-    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
-      bottom: 854,
-      height: 854,
-      left: 0,
-      right: 480,
-      toJSON: () => ({}),
-      top: 0,
-      width: 480,
-      x: 0,
-      y: 0,
-    } as DOMRect)
 
-    const { container } = render(
-      <AutoPlayVideo
-        className="video"
-        isMuted={true}
-        src="/content/videos/pinata.mp4"
-        streamDelivery="hls"
-        streamUid="dad0deb02906401e5950bfe6816fb4a4"
-      />
-    )
-
-    await waitFor(() => {
-      expect(hlsLoadSourceSpy).toHaveBeenCalledWith(
-        "https://customer-mjiwvs3h8hhcy2t8.cloudflarestream.com/dad0deb02906401e5950bfe6816fb4a4/manifest/video.m3u8"
-      )
-    })
-
-    expect(hlsAttachMediaSpy).toHaveBeenCalledWith(container.querySelector("video"))
-  })
-
-  it("warms Cloudflare Stream playback with preconnect links and a manifest fetch", async () => {
-    vi.stubEnv("VITE_CLOUDFLARE_STREAM_CUSTOMER_CODE", "mjiwvs3h8hhcy2t8")
-    vi.spyOn(HTMLMediaElement.prototype, "canPlayType").mockReturnValue("")
-
-    const fetchSpy = vi.fn().mockResolvedValue({ ok: true } as Response)
-    globalThis.fetch = fetchSpy as typeof fetch
-
-    render(
-      <AutoPlayVideo
-        className="video"
-        isMuted={true}
-        src="/content/videos/pinata.mp4"
-        streamDelivery="hls"
-        streamUid="dad0deb02906401e5950bfe6816fb4a4"
-      />
-    )
-
-    await waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
-        "https://customer-mjiwvs3h8hhcy2t8.cloudflarestream.com/dad0deb02906401e5950bfe6816fb4a4/manifest/video.m3u8",
-        {
-          cache: "force-cache",
-          credentials: "omit",
-          mode: "cors",
-        }
-      )
-    })
-
-    expect(
-      document.head.querySelector(
-        'link[rel="dns-prefetch"][href="https://customer-mjiwvs3h8hhcy2t8.cloudflarestream.com"]'
-      )
-    ).not.toBeNull()
-    expect(
-      document.head.querySelector(
-        'link[rel="preconnect"][href="https://customer-mjiwvs3h8hhcy2t8.cloudflarestream.com"]'
-      )
-    ).not.toBeNull()
-  })
 
   it("preconnects and attaches the next direct MP4 candidate without duplicate preload fetches", async () => {
     vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({

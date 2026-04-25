@@ -27,6 +27,10 @@ import {
   type Post,
   type ThemeMode,
 } from "../types/social"
+import {
+  getFeedScrollRoot,
+  setFeedScrollTop,
+} from "../utils/feed-scroll-container"
 
 const APP_VERSION = "with_latency"
 
@@ -394,7 +398,7 @@ export function FeedPage() {
       return
     }
 
-    scrollRef.current.scrollTop = 0
+    setFeedScrollTop(scrollRef.current, 0)
   }, [])
 
   useEffect(() => {
@@ -403,14 +407,14 @@ export function FeedPage() {
       return
     }
 
-    const root = scrollRef.current
     const target = completionCtaRef.current
 
-    if (!root || !target) {
+    if (!target) {
       setIsCompletionCtaVisible(false)
       return
     }
 
+    const root = getFeedScrollRoot(scrollRef.current)
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsCompletionCtaVisible(entry?.isIntersecting ?? false)
@@ -451,7 +455,7 @@ export function FeedPage() {
     <div className={`app-shell ${isDark ? "theme-dark" : ""}`}>
       <div
         ref={participantShellRef}
-        className="flex h-full w-full"
+        className="w-full lg:flex lg:h-full"
         data-testid="participant-shell"
       >
         <Sidebar

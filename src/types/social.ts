@@ -17,8 +17,6 @@ export type MediaItem = {
   src: string
   alt: string
   poster?: string   // video thumbnail
-  streamUid?: string
-  streamDelivery?: "hls" | "mp4"
 }
 
 export type PostType = "image" | "carousel" | "video"

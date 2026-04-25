@@ -3,6 +3,7 @@ import {
   getKnownVideoPosterDimensions,
   isDirectVideoFileSource,
 } from "./auto-play-video-config"
+import { getKnownProgressiveImageDimensions } from "./progressive-image-config"
 
 export type MediaSurfaceTokens = {
   placeholder: string
@@ -10,8 +11,8 @@ export type MediaSurfaceTokens = {
   surface: string
 }
 
-export function isVideoMedia(media?: Pick<MediaItem, "src" | "streamUid">) {
-  return Boolean(media?.streamUid?.trim()) || isDirectVideoFileSource(media?.src)
+export function isVideoMedia(media?: Pick<MediaItem, "src">) {
+  return isDirectVideoFileSource(media?.src)
 }
 
 export function getMediaSurfaceTokens(isDark: boolean): MediaSurfaceTokens {
@@ -44,6 +45,25 @@ export function buildKnownVideoAspectRatioHeight({
   }
 
   const dimensions = getKnownVideoPosterDimensions(src, poster)
+  if (!dimensions) {
+    return null
+  }
+
+  return (width * dimensions.height) / dimensions.width
+}
+
+export function buildKnownImageAspectRatioHeight({
+  src,
+  width,
+}: {
+  readonly src?: string
+  readonly width: number
+}) {
+  if (width <= 0) {
+    return null
+  }
+
+  const dimensions = getKnownProgressiveImageDimensions(src)
   if (!dimensions) {
     return null
   }

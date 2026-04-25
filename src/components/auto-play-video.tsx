@@ -12,7 +12,6 @@ import {
   getVideoPosterSource,
   isHlsManifestSource,
   isDirectVideoFileSource,
-  VIDEO_EARLY_LOAD_DISTANCE_PX,
   VIDEO_SOURCE_DETACH_GRACE_MS,
   VIDEO_SOURCE_IMMEDIATE_DETACH_DISTANCE_PX,
 } from "./auto-play-video-config"
@@ -27,7 +26,6 @@ import {
 import { syncVideoMutedState, useVideoReadinessState } from "./auto-play-video-readiness"
 import {
   preloadHlsRuntime,
-  useCloudflareStreamWarmup,
   useDirectVideoWarmup,
 } from "./auto-play-video-stream-warmup"
 import { getVideoPlaybackDecision } from "./auto-play-video-state"
@@ -46,8 +44,6 @@ type AutoPlayVideoProps = {
   readonly skeletonClassName?: string
   readonly scrollRootRef?: RefObject<HTMLElement | null>
   readonly src?: string
-  readonly streamDelivery?: "hls" | "mp4"
-  readonly streamUid?: string
 }
 
 function canUseNativeHlsPlayback(video: HTMLVideoElement) {
@@ -70,11 +66,9 @@ export function AutoPlayVideo({
   skeletonClassName = "",
   scrollRootRef,
   src,
-  streamDelivery,
-  streamUid,
 }: AutoPlayVideoProps) {
-  const resolvedSrc = getResolvedVideoSource(src, streamUid, streamDelivery)
-  const resolvedPoster = getVideoPosterSource(src, poster, streamUid)
+  const resolvedSrc = getResolvedVideoSource(src)
+  const resolvedPoster = getVideoPosterSource(src, poster)
   const hasVideoSource = Boolean(resolvedSrc)
   const preloadCandidateId = useId()
   const playbackCandidateId = useId()
@@ -187,20 +181,6 @@ export function AutoPlayVideo({
       isInViewport ||
       isVisible ||
       shouldPreloadNearbyForwardSource)
-  const shouldWarmCloudflareStream =
-    shouldMountVideo &&
-    isHlsManifestSource(resolvedSrc) &&
-    (canUseAutoPreload || isNearViewport || isInViewport || isVisible)
-  const shouldDeepPrebufferCloudflareStream =
-    autoPreloadRank === 0 &&
-    preloadDirection === "below" &&
-    !isInViewport &&
-    distanceToViewport <= VIDEO_EARLY_LOAD_DISTANCE_PX
-  useCloudflareStreamWarmup({
-    deepPrebuffer: shouldDeepPrebufferCloudflareStream,
-    enabled: shouldWarmCloudflareStream,
-    manifestUrl: resolvedSrc,
-  })
   useDirectVideoWarmup({
     enabled:
       shouldMountVideo &&

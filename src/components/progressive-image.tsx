@@ -1,4 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import {
+  buildProgressiveImageAspectRatio,
+  DEFAULT_PROGRESSIVE_IMAGE_ASPECT_RATIO,
+  getKnownProgressiveImageAspectRatio,
+  rememberProgressiveImageAspectRatio,
+} from "./progressive-image-config"
 
 type ProgressiveImageProps = {
   readonly alt: string
@@ -24,11 +30,24 @@ export function ProgressiveImage({
   const imageRef = useRef<HTMLImageElement | null>(null)
   const hasReportedLoadRef = useRef(false)
   const [hasLoadedImage, setHasLoadedImage] = useState(false)
+  const [aspectRatio, setAspectRatio] = useState(
+    () => getKnownProgressiveImageAspectRatio(src) ?? DEFAULT_PROGRESSIVE_IMAGE_ASPECT_RATIO
+  )
 
   const markImageReady = useCallback(
     (image: HTMLImageElement) => {
       if (!image.complete || image.naturalWidth === 0) {
         return
+      }
+
+      const knownAspectRatio = getKnownProgressiveImageAspectRatio(src)
+      const measuredAspectRatio = buildProgressiveImageAspectRatio(
+        image.naturalWidth,
+        image.naturalHeight
+      )
+      rememberProgressiveImageAspectRatio(src, measuredAspectRatio)
+      if (!knownAspectRatio && measuredAspectRatio) {
+        setAspectRatio(measuredAspectRatio)
       }
 
       setHasLoadedImage(true)
@@ -39,11 +58,12 @@ export function ProgressiveImage({
       hasReportedLoadRef.current = true
       onLoad?.(image)
     },
-    [onLoad]
+    [onLoad, src]
   )
 
   useEffect(() => {
     setHasLoadedImage(false)
+    setAspectRatio(getKnownProgressiveImageAspectRatio(src) ?? DEFAULT_PROGRESSIVE_IMAGE_ASPECT_RATIO)
     hasReportedLoadRef.current = false
   }, [src])
 
@@ -71,7 +91,8 @@ export function ProgressiveImage({
 
   return (
     <div
-      className={`relative overflow-hidden ${placeholderClassName} ${shellClassName} ${hasLoadedImage ? "" : "aspect-[4/5]"}`}
+      className={`relative overflow-hidden ${placeholderClassName} ${shellClassName}`}
+      style={{ aspectRatio }}
     >
       {!hasLoadedImage && (
         <div className={`absolute inset-0 skeleton ${skeletonClassName} ${placeholderClassName}`} />

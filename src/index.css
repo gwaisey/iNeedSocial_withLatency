@@ -60,12 +60,22 @@ img {
 
 /* ─── App Shell ─────────────────────────────────────────── */
 .app-shell {
-  display: flex;
-  /* Exact viewport height so main-content can scroll properly */
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
+  display: block;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: visible;
   background: linear-gradient(180deg, #f7f4fb 0%, #ebe7f6 100%);
+}
+
+@media (min-width: 1024px) {
+  .app-shell {
+    display: flex;
+    /* Exact viewport height so main-content can scroll properly on desktop. */
+    height: 100vh;
+    height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+  }
 }
 
 .app-shell.theme-dark {
@@ -92,17 +102,21 @@ img {
 
 /* Main content area */
 .main-content {
-  flex: 1;
-  min-width: 0;
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: visible;
 }
 
 @media (min-width: 1024px) {
   .main-content {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
     margin-left: 280px;
     margin-right: 320px;
+    overflow-y: auto;
   }
 }
 
@@ -189,9 +203,7 @@ img {
 }
 
 /* ─── Scroll Barrier (X/Twitter style) ─────────────────── */
-/* Collapse semua post SETELAH skeleton pertama ke tinggi 0.
-   Skeleton pertama tetap terlihat agar user tahu ada konten lagi.
-   Saat skeleton ter-reveal, selector otomatis bergeser. */
+/* Collapse semua post SETELAH skeleton pertama ke tinggi 0. */
 .feed-post-item:has(> .feed-post-shell[data-revealed="false"]) ~ .feed-post-item {
   height: 0;
   min-height: 0;
@@ -272,4 +284,9 @@ img {
 .skeleton-dark {
   background: linear-gradient(90deg, rgba(245, 244, 251, 0.08) 25%, rgba(245, 244, 251, 0.16) 50%, rgba(245, 244, 251, 0.08) 75%);
   background-size: 800px 100%;
+}
+
+.video-skeleton {
+  background: #050505;
+  border-radius: 0;
 }

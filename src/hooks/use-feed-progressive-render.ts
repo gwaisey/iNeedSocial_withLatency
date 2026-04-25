@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState, type RefObject } from "react"
 import type { Post } from "../types/social"
+import {
+  addFeedScrollListener,
+  getFeedScrollMetrics,
+} from "../utils/feed-scroll-container"
 
 type ScrollContainerRef = RefObject<HTMLDivElement | null>
 
@@ -50,8 +54,9 @@ export function useFeedProgressiveRender({
     let animationFrameId: number | null = null
 
     const maybeLoadMore = () => {
-      const targetBottom = container.scrollTop + container.clientHeight + LOAD_MORE_OFFSET_PX
-      const missingHeight = targetBottom - container.scrollHeight
+      const metrics = getFeedScrollMetrics(container)
+      const targetBottom = metrics.scrollTop + metrics.clientHeight + LOAD_MORE_OFFSET_PX
+      const missingHeight = targetBottom - metrics.scrollHeight
 
       if (missingHeight <= 0) {
         return
@@ -81,17 +86,17 @@ export function useFeedProgressiveRender({
     }
 
     maybeLoadMore()
-    container.addEventListener("scroll", scheduleLoadMoreCheck, { passive: true })
+    const removeFeedScrollListener = addFeedScrollListener(container, scheduleLoadMoreCheck)
     window.addEventListener("resize", scheduleLoadMoreCheck)
 
     return () => {
-      container.removeEventListener("scroll", scheduleLoadMoreCheck)
+      removeFeedScrollListener()
       window.removeEventListener("resize", scheduleLoadMoreCheck)
       if (animationFrameId !== null) {
         window.cancelAnimationFrame(animationFrameId)
       }
     }
-  }, [isFeedReady, posts, scrollRef, visibleCount])
+  }, [isFeedReady, posts, scrollRef])
 
   const visiblePosts = useMemo(
     () => (posts ? posts.slice(0, visibleCount) : []),

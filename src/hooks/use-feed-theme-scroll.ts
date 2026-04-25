@@ -1,5 +1,11 @@
 import { useCallback, useLayoutEffect, useRef, type RefObject } from "react"
 import type { ThemeMode } from "../types/social"
+import {
+  adjustFeedScrollTop,
+  getFeedScrollTop,
+  getFeedViewportRect,
+  setFeedScrollTop,
+} from "../utils/feed-scroll-container"
 
 type ScrollContainerRef = RefObject<HTMLDivElement | null>
 type HeaderRef = RefObject<HTMLDivElement | null>
@@ -40,14 +46,14 @@ export function useFeedThemeScroll({
       return null
     }
 
-    const containerRect = container.getBoundingClientRect()
-    const headerHeight = headerRef.current?.getBoundingClientRect().height ?? 0
+    const containerRect = getFeedViewportRect(container)
+    const headerBottom = headerRef.current?.getBoundingClientRect().bottom ?? containerRect.top
 
     return {
       container,
       containerRect,
       viewportBottom: containerRect.bottom,
-      viewportTop: containerRect.top + headerHeight,
+      viewportTop: Math.max(containerRect.top, headerBottom),
     }
   }, [headerRef, scrollRef])
 
@@ -106,7 +112,7 @@ export function useFeedThemeScroll({
 
     return {
       anchor: captureScrollAnchor(),
-      scrollTop: container.scrollTop,
+      scrollTop: getFeedScrollTop(container),
       theme: themeMode,
     }
   }, [captureScrollAnchor, scrollRef, themeMode])
@@ -119,7 +125,7 @@ export function useFeedThemeScroll({
       }
 
       if (!preferAnchor) {
-        container.scrollTop = scrollState.scrollTop
+        setFeedScrollTop(container, scrollState.scrollTop)
       }
 
       if (scrollState.anchor) {
@@ -134,7 +140,7 @@ export function useFeedThemeScroll({
           const delta = elementRect.top - viewportMetrics.viewportTop - scrollState.anchor.offset
 
           if (Math.abs(delta) > 0.5) {
-            container.scrollTop += delta
+            adjustFeedScrollTop(container, delta)
           }
 
           return true
@@ -142,7 +148,7 @@ export function useFeedThemeScroll({
       }
 
       if (preferAnchor) {
-        container.scrollTop = scrollState.scrollTop
+        setFeedScrollTop(container, scrollState.scrollTop)
       }
 
       return true

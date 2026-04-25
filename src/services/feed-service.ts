@@ -19,8 +19,8 @@ type RawFeedPayload = {
   posts: RawPost[]
 }
 
-function isVideoMediaSource(media: Pick<MediaItem, "src" | "streamUid">) {
-  return Boolean(media.streamUid?.trim()) || /\.mp4($|\?)/i.test(media.src)
+function isVideoMediaSource(media: Pick<MediaItem, "src">) {
+  return /\.mp4($|\?)/i.test(media.src)
 }
 
 function validatePostMediaShape(post: RawPost, context: z.RefinementCtx) {
@@ -56,8 +56,6 @@ const rawMediaSchema = z
     src: z.string().min(1),
     alt: z.string().trim().min(1),
     poster: z.string().optional(),
-    streamUid: z.string().trim().min(1).optional(),
-    streamDelivery: z.enum(["hls", "mp4"]).optional(),
   })
   .strict()
 

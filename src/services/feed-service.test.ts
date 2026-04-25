@@ -111,22 +111,20 @@ describe("feed-service helpers", () => {
     ).toThrow("Format feed tidak valid.")
   })
 
-  it("allows video posts backed by a Cloudflare Stream uid", () => {
+  it("allows video posts backed by a local mp4 file", () => {
     expect(() =>
       validateFeedPayload({
         posts: [
           {
-            id: "post-stream-video",
+            id: "post-local-video",
             type: "video",
             username: "uji",
             likes: "10",
             caption: "uji",
             media: [
               {
-                src: "/content/files/placeholder.jpg",
+                src: "/content/videos/pinata.mp4",
                 alt: "uji",
-                streamDelivery: "mp4",
-                streamUid: "dad0deb02906401e5950bfe6816fb4a4",
               },
             ],
             genre: "humor",

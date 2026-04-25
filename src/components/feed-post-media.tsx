@@ -11,6 +11,7 @@ import {
 import { ProgressiveImage } from "./progressive-image"
 import {
   buildKnownVideoAspectRatioHeight,
+  buildKnownImageAspectRatioHeight,
   buildVideoAspectRatioHeight,
   buildImageAspectRatioHeight,
   getMediaSurfaceTokens,
@@ -41,8 +42,6 @@ function FeedVideoSurface({
   onPosterLoad,
   scrollRootRef,
   shellClassName,
-  streamUid,
-  streamDelivery,
 }: {
   readonly canPrewarm?: boolean
   readonly className: string
@@ -53,8 +52,6 @@ function FeedVideoSurface({
   readonly onPosterLoad?: (image: HTMLImageElement) => void
   readonly scrollRootRef?: RefObject<HTMLElement | null>
   readonly shellClassName?: string
-  readonly streamDelivery?: FeedMediaItem["streamDelivery"]
-  readonly streamUid?: string
 }) {
   return (
     <AutoPlayVideo
@@ -70,8 +67,6 @@ function FeedVideoSurface({
       shellClassName={shellClassName}
       skeletonClassName={VIDEO_SKELETON_CLASS}
       src={media?.src}
-      streamDelivery={streamDelivery ?? media?.streamDelivery}
-      streamUid={streamUid ?? media?.streamUid}
     />
   )
 }
@@ -177,7 +172,7 @@ function FeedPostCarouselMedia({
           poster: item.poster,
           src: item.src,
           width,
-        })
+        }) ?? buildKnownImageAspectRatioHeight({ src: item.src, width })
 
         if (knownHeight !== null) {
           updateSlideHeight(index, knownHeight)

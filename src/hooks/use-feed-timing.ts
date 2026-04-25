@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react"
 import type { GenreKey, GenreTimes, Post } from "../types/social"
+import {
+  addFeedScrollListener,
+  getFeedViewportRect,
+} from "../utils/feed-scroll-container"
 
 type ScrollContainerRef = RefObject<HTMLDivElement | null>
 type HeaderRef = RefObject<HTMLDivElement | null>
@@ -104,7 +108,7 @@ export function useFeedTiming({
       return null
     }
 
-    const containerRect = container.getBoundingClientRect()
+    const containerRect = getFeedViewportRect(container)
     const headerBottom = headerRef.current?.getBoundingClientRect().bottom ?? containerRect.top
     const viewportTop = Math.max(containerRect.top, headerBottom)
     const viewportBottom = containerRect.bottom
@@ -194,11 +198,11 @@ export function useFeedTiming({
     }
 
     scheduleActivePostEvaluation()
-    container.addEventListener("scroll", handlePositionChange, { passive: true })
+    const removeFeedScrollListener = addFeedScrollListener(container, handlePositionChange)
     window.addEventListener("resize", handlePositionChange)
 
     return () => {
-      container.removeEventListener("scroll", handlePositionChange)
+      removeFeedScrollListener()
       window.removeEventListener("resize", handlePositionChange)
 
       if (evaluationFrameRef.current !== null) {
