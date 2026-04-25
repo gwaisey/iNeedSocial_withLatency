@@ -8,7 +8,7 @@ import {
   shouldEarlyLoadNearViewport,
   shouldEnsureViewportData,
   shouldForceAutoPreload,
-  shouldPromoteForwardPlaybackHandoff,
+  shouldPromotePlaybackHandoff,
 } from "./auto-play-video-state"
 
 describe("auto-play video state", () => {
@@ -280,43 +280,63 @@ describe("auto-play video state", () => {
     ).toBe(false)
   })
 
-  it("promotes the next partially visible video only during downward scroll handoff", () => {
+  it("promotes the next partially visible video in the current scroll direction", () => {
     expect(
-      shouldPromoteForwardPlaybackHandoff({
+      shouldPromotePlaybackHandoff({
         isInViewport: true,
+        rootBottom: 800,
         rootTop: 0,
         scrollDirection: "down",
+        targetBottom: 920,
         targetTop: 620,
         visibleFraction: 0.18,
       })
     ).toBe(true)
 
     expect(
-      shouldPromoteForwardPlaybackHandoff({
+      shouldPromotePlaybackHandoff({
         isInViewport: true,
+        rootBottom: 800,
         rootTop: 0,
         scrollDirection: "down",
+        targetBottom: 920,
         targetTop: 620,
         visibleFraction: 0.1,
       })
     ).toBe(false)
 
     expect(
-      shouldPromoteForwardPlaybackHandoff({
+      shouldPromotePlaybackHandoff({
         isInViewport: true,
+        rootBottom: 800,
         rootTop: 0,
         scrollDirection: "up",
-        targetTop: 620,
+        targetBottom: 180,
+        targetTop: -120,
+        visibleFraction: 0.18,
+      })
+    ).toBe(true)
+
+    expect(
+      shouldPromotePlaybackHandoff({
+        isInViewport: true,
+        rootBottom: 800,
+        rootTop: 0,
+        scrollDirection: "down",
+        targetBottom: 180,
+        targetTop: -120,
         visibleFraction: 0.4,
       })
     ).toBe(false)
 
     expect(
-      shouldPromoteForwardPlaybackHandoff({
+      shouldPromotePlaybackHandoff({
         isInViewport: true,
+        rootBottom: 800,
         rootTop: 0,
-        scrollDirection: "down",
-        targetTop: -120,
+        scrollDirection: "up",
+        targetBottom: 920,
+        targetTop: 620,
         visibleFraction: 0.4,
       })
     ).toBe(false)
