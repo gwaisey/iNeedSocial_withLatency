@@ -4,6 +4,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  useContext,
   type RefObject,
   type SyntheticEvent,
 } from "react"
@@ -30,6 +31,7 @@ import {
 } from "./auto-play-video-stream-warmup"
 import { getVideoPlaybackDecision } from "./auto-play-video-state"
 import { useMountedVideoViewportState } from "./auto-play-video-viewport"
+import { RevealContext } from "./feed/feed-page-ui"
 
 type AutoPlayVideoProps = {
   readonly className: string
@@ -72,6 +74,7 @@ export function AutoPlayVideo({
   const hasVideoSource = Boolean(resolvedSrc)
   const preloadCandidateId = useId()
   const playbackCandidateId = useId()
+  const isRevealed = useContext(RevealContext)
   const shellRef = useRef<HTMLDivElement | null>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const loadIssueContextRef = useRef({
@@ -489,8 +492,8 @@ export function AutoPlayVideo({
       return
     }
 
-    syncVideoMutedState(video, isMuted)
-  }, [isMuted])
+    syncVideoMutedState(video, isMuted || !hasLoadedFrame || !isRevealed)
+  }, [isMuted, hasLoadedFrame, isRevealed])
 
   useEffect(() => {
     const video = videoRef.current
@@ -553,7 +556,7 @@ export function AutoPlayVideo({
         return
       }
 
-      syncVideoMutedState(video, isMuted)
+      syncVideoMutedState(video, isMuted || !hasLoadedFrame || !isRevealed)
     })
 
     playPromise.catch((error) => {
@@ -597,7 +600,7 @@ export function AutoPlayVideo({
     >
       {!hasLoadedFrame && (
         <div
-          className={`absolute inset-0 ${shouldMountVideo ? "" : "skeleton"} ${skeletonClassName} ${placeholderClassName}`}
+          className={`absolute inset-0 skeleton ${skeletonClassName} ${placeholderClassName}`}
         />
       )}
       {resolvedPoster && !hasLoadedFrame && (

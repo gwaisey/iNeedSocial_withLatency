@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { createContext, useContext, useEffect, useRef, useState } from "react"
 import { getProgressiveLatency } from "../../config/latency"
+
+export const RevealContext = createContext<boolean>(true)
 
 export function ExitSessionDialog({
   onCancel,
@@ -151,7 +153,9 @@ export function RevealPost({
       data-revealed={revealed}
       {...(tutorialId ? { "data-tutorial-id": tutorialId } : {})}
     >
-      {children}
+      <RevealContext.Provider value={revealed}>
+        {children}
+      </RevealContext.Provider>
     </div>
   )
 }
