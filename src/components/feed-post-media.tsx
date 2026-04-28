@@ -250,7 +250,7 @@ function FeedPostCarouselMedia({
         )}
       </div>
 
-      {mediaHasVideo && (
+      {mediaHasVideo && isVideoMedia(media[activeIdx]) && (
         <MediaMuteButton isMuted={isMuted} onClick={onToggleMute} postId={post.id} />
       )}
 

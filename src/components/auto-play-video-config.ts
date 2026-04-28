@@ -31,8 +31,7 @@ function buildAspectRatio(width: number, height: number) {
 }
 
 export function getNormalizedVideoSource(src?: string) {
-  const normalizedSrc = src?.trim()
-  return normalizedSrc ? normalizedSrc : undefined
+  return src?.trim() ? src.trim() : undefined
 }
 
 export function isDirectVideoFileSource(src?: string) {
