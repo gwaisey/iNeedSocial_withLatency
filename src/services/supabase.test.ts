@@ -23,6 +23,12 @@ const payload: SessionReportPayload = {
   makanan_ms: 500,
   olahraga_ms: 0,
   game_ms: 0,
+  humor_count: 3,
+  berita_count: 1,
+  wisata_count: 0,
+  makanan_count: 1,
+  olahraga_count: 0,
+  game_count: 0,
   app_version: "without_latency",
 }
 

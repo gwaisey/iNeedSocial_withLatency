@@ -1,4 +1,4 @@
-import type { GenreTimes, SessionReportPayload } from "../types/social"
+import type { GenreCounts, GenreTimes, SessionReportPayload } from "../types/social"
 
 export type InteractionState = Record<string, boolean>
 
@@ -23,6 +23,8 @@ export type FeedSessionStatus = "active" | "ended"
 export type FeedSessionSnapshot = {
   status: FeedSessionStatus
   genreTimes: GenreTimes
+  genreCounts: GenreCounts
+  seenPostIds: string[]
   finalizedGenreTimes: GenreTimes | null
   finalReport: SessionReportPayload | null
   hasSubmitted: boolean

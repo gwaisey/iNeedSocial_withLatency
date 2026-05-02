@@ -12,6 +12,7 @@ export const GENRE_KEYS = [
 export type GenreKey = (typeof GENRE_KEYS)[number]
 
 export type GenreTimes = Record<GenreKey, number>
+export type GenreCounts = Record<GenreKey, number>
 
 export type MediaItem = {
   src: string
@@ -48,5 +49,11 @@ export type SessionReportPayload = {
   makanan_ms: number
   olahraga_ms: number
   game_ms: number
+  humor_count: number
+  berita_count: number
+  wisata_count: number
+  makanan_count: number
+  olahraga_count: number
+  game_count: number
   app_version: string
 }

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, type RefObject } from "react"
 import { getSupabaseStatusMessage } from "../services/supabase"
 import type { FeedSessionStatus } from "../context/study-session-storage"
 import type { Post } from "../types/social"
-import { createEmptyGenreTimes } from "../utils/feed-session"
+import { createEmptyGenreCounts, createEmptyGenreTimes } from "../utils/feed-session"
 import { useFeedSessionActions } from "./use-feed-session-actions"
 import { useFeedSessionSnapshot } from "./use-feed-session-snapshot"
 import { useFeedTiming } from "./use-feed-timing"
@@ -45,7 +45,9 @@ export function useFeedSession({
 
   const timing = useFeedTiming({
     headerRef,
+    initialGenreCounts: snapshot.restoredSnapshot?.genreCounts ?? createEmptyGenreCounts(),
     initialGenreTimes: snapshot.restoredSnapshot?.genreTimes ?? createEmptyGenreTimes(),
+    initialSeenPostIds: new Set(snapshot.restoredSnapshot?.seenPostIds ?? []),
     isLocked: Boolean(snapshot.finalReport),
     isPaused,
     posts,
@@ -61,8 +63,10 @@ export function useFeedSession({
       return snapshot.persistSnapshot({
         finalizedGenreTimes: options.finalizedGenreTimes,
         finalReport: options.finalReport,
+        genreCounts: timing.genreCountsRef.current,
         genreTimes: nextGenreTimes,
         hasSubmitted: options.hasSubmitted,
+        seenPostIds: Array.from(timing.seenPostIdsRef.current),
         status: options.status,
         submissionHasError: options.submissionHasError,
         submissionMessage: options.submissionMessage,
@@ -136,10 +140,15 @@ export function useFeedSession({
     finalReportRef: snapshot.finalReportRef,
     finalizeAttributedTiming: timing.finalizeAttributedTiming,
     finalizedGenreTimesRef: snapshot.finalizedGenreTimesRef,
+    genreCountsRef: timing.genreCountsRef,
     genreTimesRef: timing.genreTimesRef,
     hasSubmittedRef: snapshot.hasSubmittedRef,
     sessionStatusRef: snapshot.sessionStatusRef,
-    persistSessionSnapshot: (options) => snapshot.persistSnapshot(options),
+    persistSessionSnapshot: (options) => snapshot.persistSnapshot({
+      ...options,
+      genreCounts: timing.genreCountsRef.current,
+      seenPostIds: Array.from(timing.seenPostIdsRef.current),
+    }),
     setFinalReport: snapshot.setFinalReport,
     setFinalizedGenreTimes: snapshot.setFinalizedGenreTimes,
     setSessionStatus: snapshot.setSessionStatus,

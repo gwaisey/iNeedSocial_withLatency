@@ -6,13 +6,15 @@ import {
   type FeedSessionStatus,
   type FeedSessionSnapshot,
 } from "../context/study-session-storage"
-import type { GenreTimes, SessionReportPayload } from "../types/social"
+import type { GenreCounts, GenreTimes, SessionReportPayload } from "../types/social"
 
 type PersistFeedSessionSnapshotArgs = {
   finalizedGenreTimes?: GenreTimes | null
   finalReport?: SessionReportPayload | null
+  genreCounts: GenreCounts
   genreTimes: GenreTimes
   hasSubmitted?: boolean
+  seenPostIds: string[]
   status?: FeedSessionStatus
   submissionHasError?: boolean
   submissionMessage?: string | null
@@ -82,8 +84,10 @@ export function useFeedSessionSnapshot({
     ({
       finalizedGenreTimes: nextFinalizedGenreTimes = finalizedGenreTimesRef.current,
       finalReport: nextFinalReport = finalReportRef.current,
+      genreCounts,
       genreTimes,
       hasSubmitted = hasSubmittedRef.current,
+      seenPostIds,
       status = sessionStatusRef.current,
       submissionHasError: nextSubmissionHasError = submissionHasErrorRef.current,
       submissionMessage: nextSubmissionMessage = submissionMessageRef.current,
@@ -95,6 +99,8 @@ export function useFeedSessionSnapshot({
       const snapshot: FeedSessionSnapshot = {
         status,
         genreTimes,
+        genreCounts,
+        seenPostIds,
         finalizedGenreTimes: nextFinalizedGenreTimes,
         finalReport: nextFinalReport,
         hasSubmitted,

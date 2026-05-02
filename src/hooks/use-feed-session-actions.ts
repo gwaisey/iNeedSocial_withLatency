@@ -8,7 +8,7 @@ import {
 } from "react"
 import type { FeedSessionStatus } from "../context/study-session-storage"
 import { saveSessionData } from "../services/supabase"
-import type { GenreTimes, SessionReportPayload } from "../types/social"
+import type { GenreCounts, GenreTimes, SessionReportPayload } from "../types/social"
 import { getUserFacingErrorMessage } from "../utils/error-utils"
 import { buildSessionReport } from "../utils/feed-session"
 
@@ -27,6 +27,7 @@ type UseFeedSessionActionsArgs = {
   finalReportRef: MutableRefObject<SessionReportPayload | null>
   finalizeAttributedTiming: () => GenreTimes
   finalizedGenreTimesRef: MutableRefObject<GenreTimes | null>
+  genreCountsRef: MutableRefObject<GenreCounts>
   genreTimesRef: MutableRefObject<GenreTimes>
   hasSubmittedRef: MutableRefObject<boolean>
   sessionStatusRef: MutableRefObject<FeedSessionStatus>
@@ -46,6 +47,7 @@ export function useFeedSessionActions({
   finalReportRef,
   finalizeAttributedTiming,
   finalizedGenreTimesRef,
+  genreCountsRef,
   genreTimesRef,
   hasSubmittedRef,
   sessionStatusRef,
@@ -68,7 +70,7 @@ export function useFeedSessionActions({
       : finalizeAttributedTiming()
     const report =
       finalReportRef.current ??
-      buildSessionReport(studySessionId, nextGenreTimes, appVersion)
+      buildSessionReport(studySessionId, nextGenreTimes, genreCountsRef.current, appVersion)
 
     if (!finalReportRef.current) {
       finalizedGenreTimesRef.current = nextGenreTimes
@@ -153,6 +155,7 @@ export function useFeedSessionActions({
     finalReportRef,
     finalizeAttributedTiming,
     finalizedGenreTimesRef,
+    genreCountsRef,
     genreTimesRef,
     hasSubmittedRef,
     sessionStatusRef,

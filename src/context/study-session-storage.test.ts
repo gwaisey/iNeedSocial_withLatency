@@ -15,7 +15,7 @@ import {
   writeVideoAudioPreference,
   type StorageLike,
 } from "./study-session-storage"
-import { createEmptyGenreTimes } from "../utils/feed-session"
+import { createEmptyGenreCounts, createEmptyGenreTimes } from "../utils/feed-session"
 
 function createMemoryStorage(): StorageLike {
   const storage = new Map<string, string>()
@@ -73,6 +73,8 @@ describe("study session storage", () => {
     writeFeedSessionSnapshot(storage, sessionId, {
       status: "active",
       genreTimes,
+      genreCounts: createEmptyGenreCounts(),
+      seenPostIds: [],
       finalizedGenreTimes: null,
       finalReport: null,
       hasSubmitted: false,
@@ -104,6 +106,8 @@ describe("study session storage", () => {
     writeFeedSessionSnapshot(storage, firstSessionId, {
       status: "ended",
       genreTimes: createEmptyGenreTimes(),
+      genreCounts: createEmptyGenreCounts(),
+      seenPostIds: [],
       finalizedGenreTimes: null,
       finalReport: null,
       hasSubmitted: true,
@@ -134,6 +138,8 @@ describe("study session storage", () => {
     writeFeedSessionSnapshot(storage, sessionId, {
       status: "ended",
       genreTimes: createEmptyGenreTimes(),
+      genreCounts: createEmptyGenreCounts(),
+      seenPostIds: [],
       finalizedGenreTimes: null,
       finalReport: null,
       hasSubmitted: false,
@@ -155,6 +161,8 @@ describe("study session storage", () => {
     writeFeedSessionSnapshot(storage, sessionId, {
       status: "active",
       genreTimes: createEmptyGenreTimes(),
+      genreCounts: createEmptyGenreCounts(),
+      seenPostIds: [],
       finalizedGenreTimes: null,
       finalReport: null,
       hasSubmitted: false,
