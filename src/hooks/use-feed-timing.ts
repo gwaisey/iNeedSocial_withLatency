@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react"
-import type { GenreKey, GenreTimes, Post } from "../types/social"
+import type { GenreCounts, GenreKey, GenreTimes, Post } from "../types/social"
 import {
   addFeedScrollListener,
   getFeedViewportRect,
@@ -10,7 +10,9 @@ type HeaderRef = RefObject<HTMLDivElement | null>
 
 type UseFeedTimingArgs = {
   headerRef: HeaderRef
+  initialGenreCounts: GenreCounts
   initialGenreTimes: GenreTimes
+  initialSeenPostIds: Set<string>
   isLocked: boolean
   isPaused: boolean
   posts: Post[] | null
@@ -21,15 +23,20 @@ const REGULAR_POST_SELECTOR = "[data-regular-post-id]"
 
 export function useFeedTiming({
   headerRef,
+  initialGenreCounts,
   initialGenreTimes,
+  initialSeenPostIds,
   isLocked,
   isPaused,
   posts,
   scrollRef,
 }: UseFeedTimingArgs) {
   const [genreTimes, setGenreTimes] = useState<GenreTimes>(initialGenreTimes)
+  const [genreCounts, setGenreCounts] = useState<GenreCounts>(initialGenreCounts)
   const genreMapRef = useRef<Map<string, GenreKey>>(new Map())
   const genreTimesRef = useRef<GenreTimes>(genreTimes)
+  const genreCountsRef = useRef<GenreCounts>(genreCounts)
+  const seenPostIdsRef = useRef<Set<string>>(initialSeenPostIds)
   const activePostIdRef = useRef<string | null>(null)
   const activePostStartedAtRef = useRef<number | null>(null)
   const pendingActiveStartedAtRef = useRef<number | null>(null)
@@ -38,6 +45,10 @@ export function useFeedTiming({
   useEffect(() => {
     genreTimesRef.current = genreTimes
   }, [genreTimes])
+
+  useEffect(() => {
+    genreCountsRef.current = genreCounts
+  }, [genreCounts])
 
   const commitActivePostDuration = useCallback((now = Date.now()) => {
     const activePostId = activePostIdRef.current
@@ -175,6 +186,21 @@ export function useFeedTiming({
         commitActivePostDuration(now)
       }
 
+      // Track unique post views per genre for content count analytics.
+      // A post is counted once when it first becomes the dominant post.
+      if (!seenPostIdsRef.current.has(nextPostId)) {
+        seenPostIdsRef.current.add(nextPostId)
+        const nextPostGenre = genreMapRef.current.get(nextPostId)
+        if (nextPostGenre) {
+          const nextGenreCounts = {
+            ...genreCountsRef.current,
+            [nextPostGenre]: genreCountsRef.current[nextPostGenre] + 1,
+          }
+          genreCountsRef.current = nextGenreCounts
+          setGenreCounts(nextGenreCounts)
+        }
+      }
+
       activePostIdRef.current = nextPostId
       activePostStartedAtRef.current = currentPostId
         ? now
@@ -215,8 +241,11 @@ export function useFeedTiming({
   return {
     commitActivePostDuration,
     finalizeAttributedTiming,
+    genreCounts,
+    genreCountsRef,
     genreTimes,
     genreTimesRef,
     scheduleActivePostEvaluation,
+    seenPostIdsRef,
   }
 }

@@ -1,4 +1,4 @@
-import type { GenreKey, GenreTimes, SessionReportPayload } from "../types/social"
+import type { GenreKey, GenreCounts, GenreTimes, SessionReportPayload } from "../types/social"
 
 export const GENRE_DISPLAY_ORDER: GenreKey[] = [
   "humor",
@@ -26,6 +26,17 @@ export type DisplayedGenreBreakdownRow = {
 }
 
 export function createEmptyGenreTimes(): GenreTimes {
+  return {
+    humor: 0,
+    berita: 0,
+    wisata: 0,
+    makanan: 0,
+    olahraga: 0,
+    game: 0,
+  }
+}
+
+export function createEmptyGenreCounts(): GenreCounts {
   return {
     humor: 0,
     berita: 0,
@@ -90,6 +101,7 @@ export function buildDisplayedGenreBreakdown(
 export function buildSessionReport(
   sessionId: string,
   genreTimes: GenreTimes,
+  genreCounts: GenreCounts,
   appVersion: string
 ): SessionReportPayload {
   return {
@@ -102,6 +114,12 @@ export function buildSessionReport(
     makanan_ms: genreTimes.makanan,
     olahraga_ms: genreTimes.olahraga,
     game_ms: genreTimes.game,
+    humor_count: genreCounts.humor,
+    berita_count: genreCounts.berita,
+    wisata_count: genreCounts.wisata,
+    makanan_count: genreCounts.makanan,
+    olahraga_count: genreCounts.olahraga,
+    game_count: genreCounts.game,
     app_version: appVersion,
   }
 }
