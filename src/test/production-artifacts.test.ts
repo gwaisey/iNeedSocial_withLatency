@@ -16,8 +16,6 @@ describe("production artifacts", () => {
     const robotsTxt = readRepoFile("public", "robots.txt")
 
     expect(indexHtml).toContain('name="robots" content="noindex, nofollow"')
-    expect(indexHtml).toContain("https://sgp.cloud.appwrite.io")
-    expect(indexHtml).not.toContain("r2.dev")
     expect(indexHtml).not.toContain("Grace")
     expect(robotsTxt).toContain("User-agent: *")
     expect(robotsTxt).toContain("Disallow: /")

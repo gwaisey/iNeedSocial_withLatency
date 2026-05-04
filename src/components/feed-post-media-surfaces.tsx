@@ -16,8 +16,6 @@ export function FeedVideoSurface({
   onPosterLoad,
   scrollRootRef,
   shellClassName,
-  streamUid,
-  streamDelivery,
   tokens,
 }: {
   readonly canPrewarm?: boolean
@@ -29,8 +27,6 @@ export function FeedVideoSurface({
   readonly onPosterLoad?: (image: HTMLImageElement) => void
   readonly scrollRootRef?: RefObject<HTMLElement | null>
   readonly shellClassName?: string
-  readonly streamDelivery?: FeedMediaItem["streamDelivery"]
-  readonly streamUid?: string
   readonly tokens: MediaSurfaceTokens
 }) {
   return (
@@ -47,8 +43,6 @@ export function FeedVideoSurface({
       shellClassName={shellClassName}
       skeletonClassName={`${VIDEO_SKELETON_CLASS} ${tokens.skeletonTone}`}
       src={media?.src}
-      streamDelivery={streamDelivery ?? media?.streamDelivery}
-      streamUid={streamUid ?? media?.streamUid}
     />
   )
 }

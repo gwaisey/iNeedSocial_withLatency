@@ -9,10 +9,12 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "export:all-sessions": "node ./scripts/export-all-sessions.mjs",
+    "verify:session-export": "node ./scripts/verify-session-export.mjs",
     "generate:image-dimensions": "node ./scripts/generate-image-dimensions.mjs",
     "generate:video-posters": "node ./scripts/generate-video-posters.mjs",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:preview": "npm run build && playwright test -c playwright.preview.config.ts"
   },
   "keywords": [],
   "author": "",
@@ -47,7 +49,6 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.0",
-    "hls.js": "^1.6.16",
     "lucide-react": "^0.577.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

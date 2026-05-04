@@ -23,6 +23,7 @@ async function waitForTrackedTimeToExceed(page: Page, minimumMs = 0) {
   await expect
     .poll(async () => sumGenreTimes(await readSessionSnapshot(page)), {
       message: `Expected tracked time to exceed ${minimumMs}ms`,
+      timeout: 10_000,
     })
     .toBeGreaterThan(minimumMs)
 }

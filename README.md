@@ -11,7 +11,7 @@ iNeedSocial adalah aplikasi web React + TypeScript + Vite yang mensimulasikan fe
 | Styling | Tailwind CSS v3 |
 | Ikon | Lucide React |
 | Build tool | Vite 6 |
-| Data | Feed JSON lokal + media video Appwrite Storage + penyimpanan sesi opsional ke Supabase |
+| Data | Feed JSON lokal + media video Cloudflare R2 public origin + penyimpanan sesi opsional ke Supabase |
 
 ## Kebutuhan
 
@@ -56,6 +56,12 @@ Menjalankan smoke test browser:
 npm run test:e2e
 ```
 
+Menjalankan smoke test preview build (mobile fast-scroll media):
+
+```bash
+npm run test:e2e:preview
+```
+
 Pratinjau hasil build:
 
 ```bash
@@ -70,10 +76,7 @@ Salin `.env.example` menjadi `.env` untuk pengembangan lokal. Untuk deployment p
 
 ```bash
 VITE_FEED_SOURCE=mock
-VITE_APPWRITE_ENDPOINT=https://sgp.cloud.appwrite.io/v1
-VITE_APPWRITE_PROJECT_ID=69f22cb20001f8be28b3
-VITE_APPWRITE_BUCKET_ID=69f2b4dd002f17ed5c64
-VITE_CLOUDFLARE_STREAM_CUSTOMER_CODE=
+VITE_VIDEO_PUBLIC_BASE_URL=https://pub-xxxxxxxx.r2.dev
 VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
@@ -85,9 +88,10 @@ VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 
 Jika `VITE_FEED_SOURCE` kosong atau tidak valid, aplikasi otomatis kembali ke `mock`. Route `/api/feed` tidak disediakan di repo ini, sehingga mode `api` tetap membutuhkan backend eksternal.
 
-`VITE_APPWRITE_ENDPOINT`, `VITE_APPWRITE_PROJECT_ID`, dan `VITE_APPWRITE_BUCKET_ID` mengarahkan video feed ke Appwrite Storage. Repo ini sudah punya default bawaan di kode, jadi env hanya diperlukan kalau Anda ingin override konfigurasi itu di deployment tertentu.
+`VITE_VIDEO_PUBLIC_BASE_URL` adalah asal utama video feed. Aplikasi akan memetakan path lokal `public/content/videos-default/*` menjadi URL absolut berbentuk `${VITE_VIDEO_PUBLIC_BASE_URL}/content/videos-default/*`.
+Gunakan URL origin public R2 (misalnya `https://pub-xxxxxxxx.r2.dev`) agar browser bisa melakukan range request (`206 Partial Content`) untuk autoplay yang lebih cepat.
 
-`VITE_CLOUDFLARE_STREAM_CUSTOMER_CODE` bersifat opsional dan hanya dipertahankan sebagai fallback legacy untuk media yang memiliki `streamUid`. Jika video Appwrite tersedia, aplikasi akan memprioritaskan sumber MP4 langsung dari Appwrite.
+Jika `VITE_VIDEO_PUBLIC_BASE_URL` tidak diisi, build produksi akan memakai origin public R2 default yang tertanam di kode, sedangkan mode pengembangan lokal tetap menggunakan path lokal `public/content/videos-default/*`.
 
 Jika variabel Supabase frontend belum diisi atau tidak valid, aplikasi tetap bisa berjalan. Status penyimpanan sesi akan tetap ditampilkan secara non-blocking di halaman terima kasih.
 
@@ -195,9 +199,10 @@ public/
   sw.js
 scripts/
   export-all-sessions.mjs
+  verify-session-export.mjs
 ```
 
-Media video saat ini dipetakan dari `public/content/videos-default/*` ke Appwrite Storage melalui konfigurasi env frontend. Cloudflare Stream tetap dipertahankan sebagai fallback legacy untuk post yang membawa `streamUid`, tetapi bukan jalur utama.
+Media video saat ini dipetakan dari `public/content/videos-default/*` ke Cloudflare R2 public origin melalui `VITE_VIDEO_PUBLIC_BASE_URL`, atau ke origin public R2 default yang tertanam di build produksi bila env ini kosong.
 
 ## Catatan
 
@@ -224,3 +229,41 @@ Setelah deploy ke production:
 6. Pastikan status save menampilkan kondisi sukses atau retry yang jelas.
 7. Verifikasi satu baris baru masuk ke `feed_sessions`.
 8. Verifikasi client anonim tidak bisa melakukan `SELECT`, `UPDATE`, atau `DELETE` ke `feed_sessions` setelah migrasi RLS diterapkan.
+
+## Checklist Siap Produksi (Release Gate)
+
+Jalankan urutan berikut untuk signoff:
+
+```bash
+npm run lint
+npm run test
+npm run build
+npm run test:e2e
+npm run test:e2e:preview
+npm run verify:session-export
+```
+
+`verify:session-export` akan:
+
+- menjalankan satu sesi disposable nyata lewat browser preview,
+- submit sesi ke backend yang aktif,
+- mengekspor workbook sesi,
+- memverifikasi integritas baris `session_id` tersebut.
+
+Kriteria lulus:
+
+- semua perintah di atas sukses tanpa error,
+- `test:e2e:preview` tidak menemukan console `error`,
+- untuk sesi disposable, hanya satu video aktif yang memegang playback pada saat scroll cepat,
+- output `VERIFY_SESSION_EXPORT_RESULT` bernilai `"passed": true`,
+- `total_time` sama dengan jumlah semua `*_ms`,
+- semua `*_count` bernilai non-negatif,
+- `*_count` di workbook sama dengan snapshot kategori akhir di aplikasi.
+
+Aturan interpretasi kegagalan:
+
+- Kegagalan yang konsisten (reproducible) pada command di atas adalah **blocking** untuk deploy.
+- Kegagalan acak satu kali boleh diulang satu kali; jika ulangannya bersih, lanjutkan.
+- Jika pola flaky berulang pada area media/scroll/session-save, anggap **blocking** sampai sumbernya ditemukan.
+
+Stop condition (siap deploy): semua gate lulus pada satu pass penuh tanpa defect blocking terbuka.

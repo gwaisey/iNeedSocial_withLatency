@@ -1,28 +1,10 @@
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { AutoPlayVideo } from "./auto-play-video"
-import { resetCloudflareStreamWarmupState } from "./auto-play-video-stream-warmup"
+import { resetVideoWarmupState } from "./auto-play-video-warmup"
 import { resetVideoPlaybackCoordinatorForTests } from "./video-playback-coordinator"
 import { resetVideoPreloadBudgetForTests } from "../utils/video-preload-budget"
-
-const hlsAttachMediaSpy = vi.fn()
-const hlsLoadSourceSpy = vi.fn()
-const hlsDestroySpy = vi.fn()
 const intersectionObserverInstances: IntersectionObserver[] = []
-
-vi.mock("hls.js", () => {
-  class MockHls {
-    static isSupported = vi.fn(() => true)
-
-    attachMedia = hlsAttachMediaSpy
-    destroy = hlsDestroySpy
-    loadSource = hlsLoadSourceSpy
-  }
-
-  return {
-    default: MockHls,
-  }
-})
 
 class MockIntersectionObserver implements IntersectionObserver {
   readonly root: Element | Document | null
@@ -93,9 +75,7 @@ describe("AutoPlayVideo", () => {
 
     intersectionObserverInstances.length = 0
     window.IntersectionObserver = MockIntersectionObserver
-    vi.stubEnv("VITE_APPWRITE_ENDPOINT", "https://sgp.cloud.appwrite.io/v1")
-    vi.stubEnv("VITE_APPWRITE_PROJECT_ID", "69f22cb20001f8be28b3")
-    vi.stubEnv("VITE_APPWRITE_BUCKET_ID", "69f2b4dd002f17ed5c64")
+    vi.stubEnv("VITE_VIDEO_PUBLIC_BASE_URL", "https://pub-media-example.r2.dev")
     HTMLMediaElement.prototype.play = vi.fn().mockResolvedValue(undefined)
     HTMLMediaElement.prototype.pause = vi.fn()
     HTMLMediaElement.prototype.load = vi.fn()
@@ -112,7 +92,7 @@ describe("AutoPlayVideo", () => {
     HTMLMediaElement.prototype.play = originalPlay
     HTMLMediaElement.prototype.pause = originalPause
     HTMLMediaElement.prototype.load = originalLoad
-    resetCloudflareStreamWarmupState()
+    resetVideoWarmupState()
 
     if (typeof originalRequestVideoFrameCallback === "undefined") {
       Reflect.deleteProperty(HTMLVideoElement.prototype, "requestVideoFrameCallback")
@@ -140,9 +120,6 @@ describe("AutoPlayVideo", () => {
       globalThis.fetch = originalFetch
     }
 
-    hlsAttachMediaSpy.mockReset()
-    hlsDestroySpy.mockReset()
-    hlsLoadSourceSpy.mockReset()
   })
 
   it("does not render a video element when src is missing", () => {
@@ -341,39 +318,6 @@ describe("AutoPlayVideo", () => {
     })
   })
 
-  it("uses hls.js for Cloudflare Stream manifests when native HLS is unavailable", async () => {
-    vi.stubEnv("VITE_CLOUDFLARE_STREAM_CUSTOMER_CODE", "mjiwvs3h8hhcy2t8")
-    vi.spyOn(HTMLMediaElement.prototype, "canPlayType").mockReturnValue("")
-    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
-      bottom: 854,
-      height: 854,
-      left: 0,
-      right: 480,
-      toJSON: () => ({}),
-      top: 0,
-      width: 480,
-      x: 0,
-      y: 0,
-    } as DOMRect)
-
-    const { container } = render(
-      <AutoPlayVideo
-        className="video"
-        isMuted={true}
-        streamDelivery="hls"
-        streamUid="dad0deb02906401e5950bfe6816fb4a4"
-      />
-    )
-
-    await waitFor(() => {
-      expect(hlsLoadSourceSpy).toHaveBeenCalledWith(
-        "https://customer-mjiwvs3h8hhcy2t8.cloudflarestream.com/dad0deb02906401e5950bfe6816fb4a4/manifest/video.m3u8"
-      )
-    })
-
-    expect(hlsAttachMediaSpy).toHaveBeenCalledWith(container.querySelector("video"))
-  })
-
   it("ignores interrupted autoplay promises without leaking an unhandled rejection", async () => {
     const autoplayError = new Error("The play() request was interrupted by a call to pause().")
     autoplayError.name = "AbortError"
@@ -406,45 +350,6 @@ describe("AutoPlayVideo", () => {
     expect(consoleWarnSpy).not.toHaveBeenCalled()
   })
 
-  it("warms Cloudflare Stream playback with preconnect links and a manifest fetch", async () => {
-    vi.stubEnv("VITE_CLOUDFLARE_STREAM_CUSTOMER_CODE", "mjiwvs3h8hhcy2t8")
-    vi.spyOn(HTMLMediaElement.prototype, "canPlayType").mockReturnValue("")
-
-    const fetchSpy = vi.fn().mockResolvedValue({ ok: true } as Response)
-    globalThis.fetch = fetchSpy as typeof fetch
-
-    render(
-      <AutoPlayVideo
-        className="video"
-        isMuted={true}
-        streamDelivery="hls"
-        streamUid="dad0deb02906401e5950bfe6816fb4a4"
-      />
-    )
-
-    await waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
-        "https://customer-mjiwvs3h8hhcy2t8.cloudflarestream.com/dad0deb02906401e5950bfe6816fb4a4/manifest/video.m3u8",
-        {
-          cache: "force-cache",
-          credentials: "omit",
-          mode: "cors",
-        }
-      )
-    })
-
-    expect(
-      document.head.querySelector(
-        'link[rel="dns-prefetch"][href="https://customer-mjiwvs3h8hhcy2t8.cloudflarestream.com"]'
-      )
-    ).not.toBeNull()
-    expect(
-      document.head.querySelector(
-        'link[rel="preconnect"][href="https://customer-mjiwvs3h8hhcy2t8.cloudflarestream.com"]'
-      )
-    ).not.toBeNull()
-  })
-
   it("preconnects and attaches the next direct MP4 candidate without duplicate preload fetches", async () => {
     vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
       bottom: 2_236,
@@ -475,11 +380,10 @@ describe("AutoPlayVideo", () => {
       expect(container.querySelector("video")).not.toBeNull()
     })
 
-    const appwritePinataUrl =
-      "https://sgp.cloud.appwrite.io/v1/storage/buckets/69f2b4dd002f17ed5c64/files/pinata/view?project=69f22cb20001f8be28b3"
+    const r2PinataUrl = "https://pub-media-example.r2.dev/content/videos-default/pinata.mp4"
 
     await waitFor(() => {
-      expect(container.querySelector("video")?.getAttribute("src")).toBe(appwritePinataUrl)
+      expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
     })
 
     expect(fetchSpy).not.toHaveBeenCalled()
@@ -517,11 +421,10 @@ describe("AutoPlayVideo", () => {
       <AutoPlayVideo className="video" isMuted={true} src="/content/videos-default/pinata.mp4" />
     )
 
-    const appwritePinataUrl =
-      "https://sgp.cloud.appwrite.io/v1/storage/buckets/69f2b4dd002f17ed5c64/files/pinata/view?project=69f22cb20001f8be28b3"
+    const r2PinataUrl = "https://pub-media-example.r2.dev/content/videos-default/pinata.mp4"
 
     await waitFor(() => {
-      expect(container.querySelector("video")?.getAttribute("src")).toBe(appwritePinataUrl)
+      expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
     })
 
     vi.useFakeTimers()
@@ -545,21 +448,21 @@ describe("AutoPlayVideo", () => {
       await Promise.resolve()
     })
 
-    expect(container.querySelector("video")?.getAttribute("src")).toBe(appwritePinataUrl)
+    expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
 
     await act(async () => {
       vi.advanceTimersByTime(4_499)
       await Promise.resolve()
     })
 
-    expect(container.querySelector("video")?.getAttribute("src")).toBe(appwritePinataUrl)
+    expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
 
     await act(async () => {
       vi.advanceTimersByTime(1)
       await Promise.resolve()
     })
 
-    expect(container.querySelector("video")?.getAttribute("src")).toBe(appwritePinataUrl)
+    expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
 
     rect = {
       bottom: -15_000,

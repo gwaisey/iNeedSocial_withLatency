@@ -8,15 +8,10 @@ import {
   type RefObject,
   type SetStateAction,
 } from "react"
-import type {
-  VideoPreloadDirection,
-  VideoPreloadRank,
-} from "../utils/video-preload-budget"
+import type { VideoPreloadRank } from "../utils/video-preload-budget"
 import {
   isDirectVideoFileSource,
-  isHlsManifestSource,
   VIDEO_AGGRESSIVE_AUTO_LOAD_MAX_RANK,
-  VIDEO_EARLY_LOAD_DISTANCE_PX,
   VIDEO_SOURCE_DETACH_GRACE_MS,
   VIDEO_SOURCE_IMMEDIATE_DETACH_DISTANCE_PX,
 } from "./auto-play-video-config"
@@ -24,11 +19,7 @@ import {
   reportVideoLoadIssue,
   useVideoSourceLifecycleReset,
 } from "./auto-play-video-lifecycle"
-import {
-  preloadHlsRuntime,
-  useCloudflareStreamWarmup,
-  useDirectVideoWarmup,
-} from "./auto-play-video-stream-warmup"
+import { useDirectVideoWarmup } from "./auto-play-video-warmup"
 
 export type VideoLoadIssueContext = {
   distanceToViewport: number
@@ -50,20 +41,12 @@ type UseAutoPlayVideoSourceArgs = {
   isVisible: boolean
   lastReportedLoadIssueRef: MutableRefObject<string | null>
   loadIssueContextRef: MutableRefObject<VideoLoadIssueContext>
-  preloadDirection: VideoPreloadDirection
   resolvedSrc?: string
   setAutoPreloadRank: Dispatch<SetStateAction<VideoPreloadRank>>
   setIsPlaybackOwner: Dispatch<SetStateAction<boolean>>
   setShouldMountVideo: Dispatch<SetStateAction<boolean>>
   shouldMountVideo: boolean
   videoRef: RefObject<HTMLVideoElement | null>
-}
-
-function canUseNativeHlsPlayback(video: HTMLVideoElement) {
-  return Boolean(
-    video.canPlayType("application/vnd.apple.mpegurl") ||
-      video.canPlayType("application/x-mpegURL")
-  )
 }
 
 export function useAutoPlayVideoSource({
@@ -78,7 +61,6 @@ export function useAutoPlayVideoSource({
   isVisible,
   lastReportedLoadIssueRef,
   loadIssueContextRef,
-  preloadDirection,
   resolvedSrc,
   setAutoPreloadRank,
   setIsPlaybackOwner,
@@ -110,36 +92,17 @@ export function useAutoPlayVideoSource({
     (isInViewport ||
       isPlaybackVisible ||
       (autoPreloadRank !== null && autoPreloadRank <= VIDEO_AGGRESSIVE_AUTO_LOAD_MAX_RANK))
-  const shouldKeepAttachedSource =
-    hasAttachedSource &&
-    (isInViewport || isVisible || canUseAutoPreload)
+  const shouldKeepAttachedSource = hasAttachedSource && (isInViewport || isVisible || canUseAutoPreload)
 
   const shouldRenderVideoSource =
     hasVideoSource &&
     shouldMountVideo &&
-    (shouldKeepAttachedSource ||
-      canUseAutoPreload ||
-      isInViewport ||
-      isVisible)
+    (shouldKeepAttachedSource || canUseAutoPreload || isInViewport || isVisible)
 
   useLayoutEffect(() => {
     shouldAggressivelyLoadSourceRef.current = shouldAggressivelyLoadSource
   }, [shouldAggressivelyLoadSource])
 
-  const shouldWarmCloudflareStream =
-    shouldMountVideo &&
-    isHlsManifestSource(resolvedSrc) &&
-    (canUseAutoPreload || isNearViewport || isInViewport || isVisible)
-  const shouldDeepPrebufferCloudflareStream =
-    autoPreloadRank === 0 &&
-    preloadDirection === "below" &&
-    !isInViewport &&
-    distanceToViewport <= VIDEO_EARLY_LOAD_DISTANCE_PX
-  useCloudflareStreamWarmup({
-    deepPrebuffer: shouldDeepPrebufferCloudflareStream,
-    enabled: shouldWarmCloudflareStream,
-    manifestUrl: resolvedSrc,
-  })
   useDirectVideoWarmup({
     enabled:
       shouldMountVideo &&
@@ -250,112 +213,51 @@ export function useAutoPlayVideoSource({
       return
     }
 
-    let cancelled = false
-
-    const bindDirectSource = () => {
-      const shouldAutoLoadNow = shouldAggressivelyLoadSourceRef.current
-      hasIssuedVisibleLoadHintRef.current = false
-      video.preload = shouldAutoLoadNow ? "auto" : "metadata"
-      video.src = resolvedSrc
-      if (
-        isDirectVideoFileSource(resolvedSrc) &&
-        shouldAutoLoadNow &&
-        video.readyState === 0
-      ) {
-        hasIssuedLoadHintRef.current = true
-        try {
-          video.load()
-        } catch {
-          // Ignore browsers that disallow load() in certain lifecycle moments.
-        }
-      }
-      setHasConnectedPlaybackSource(true)
-      sourceCleanupRef.current = () => {
-        video.pause()
-        video.removeAttribute("src")
-        try {
-          video.load()
-        } catch {
-          // Ignore browsers that complain about detaching the current source.
-        }
-      }
-    }
-
     sourceCleanupRef.current?.()
     sourceCleanupRef.current = null
     setHasConnectedPlaybackSource(false)
 
-    if (!isHlsManifestSource(resolvedSrc) || canUseNativeHlsPlayback(video)) {
-      bindDirectSource()
-    } else {
-      void preloadHlsRuntime()
-        .then(({ default: Hls }) => {
-          if (cancelled) {
-            return
-          }
+    if (!isDirectVideoFileSource(resolvedSrc)) {
+      const context = loadIssueContextRef.current
+      reportVideoLoadIssue({
+        distanceToViewport: context.distanceToViewport,
+        error: new Error("Video source is not a direct MP4 file."),
+        isActive: context.isActive,
+        isInViewport: context.isInViewport,
+        isMuted: context.isMuted,
+        isVisible: context.isVisible,
+        lastReportedIssueRef: lastReportedLoadIssueRef,
+        src: resolvedSrc,
+        stage: context.isVisible ? "viewport" : context.isInViewport ? "near-viewport" : "prewarm",
+      })
+      return
+    }
 
-          if (!Hls.isSupported()) {
-            const context = loadIssueContextRef.current
-            reportVideoLoadIssue({
-              distanceToViewport: context.distanceToViewport,
-              error: new Error("HLS playback is not supported by this browser."),
-              isActive: context.isActive,
-              isInViewport: context.isInViewport,
-              isMuted: context.isMuted,
-              isVisible: context.isVisible,
-              lastReportedIssueRef: lastReportedLoadIssueRef,
-              src: resolvedSrc,
-              stage: context.isVisible
-                ? "viewport"
-                : context.isInViewport
-                  ? "near-viewport"
-                  : "prewarm",
-            })
-            return
-          }
+    const shouldAutoLoadNow = shouldAggressivelyLoadSourceRef.current
+    hasIssuedVisibleLoadHintRef.current = false
+    video.preload = shouldAutoLoadNow ? "auto" : "metadata"
+    video.src = resolvedSrc
+    if (shouldAutoLoadNow && video.readyState === 0) {
+      hasIssuedLoadHintRef.current = true
+      try {
+        video.load()
+      } catch {
+        // Ignore browsers that disallow load() in certain lifecycle moments.
+      }
+    }
 
-          const hls = new Hls()
-          hls.loadSource(resolvedSrc)
-          hls.attachMedia(video)
-
-          setHasConnectedPlaybackSource(true)
-          sourceCleanupRef.current = () => {
-            hls.destroy()
-            video.pause()
-            video.removeAttribute("src")
-            try {
-              video.load()
-            } catch {
-              // Ignore browsers that complain while clearing the detached media element.
-            }
-          }
-        })
-        .catch((error: unknown) => {
-          if (cancelled) {
-            return
-          }
-
-          const context = loadIssueContextRef.current
-          reportVideoLoadIssue({
-            distanceToViewport: context.distanceToViewport,
-            error,
-            isActive: context.isActive,
-            isInViewport: context.isInViewport,
-            isMuted: context.isMuted,
-            isVisible: context.isVisible,
-            lastReportedIssueRef: lastReportedLoadIssueRef,
-            src: resolvedSrc,
-            stage: context.isVisible
-              ? "viewport"
-              : context.isInViewport
-                ? "near-viewport"
-                : "prewarm",
-          })
-        })
+    setHasConnectedPlaybackSource(true)
+    sourceCleanupRef.current = () => {
+      video.pause()
+      video.removeAttribute("src")
+      try {
+        video.load()
+      } catch {
+        // Ignore browsers that complain about detaching the current source.
+      }
     }
 
     return () => {
-      cancelled = true
       setHasConnectedPlaybackSource(false)
       sourceCleanupRef.current?.()
       sourceCleanupRef.current = null

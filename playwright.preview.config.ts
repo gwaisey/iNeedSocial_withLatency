@@ -2,24 +2,24 @@ import { defineConfig, devices } from "@playwright/test"
 
 export default defineConfig({
   testDir: "./tests/e2e",
-  testIgnore: /feed-preview-media\.spec\.ts/,
+  testMatch: /feed-preview-media\.spec\.ts/,
   timeout: 45_000,
   workers: 1,
   use: {
-    baseURL: "http://127.0.0.1:4174",
+    baseURL: "http://127.0.0.1:4175",
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npm run dev -- --host 127.0.0.1 --port 4174 --mode e2e",
-    port: 4174,
+    command: "npm run preview -- --host 127.0.0.1 --port 4175",
+    port: 4175,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
   projects: [
     {
-      name: "chromium",
+      name: "mobile-chromium",
       use: {
-        ...devices["Desktop Chrome"],
+        ...devices["Pixel 7"],
       },
     },
   ],

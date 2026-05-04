@@ -8,7 +8,7 @@ iNeedSocial adalah aplikasi React single-page untuk studi berbasis feed. Alur pe
 /splash -> /welcome -> /feed -> /thank-you
 ```
 
-Aplikasi ini bersifat mock-first. Feed dasar berasal dari `public/content/feed.json`, sesi peserta disimpan secara opsional ke Supabase, dan media video utama sekarang dipetakan ke Appwrite Storage sebagai sumber MP4 langsung. Cloudflare Stream masih ada sebagai fallback legacy untuk post yang membawa `streamUid`.
+Aplikasi ini bersifat mock-first. Feed dasar berasal dari `public/content/feed.json`, sesi peserta disimpan secara opsional ke Supabase, dan media video utama dipetakan ke Cloudflare R2 public origin sebagai sumber MP4 langsung.
 
 ## Struktur Runtime
 
@@ -33,12 +33,13 @@ File utama:
 - `src/pages/feed-page.tsx` mengorkestrasi layout feed, loading state, tutorial, tema, dan scroll restoration.
 - `src/components/app-error-boundary.tsx` menangkap crash render/runtime tak terduga di level aplikasi.
 - `src/components/auto-play-video.tsx` mengelola mount, preload, autoplay, poster, dan readiness video.
-- `src/components/auto-play-video-config.ts` memilih sumber media Appwrite/Cloudflare, poster, dan aspect ratio.
+- `src/components/auto-play-video-config.ts` menormalkan sumber MP4, memetakan ke media origin publik, serta menentukan poster dan aspect ratio.
 - `src/components/auto-play-video-source.ts` menangani warmup, attach/detach source, dan load hints.
 - `src/utils/runtime-monitoring.ts` menyimpan buffer diagnostik lokal untuk error dan rejection yang tidak tertangani.
 - `src/services/feed-service.ts` memilih sumber data feed berdasarkan env, memvalidasi payload, lalu menormalisasi data.
 - `src/services/supabase.ts` memvalidasi konfigurasi Supabase frontend dan menyimpan satu ringkasan sesi secara idempoten berdasarkan `session_id`.
 - `scripts/export-all-sessions.mjs` adalah jalur ekspor admin lokal untuk seluruh data sesi menggunakan service-role key privat.
+- `scripts/verify-session-export.mjs` menjalankan verifikasi disposable live session + integritas hasil ekspor workbook.
 - `src/context/study-context.tsx` menyimpan state suka, repost, dan session id aktif dengan namespace berbasis sesi studi.
 - `src/context/study-session-storage.ts` menyimpan interaksi, progres tutorial, dan snapshot timer/feed di `sessionStorage`.
 - `src/types/social.ts` berisi tipe feed, genre, dan payload sesi.
@@ -129,8 +130,8 @@ Interaksi feed ringan disimpan terpisah dari payload durasi sesi:
 
 ### Video
 
-- Sumber lokal `/content/videos/*` dipetakan ke Appwrite Storage melalui env frontend.
-- Cloudflare Stream tetap tersedia sebagai fallback legacy untuk post yang punya `streamUid`.
+- Sumber lokal `/content/videos/*` dinormalisasi ke `/content/videos-default/*`.
+- Path lokal tersebut dipetakan ke media origin publik (`VITE_VIDEO_PUBLIC_BASE_URL`) atau default origin R2 di build produksi.
 - Visibilitas dipantau dengan `IntersectionObserver` dan subscription scroll yang sama.
 - Video hanya autoplay saat terlihat.
 - Video di carousel hanya autoplay pada slide aktif.
@@ -200,6 +201,8 @@ Repo menyediakan quality gate minimum berikut:
 - `npm run lint`
 - `npm run test`
 - `npm run test:e2e`
+- `npm run test:e2e:preview`
+- `npm run verify:session-export`
 
 Pengujian saat ini berfokus pada:
 
@@ -210,4 +213,6 @@ Pengujian saat ini berfokus pada:
 - retry dan idempotensi penyimpanan sesi,
 - playback media video, poster, dan carousel,
 - smoke flow browser untuk refresh sesi feed dan state error feed,
+- stress preview build (mobile fast scroll) untuk kepemilikan playback video aktif tunggal,
+- verifikasi integritas baris sesi hasil export (`total_time`, `*_ms`, `*_count`) pada session disposable,
 - artifact produksi dan metadata deploy.

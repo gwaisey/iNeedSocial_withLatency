@@ -25,28 +25,19 @@ export const VIDEO_VIEWPORT_INTERSECTION_THRESHOLDS = [
 const learnedVideoAspectRatios = new Map<string, string>()
 const DEFAULT_VIDEO_SOURCE_PREFIX = "/content/videos-default/"
 const LEGACY_VIDEO_SOURCE_PREFIX = "/content/videos/"
-const DEFAULT_APPWRITE_ENDPOINT = "https://sgp.cloud.appwrite.io/v1"
-const DEFAULT_APPWRITE_PROJECT_ID = "69f22cb20001f8be28b3"
-const DEFAULT_APPWRITE_BUCKET_ID = "69f2b4dd002f17ed5c64"
+const DEFAULT_PUBLIC_VIDEO_BASE_URL = "https://pub-d618661628e3497397ad6ab54d430ff8.r2.dev"
 
-function getCloudflareStreamCustomerCode() {
-  const customerCode = import.meta.env.VITE_CLOUDFLARE_STREAM_CUSTOMER_CODE?.trim()
-  return customerCode ? customerCode : undefined
-}
+function getVideoPublicBaseUrl() {
+  const baseUrl = import.meta.env.VITE_VIDEO_PUBLIC_BASE_URL?.trim()
+  if (baseUrl) {
+    return baseUrl.replace(/\/$/, "")
+  }
 
-function getAppwriteBucketId() {
-  const bucketId = import.meta.env.VITE_APPWRITE_BUCKET_ID?.trim() ?? DEFAULT_APPWRITE_BUCKET_ID
-  return bucketId ? bucketId : undefined
-}
+  if (import.meta.env.PROD) {
+    return DEFAULT_PUBLIC_VIDEO_BASE_URL
+  }
 
-function getAppwriteEndpoint() {
-  const endpoint = import.meta.env.VITE_APPWRITE_ENDPOINT?.trim() ?? DEFAULT_APPWRITE_ENDPOINT
-  return endpoint ? endpoint.replace(/\/$/, "") : undefined
-}
-
-function getAppwriteProjectId() {
-  const projectId = import.meta.env.VITE_APPWRITE_PROJECT_ID?.trim() ?? DEFAULT_APPWRITE_PROJECT_ID
-  return projectId ? projectId : undefined
+  return undefined
 }
 
 function buildAspectRatio(width: number, height: number) {
@@ -74,62 +65,41 @@ function normalizeLocalVideoSource(src?: string) {
   return normalizedSrc
 }
 
-export function getNormalizedVideoSource(src?: string) {
-  let normalizedSrc = normalizeLocalVideoSource(src)
+function getPublicVideoSource(src?: string) {
+  const normalizedSrc = normalizeLocalVideoSource(src)
+  const publicBaseUrl = getVideoPublicBaseUrl()
+  if (!normalizedSrc?.startsWith(DEFAULT_VIDEO_SOURCE_PREFIX) || !publicBaseUrl) {
+    return undefined
+  }
 
-  const appwriteSrc = getAppwriteVideoSource(normalizedSrc)
-  if (appwriteSrc) {
-    normalizedSrc = appwriteSrc
+  return `${publicBaseUrl}${normalizedSrc}`
+}
+
+export function getNormalizedVideoSource(src?: string) {
+  const normalizedSrc = normalizeLocalVideoSource(src)
+  const publicSrc = getPublicVideoSource(normalizedSrc)
+  if (publicSrc) {
+    return publicSrc
   }
 
   return normalizedSrc ? normalizedSrc : undefined
 }
 
-export function getAppwriteStorageOrigin() {
-  const endpoint = getAppwriteEndpoint()
-  if (!endpoint) {
+export function getVideoPublicOrigin() {
+  const baseUrl = getVideoPublicBaseUrl()
+  if (!baseUrl) {
     return undefined
   }
 
   try {
-    return new URL(endpoint).origin
+    return new URL(baseUrl).origin
   } catch {
     return undefined
   }
 }
 
-export function getAppwriteVideoSource(src?: string) {
-  const normalizedSrc = normalizeLocalVideoSource(src)
-  if (!normalizedSrc?.startsWith(DEFAULT_VIDEO_SOURCE_PREFIX)) {
-    return undefined
-  }
-
-  const endpoint = getAppwriteEndpoint()
-  const bucketId = getAppwriteBucketId()
-  const projectId = getAppwriteProjectId()
-  if (!endpoint || !bucketId || !projectId) {
-    return undefined
-  }
-
-  const filename = normalizedSrc.split("/").pop()
-  const fileId = filename?.replace(/\.mp4$/i, "")
-  if (!fileId) {
-    return undefined
-  }
-
-  return `${endpoint}/storage/buckets/${bucketId}/files/${encodeURIComponent(fileId)}/view?project=${encodeURIComponent(projectId)}`
-}
-
-export function isAppwriteStorageViewSource(src?: string) {
-  return /\/storage\/buckets\/[^/]+\/files\/[^/]+\/view($|\?)/i.test(src ?? "")
-}
-
 export function isDirectVideoFileSource(src?: string) {
-  return /\.mp4($|\?)/i.test(src ?? "") || isAppwriteStorageViewSource(src)
-}
-
-export function isHlsManifestSource(src?: string) {
-  return /\.m3u8($|\?)/i.test(src ?? "")
+  return /\.mp4($|\?)/i.test(src ?? "")
 }
 
 function getLocalVideoPosterSource(src?: string) {
@@ -141,70 +111,11 @@ function getLocalVideoPosterSource(src?: string) {
   return normalizedSrc.replace(DEFAULT_VIDEO_SOURCE_PREFIX, "/content/video-posters/").replace(/\.mp4$/, ".jpg")
 }
 
-export function getCloudflareStreamManifestUrl(
-  streamUid?: string,
-  customerCode = getCloudflareStreamCustomerCode()
-) {
-  const normalizedStreamUid = streamUid?.trim()
-  if (!normalizedStreamUid || !customerCode) {
-    return undefined
-  }
-
-  return `https://customer-${customerCode}.cloudflarestream.com/${normalizedStreamUid}/manifest/video.m3u8`
+export function getResolvedVideoSource(src?: string) {
+  return getNormalizedVideoSource(src)
 }
 
-export function getCloudflareStreamDownloadUrl(
-  streamUid?: string,
-  customerCode = getCloudflareStreamCustomerCode()
-) {
-  const normalizedStreamUid = streamUid?.trim()
-  if (!normalizedStreamUid || !customerCode) {
-    return undefined
-  }
-
-  return `https://customer-${customerCode}.cloudflarestream.com/${normalizedStreamUid}/downloads/default.mp4`
-}
-
-export function getCloudflareStreamOrigin(customerCode = getCloudflareStreamCustomerCode()) {
-  if (!customerCode) {
-    return undefined
-  }
-
-  return `https://customer-${customerCode}.cloudflarestream.com`
-}
-
-export function getCloudflareStreamThumbnailUrl(
-  streamUid?: string,
-  customerCode = getCloudflareStreamCustomerCode()
-) {
-  const normalizedStreamUid = streamUid?.trim()
-  if (!normalizedStreamUid || !customerCode) {
-    return undefined
-  }
-
-  return `https://customer-${customerCode}.cloudflarestream.com/${normalizedStreamUid}/thumbnails/thumbnail.jpg`
-}
-
-export function getResolvedVideoSource(
-  src?: string,
-  streamUid?: string,
-  streamDelivery: "hls" | "mp4" = "mp4"
-) {
-  const normalizedDirectSrc = getNormalizedVideoSource(src)
-
-  // Prefer the configured object-storage MP4 source to avoid Cloudflare Stream costs.
-  if (normalizedDirectSrc?.startsWith("http")) {
-    return normalizedDirectSrc
-  }
-
-  if (streamDelivery === "mp4") {
-    return getCloudflareStreamDownloadUrl(streamUid) ?? normalizedDirectSrc
-  }
-
-  return getCloudflareStreamManifestUrl(streamUid) ?? normalizedDirectSrc
-}
-
-export function getVideoPosterSource(src?: string, poster?: string, streamUid?: string) {
+export function getVideoPosterSource(src?: string, poster?: string) {
   if (poster) {
     return poster
   }
@@ -214,19 +125,11 @@ export function getVideoPosterSource(src?: string, poster?: string, streamUid?: 
     return localPoster
   }
 
-  const streamPoster = getCloudflareStreamThumbnailUrl(streamUid)
-  if (streamPoster) {
-    return streamPoster
-  }
-
   return undefined
 }
 
-export function getKnownVideoPosterDimensions(src?: string, poster?: string, streamUid?: string) {
-  const posterSources = [
-    getVideoPosterSource(src, poster, streamUid),
-    getLocalVideoPosterSource(src),
-  ]
+export function getKnownVideoPosterDimensions(src?: string, poster?: string) {
+  const posterSources = [getVideoPosterSource(src, poster), getLocalVideoPosterSource(src)]
 
   for (const posterSrc of posterSources) {
     if (!posterSrc) {
@@ -242,7 +145,7 @@ export function getKnownVideoPosterDimensions(src?: string, poster?: string, str
   return undefined
 }
 
-export function getKnownVideoAspectRatio(src?: string, poster?: string, streamUid?: string) {
+export function getKnownVideoAspectRatio(src?: string, poster?: string) {
   if (!src) {
     return undefined
   }
@@ -252,7 +155,7 @@ export function getKnownVideoAspectRatio(src?: string, poster?: string, streamUi
     return learnedAspectRatio
   }
 
-  const dimensions = getKnownVideoPosterDimensions(src, poster, streamUid)
+  const dimensions = getKnownVideoPosterDimensions(src, poster)
   return dimensions ? buildAspectRatio(dimensions.width, dimensions.height) : undefined
 }
 
