@@ -265,11 +265,45 @@ function readFeedTargets() {
 async function dismissTutorialIfVisible(page) {
   const skipButton = page.getByTestId("tutorial-skip-button")
   try {
-    await skipButton.waitFor({ state: "visible", timeout: 2_500 })
+    await skipButton.waitFor({ state: "visible", timeout: 8_000 })
     await skipButton.click()
     await skipButton.waitFor({ state: "detached", timeout: 10_000 })
   } catch {
-    // Tutorial mungkin memang tidak muncul untuk sesi ini.
+    const hasUnfinishedTutorial = await page.evaluate(() => {
+      const sessionId = window.sessionStorage.getItem("ineedsocial:study:active-session")
+      if (!sessionId) {
+        return false
+      }
+
+      const raw = window.sessionStorage.getItem(`ineedsocial:study:${sessionId}:tutorial`)
+      if (!raw) {
+        return true
+      }
+
+      try {
+        const state = JSON.parse(raw)
+        return !state?.completed
+      } catch {
+        return true
+      }
+    })
+    if (!hasUnfinishedTutorial) {
+      return
+    }
+
+    await page.evaluate(() => {
+      const sessionId = window.sessionStorage.getItem("ineedsocial:study:active-session")
+      if (!sessionId) {
+        return
+      }
+
+      window.sessionStorage.setItem(
+        `ineedsocial:study:${sessionId}:tutorial`,
+        JSON.stringify({ completed: true, currentStep: 0 })
+      )
+    })
+    await page.reload()
+    await page.getByTestId("feed-scroll-container").waitFor({ state: "visible" })
   }
 }
 

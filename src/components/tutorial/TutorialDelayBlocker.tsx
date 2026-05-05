@@ -5,10 +5,8 @@ type TutorialDelayBlockerProps = {
 export function TutorialDelayBlocker({ isDark }: TutorialDelayBlockerProps) {
   return (
     <div
-      className="fixed inset-0 z-[190] pointer-events-auto"
+      className="fixed inset-0 z-[190] pointer-events-auto touch-none overscroll-none"
       data-testid="tutorial-delay-blocker"
-      onTouchMove={(event) => event.preventDefault()}
-      onWheel={(event) => event.preventDefault()}
     >
       <div
         aria-hidden="true"

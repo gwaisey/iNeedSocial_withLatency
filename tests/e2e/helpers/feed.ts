@@ -1,11 +1,26 @@
 import { expect, type Page } from "@playwright/test"
 
 export async function getFeedScrollTop(page: Page) {
-  return page.getByTestId("feed-scroll-container").evaluate((element) => element.scrollTop)
+  return page.evaluate(() => {
+    const element = document.querySelector<HTMLElement>(
+      '[data-testid="feed-scroll-container"]'
+    )
+    return element?.scrollTop ?? 0
+  })
 }
 
 export async function setFeedScrollTop(page: Page, top: number) {
-  await page.getByTestId("feed-scroll-container").evaluate((element, nextTop) => {
+  await page.waitForFunction(() =>
+    Boolean(document.querySelector('[data-testid="feed-scroll-container"]'))
+  )
+  await page.evaluate((nextTop) => {
+    const element = document.querySelector<HTMLElement>(
+      '[data-testid="feed-scroll-container"]'
+    )
+    if (!element) {
+      throw new Error("Feed scroll container is not attached.")
+    }
+
     element.scrollTop = nextTop
     element.dispatchEvent(new Event("scroll"))
   }, top)

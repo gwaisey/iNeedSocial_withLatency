@@ -143,6 +143,7 @@ test("refresh keeps the same study session state in the feed", async ({ page }) 
 
   await setFeedScrollTop(page, 1_600)
   await waitForFeedScrollTopAtLeast(page, 1_200)
+  await waitForTrackedTimeToExceed(page, 0)
   const firstVisiblePostBeforeRefresh = await getFirstVisiblePostId(page)
 
   await page.reload()
