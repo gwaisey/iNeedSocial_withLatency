@@ -1,4 +1,5 @@
 import { useEffect, type MutableRefObject, type RefObject } from "react"
+import { VIDEO_READY_STATE_CURRENT_DATA } from "./auto-play-video-config"
 import { syncVideoMutedState } from "./auto-play-video-readiness"
 import {
   classifyVideoPlayError,
@@ -84,6 +85,15 @@ export function useAutoPlayVideoPlayback({
 
     if (!hasConnectedPlaybackSource || !playbackDecision.shouldPlay || !video.paused) {
       return
+    }
+
+    if (video.readyState < VIDEO_READY_STATE_CURRENT_DATA) {
+      video.preload = "auto"
+      try {
+        video.load()
+      } catch {
+        // Ignore browsers that disallow load() during a playback transition.
+      }
     }
 
     if (hasPendingPlayAttemptRef.current) {

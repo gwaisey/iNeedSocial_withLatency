@@ -10,7 +10,7 @@ type VideoPreloadCandidate = {
 
 // Keep auto-preloading focused on nearby videos while giving fast mobile scrolls
 // enough runway in both directions.
-const MAX_AUTO_PRELOAD_VIDEOS = 4
+const MAX_AUTO_PRELOAD_VIDEOS = 5
 const MAX_BELOW_PRELOAD_DISTANCE_PX = 12000
 const MAX_ABOVE_PRELOAD_DISTANCE_PX = 12000
 // Keep one nearby opposite-direction video warm so reversing scroll does not start cold.

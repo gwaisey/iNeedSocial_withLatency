@@ -12,6 +12,7 @@ import type { VideoPreloadRank } from "../utils/video-preload-budget"
 import {
   isDirectVideoFileSource,
   VIDEO_AGGRESSIVE_AUTO_LOAD_MAX_RANK,
+  VIDEO_READY_STATE_CURRENT_DATA,
   VIDEO_SOURCE_DETACH_GRACE_MS,
   VIDEO_SOURCE_IMMEDIATE_DETACH_DISTANCE_PX,
 } from "./auto-play-video-config"
@@ -237,7 +238,7 @@ export function useAutoPlayVideoSource({
     hasIssuedVisibleLoadHintRef.current = false
     video.preload = shouldAutoLoadNow ? "auto" : "metadata"
     video.src = resolvedSrc
-    if (shouldAutoLoadNow && video.readyState === 0) {
+    if (shouldAutoLoadNow && video.readyState < VIDEO_READY_STATE_CURRENT_DATA) {
       hasIssuedLoadHintRef.current = true
       try {
         video.load()
@@ -302,7 +303,7 @@ export function useAutoPlayVideoSource({
       return
     }
 
-    if (video.readyState > 0) {
+    if (video.readyState >= VIDEO_READY_STATE_CURRENT_DATA) {
       return
     }
 
@@ -334,9 +335,8 @@ export function useAutoPlayVideoSource({
       !hasAttachedSource ||
       !isDirectVideoFileSource(resolvedSrc) ||
       hasIssuedVisibleLoadHintRef.current ||
-      hasPendingPlayAttemptRef.current ||
       !video.paused ||
-      video.readyState > 0 ||
+      video.readyState >= VIDEO_READY_STATE_CURRENT_DATA ||
       (!isPlaybackVisible && !isInViewport)
     ) {
       return
@@ -352,7 +352,6 @@ export function useAutoPlayVideoSource({
   }, [
     hasAttachedSource,
     hasConnectedPlaybackSource,
-    hasPendingPlayAttemptRef,
     hasVideoSource,
     isInViewport,
     isPlaybackVisible,

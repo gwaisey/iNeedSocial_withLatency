@@ -11,9 +11,33 @@ type ScrollState = {
 
 type PlaybackState = {
   focusedAnimatedSkeleton: boolean
+  focusedPosterVisibleWhilePlaying: boolean
+  focusedVisibleRatio: number
+  focusedVideoPlaying: boolean
   focusedVideoPostId: string | null
   ok: boolean
   playingVideoPostIds: string[]
+}
+
+type FocusedStartupState = {
+  focusedVideoPostId: string | null
+  focusedIsRelevant: boolean
+  focusedPosterVisibleWhilePlaying: boolean
+  focusedVideoPlaying: boolean
+}
+
+type StartupSampleResult = {
+  checked: boolean
+  passed: boolean
+}
+
+const FOCUSED_VIDEO_STARTUP_TIMEOUT_MS = 2_000
+const PLAYBACK_STABILITY_TIMEOUT_MS = 3_500
+const SCROLL_STARTUP_WARMUP_STEPS = 8
+const MAX_FOCUSED_STARTUP_MISSES = 6
+
+function isStartupStep(step: number) {
+  return step > SCROLL_STARTUP_WARMUP_STEPS
 }
 
 function isVideoSource(src: string) {
@@ -98,6 +122,8 @@ async function waitForStablePlayback(page: Page, direction: "down" | "up", step:
 
           let focusedVideoPostId: string | null = null
           let focusedVisibleRatio = 0
+          let focusedVideoPlaying = false
+          let focusedPosterVisibleWhilePlaying = false
 
           for (const post of posts) {
             const video = post.querySelector("video")
@@ -115,6 +141,21 @@ async function waitForStablePlayback(page: Page, direction: "down" | "up", step:
             if (visibleRatio > focusedVisibleRatio) {
               focusedVisibleRatio = visibleRatio
               focusedVideoPostId = post.getAttribute("data-regular-post-id")
+
+              focusedVideoPlaying =
+                !video.paused &&
+                !video.ended &&
+                video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
+
+              const poster = post.querySelector('img[aria-hidden="true"]')
+              if (focusedVideoPlaying && poster instanceof HTMLImageElement) {
+                const posterOpacity = Number.parseFloat(
+                  window.getComputedStyle(poster).opacity || "1"
+                )
+                focusedPosterVisibleWhilePlaying = posterOpacity > 0.01
+              } else {
+                focusedPosterVisibleWhilePlaying = false
+              }
             }
           }
 
@@ -159,19 +200,112 @@ async function waitForStablePlayback(page: Page, direction: "down" | "up", step:
 
           return {
             focusedAnimatedSkeleton,
+            focusedPosterVisibleWhilePlaying,
+            focusedVisibleRatio,
+            focusedVideoPlaying,
             focusedVideoPostId,
             ok:
               hasSinglePlaybackOwner &&
-              !focusedAnimatedSkeleton,
+              !focusedAnimatedSkeleton &&
+              !focusedPosterVisibleWhilePlaying,
             playingVideoPostIds,
           } satisfies PlaybackState
         }),
       {
         message: `Expected stable video playback ownership while scrolling ${direction} (step ${step}).`,
-        timeout: 10_000,
+        timeout: PLAYBACK_STABILITY_TIMEOUT_MS,
       }
     )
     .toMatchObject({ ok: true })
+}
+
+async function waitForFocusedVideoStartup(
+  page: Page,
+  step: number
+): Promise<StartupSampleResult> {
+  if (!isStartupStep(step)) {
+    return { checked: false, passed: true }
+  }
+
+  const readFocusedStartupState = () =>
+    page.evaluate(() => {
+      const viewportTop = 0
+      const viewportBottom = window.innerHeight
+      const posts = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-regular-post-id]")
+      )
+
+      let focusedVideoPostId: string | null = null
+      let focusedVisibleRatio = 0
+      let focusedVideoPlaying = false
+      let focusedPosterVisibleWhilePlaying = false
+
+      for (const post of posts) {
+        const video = post.querySelector("video")
+        if (!(video instanceof HTMLVideoElement)) {
+          continue
+        }
+
+        const rect = post.getBoundingClientRect()
+        const overlap = Math.min(rect.bottom, viewportBottom) - Math.max(rect.top, viewportTop)
+        if (overlap <= 0 || rect.height <= 0) {
+          continue
+        }
+
+        const visibleRatio = overlap / rect.height
+        if (visibleRatio > focusedVisibleRatio) {
+          focusedVisibleRatio = visibleRatio
+          focusedVideoPostId = post.getAttribute("data-regular-post-id")
+          focusedVideoPlaying =
+            !video.paused &&
+            !video.ended &&
+            video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
+
+          const poster = post.querySelector('img[aria-hidden="true"]')
+          if (focusedVideoPlaying && poster instanceof HTMLImageElement) {
+            const posterOpacity = Number.parseFloat(
+              window.getComputedStyle(poster).opacity || "1"
+            )
+            focusedPosterVisibleWhilePlaying = posterOpacity > 0.01
+          } else {
+            focusedPosterVisibleWhilePlaying = false
+          }
+        }
+      }
+
+      return {
+        focusedVideoPostId,
+        focusedIsRelevant: focusedVideoPostId !== null && focusedVisibleRatio >= 0.7,
+        focusedPosterVisibleWhilePlaying,
+        focusedVideoPlaying,
+      } satisfies FocusedStartupState
+    })
+
+  const initialState = await readFocusedStartupState()
+  if (!initialState.focusedIsRelevant) {
+    return { checked: false, passed: true }
+  }
+
+  if (initialState.focusedVideoPlaying && !initialState.focusedPosterVisibleWhilePlaying) {
+    return { checked: true, passed: true }
+  }
+
+  const deadline = Date.now() + FOCUSED_VIDEO_STARTUP_TIMEOUT_MS
+  while (Date.now() < deadline) {
+    const nextState = await readFocusedStartupState()
+    const focusChanged = nextState.focusedVideoPostId !== initialState.focusedVideoPostId
+    if (!nextState.focusedIsRelevant || focusChanged) {
+      return { checked: true, passed: true }
+    }
+
+    if (nextState.focusedVideoPlaying && !nextState.focusedPosterVisibleWhilePlaying) {
+      return { checked: true, passed: true }
+    }
+
+    await page.waitForTimeout(120)
+  }
+
+  return { checked: true, passed: false }
 }
 
 async function getRenderedCarouselPostIds(page: Page) {
@@ -311,11 +445,24 @@ test("preview build keeps full-feed autoplay stable and validates every carousel
   await startStudy(page)
   await dismissTutorialIfVisible(page)
   await page.getByTestId("feed-scroll-container").waitFor({ state: "visible" })
+  let focusedStartupChecks = 0
+  let focusedStartupMisses = 0
+  const focusedStartupMissExamples: string[] = []
 
   let reachedFeedEndSignals = 0
   for (let step = 1; step <= 320; step += 1) {
     await page.mouse.wheel(0, 1_100)
     await waitForStablePlayback(page, "down", step)
+    const startupResult = await waitForFocusedVideoStartup(page, step)
+    if (startupResult.checked) {
+      focusedStartupChecks += 1
+      if (!startupResult.passed) {
+        focusedStartupMisses += 1
+        if (focusedStartupMissExamples.length < 6) {
+          focusedStartupMissExamples.push(`down:${step}`)
+        }
+      }
+    }
     const scrollState = await readScrollState(page)
     reachedFeedEndSignals = scrollState.atEnd ? reachedFeedEndSignals + 1 : 0
     if (reachedFeedEndSignals >= 3) {
@@ -338,6 +485,16 @@ test("preview build keeps full-feed autoplay stable and validates every carousel
   for (let step = 1; step <= 320; step += 1) {
     await page.mouse.wheel(0, -1_100)
     await waitForStablePlayback(page, "up", step)
+    const startupResult = await waitForFocusedVideoStartup(page, step)
+    if (startupResult.checked) {
+      focusedStartupChecks += 1
+      if (!startupResult.passed) {
+        focusedStartupMisses += 1
+        if (focusedStartupMissExamples.length < 6) {
+          focusedStartupMissExamples.push(`up:${step}`)
+        }
+      }
+    }
     const scrollState = await readScrollState(page)
     reachedFeedStartSignals = scrollState.atStart ? reachedFeedStartSignals + 1 : 0
     if (reachedFeedStartSignals >= 3) {
@@ -345,6 +502,12 @@ test("preview build keeps full-feed autoplay stable and validates every carousel
     }
   }
   expect(reachedFeedStartSignals).toBeGreaterThanOrEqual(3)
+
+  expect(focusedStartupChecks).toBeGreaterThan(0)
+  expect(
+    focusedStartupMisses,
+    `Expected focused video startup misses to stay within ${MAX_FOCUSED_STARTUP_MISSES} samples out of ${focusedStartupChecks}. Samples: ${focusedStartupMissExamples.join(", ")}`
+  ).toBeLessThanOrEqual(MAX_FOCUSED_STARTUP_MISSES)
 
   expect(consoleErrors).toEqual([])
 })
