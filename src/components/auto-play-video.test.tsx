@@ -130,6 +130,20 @@ describe("AutoPlayVideo", () => {
     expect(container.querySelector("video")).toBeNull()
   })
 
+  it("uses a static fallback layer without shimmer animation when poster is missing", async () => {
+    const { container } = render(
+      <AutoPlayVideo className="video" isMuted={true} src="/external/video.mp4" />
+    )
+
+    await waitFor(() => {
+      expect(container.querySelector("video")).not.toBeNull()
+    })
+
+    const fallbackLayer = container.querySelector("div.absolute.inset-0")
+    expect(fallbackLayer).not.toBeNull()
+    expect(fallbackLayer?.className).not.toContain("skeleton")
+  })
+
   it("mounts the shell without attaching a real src while the video stays offscreen and out of the preload pool", async () => {
     vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
       bottom: 20_600,

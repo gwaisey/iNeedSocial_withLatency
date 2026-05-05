@@ -4,8 +4,6 @@ import type { FeedMediaItem } from "./feed-post-media-types"
 import type { MediaSurfaceTokens } from "./feed-post-media-utils"
 import { ProgressiveImage } from "./progressive-image"
 
-const VIDEO_SKELETON_CLASS = "video-skeleton"
-
 export function FeedVideoSurface({
   canPrewarm,
   className,
@@ -41,7 +39,7 @@ export function FeedVideoSurface({
       poster={media?.poster}
       scrollRootRef={scrollRootRef}
       shellClassName={shellClassName}
-      skeletonClassName={`${VIDEO_SKELETON_CLASS} ${tokens.skeletonTone}`}
+      skeletonClassName={tokens.skeletonTone}
       src={media?.src}
     />
   )

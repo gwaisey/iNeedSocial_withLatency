@@ -213,6 +213,6 @@ Pengujian saat ini berfokus pada:
 - retry dan idempotensi penyimpanan sesi,
 - playback media video, poster, dan carousel,
 - smoke flow browser untuk refresh sesi feed dan state error feed,
-- stress preview build (mobile fast scroll) untuk kepemilikan playback video aktif tunggal,
-- verifikasi integritas baris sesi hasil export (`total_time`, `*_ms`, `*_count`) pada session disposable,
+- stress preview build (desktop + mobile fast scroll) untuk kepemilikan playback video aktif tunggal,
+- verifikasi integritas baris sesi hasil export (`total_time`, `*_ms`, `*_count`) pada session disposable desktop + mobile,
 - artifact produksi dan metadata deploy.

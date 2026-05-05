@@ -10,6 +10,24 @@ const PREVIEW_PORT = 4176
 const DEFAULT_SHEET_NAME = "Semua Sesi"
 const EXPORT_FILE_PATTERN = /^Laporan_Semua_Sesi_\d{4}-\d{2}-\d{2}\.xlsx$/
 const GENRE_KEYS = ["humor", "berita", "wisata", "makanan", "olahraga", "game"]
+const SESSION_VIEWPORTS = [
+  {
+    contextOptions: {
+      hasTouch: false,
+      isMobile: false,
+      viewport: { height: 900, width: 1280 },
+    },
+    label: "desktop",
+  },
+  {
+    contextOptions: {
+      hasTouch: true,
+      isMobile: true,
+      viewport: { height: 844, width: 390 },
+    },
+    label: "mobile",
+  },
+]
 
 function parseArgs() {
   const args = process.argv.slice(2)
@@ -130,38 +148,15 @@ function findExportRow({ sessionId, workbookPath }) {
 }
 
 function buildMachineReadableSummary({
-  sessionId,
+  sessionResults,
   workbookPath,
-  totalTimeMatchesBreakdown,
-  countsAreNonNegative,
-  countsMatchSnapshot,
-  snapshotCounts,
-  exportCounts,
-  report,
 }) {
-  const passed =
-    totalTimeMatchesBreakdown &&
-    countsAreNonNegative &&
-    countsMatchSnapshot
+  const passed = sessionResults.every((result) => result.passed)
 
   return {
     passed,
-    sessionId,
     workbookPath,
-    checks: {
-      totalTimeMatchesBreakdown,
-      countsAreNonNegative,
-      countsMatchSnapshot,
-    },
-    exported: {
-      totalTime: report.totalTime,
-      categoryTimeSum: report.categoryTimeSum,
-      categoryTimes: report.categoryTimes,
-      categoryCounts: exportCounts,
-    },
-    snapshot: {
-      categoryCounts: snapshotCounts,
-    },
+    sessionResults,
   }
 }
 
@@ -394,12 +389,13 @@ async function closePreviewServer(previewServer) {
   }
 }
 
-async function runDisposableSession() {
-  const { previewServer, previewUrl } = await startPreviewServer()
-  const browser = await chromium.launch({ headless: true })
-  const context = await browser.newContext({
-    viewport: { width: 390, height: 844 },
-  })
+async function runDisposableSession({
+  browser,
+  contextOptions,
+  label,
+  previewUrl,
+}) {
+  const context = await browser.newContext(contextOptions)
   const page = await context.newPage()
   const consoleErrors = []
 
@@ -462,11 +458,12 @@ async function runDisposableSession() {
 
     if (consoleErrors.length > 0) {
       throw new Error(
-        `Terdapat console error saat disposable session: ${consoleErrors.join(" | ")}`
+        `[${label}] Terdapat console error saat disposable session: ${consoleErrors.join(" | ")}`
       )
     }
 
     return {
+      label,
       sessionId: postSubmit.sessionId,
       snapshotCounts:
         postSubmit.snapshot?.genreCounts ??
@@ -474,8 +471,6 @@ async function runDisposableSession() {
     }
   } finally {
     await context.close()
-    await browser.close()
-    await closePreviewServer(previewServer)
   }
 }
 
@@ -488,17 +483,36 @@ function assertCountsMatch(snapshotCounts, exportedCounts) {
 async function main() {
   const { workbookPath: providedWorkbookPath, sessionId: providedSessionId } = parseArgs()
 
-  let sessionId = providedSessionId
-  let snapshotCounts = null
+  const sessionRuns = []
 
-  if (!sessionId) {
-    console.log("Menjalankan disposable live session untuk verifikasi ekspor...")
-    const sessionRun = await runDisposableSession()
-    sessionId = sessionRun.sessionId
-    snapshotCounts = sessionRun.snapshotCounts
+  if (providedSessionId) {
+    sessionRuns.push({
+      label: "manual",
+      sessionId: providedSessionId,
+      snapshotCounts: null,
+    })
+  } else {
+    console.log("Menjalankan disposable live session desktop + mobile untuk verifikasi ekspor...")
+    const { previewServer, previewUrl } = await startPreviewServer()
+    const browser = await chromium.launch({ headless: true })
+
+    try {
+      for (const viewportProfile of SESSION_VIEWPORTS) {
+        const sessionRun = await runDisposableSession({
+          browser,
+          contextOptions: viewportProfile.contextOptions,
+          label: viewportProfile.label,
+          previewUrl,
+        })
+        sessionRuns.push(sessionRun)
+      }
+    } finally {
+      await browser.close()
+      await closePreviewServer(previewServer)
+    }
   }
 
-  console.log(`Session target: ${sessionId}`)
+  console.log(`Session target: ${sessionRuns.map((run) => `${run.label}:${run.sessionId}`).join(", ")}`)
   const shouldRunExport = !providedWorkbookPath
   if (shouldRunExport) {
     console.log("Menjalankan ekspor semua sesi...")
@@ -510,32 +524,55 @@ async function main() {
     : findLatestWorkbookPath()
   console.log(`Workbook target: ${workbookPath}`)
 
-  const { row } = findExportRow({ sessionId, workbookPath })
-  const report = buildReportFromRow(row)
-  const exportCounts = Object.fromEntries(
-    GENRE_KEYS.map((genre) => [genre, report.categoryCounts[genre]])
-  )
-  const effectiveSnapshotCounts = snapshotCounts ?? exportCounts
+  console.log("Ringkasan verifikasi sesi ekspor:")
+  const sessionResults = []
+  for (const sessionRun of sessionRuns) {
+    const { row } = findExportRow({ sessionId: sessionRun.sessionId, workbookPath })
+    const report = buildReportFromRow(row)
+    const exportCounts = Object.fromEntries(
+      GENRE_KEYS.map((genre) => [genre, report.categoryCounts[genre]])
+    )
+    const effectiveSnapshotCounts = sessionRun.snapshotCounts ?? exportCounts
 
-  const totalTimeMatchesBreakdown = report.totalTime === report.categoryTimeSum
-  const countsAreNonNegative = report.countsAreNonNegative
-  const countsMatchSnapshot = assertCountsMatch(effectiveSnapshotCounts, exportCounts)
+    const totalTimeMatchesBreakdown = report.totalTime === report.categoryTimeSum
+    const countsAreNonNegative = report.countsAreNonNegative
+    const countsMatchSnapshot = assertCountsMatch(effectiveSnapshotCounts, exportCounts)
+    const passed =
+      totalTimeMatchesBreakdown &&
+      countsAreNonNegative &&
+      countsMatchSnapshot
+
+    sessionResults.push({
+      checks: {
+        countsAreNonNegative,
+        countsMatchSnapshot,
+        totalTimeMatchesBreakdown,
+      },
+      exported: {
+        categoryCounts: exportCounts,
+        categoryTimeSum: report.categoryTimeSum,
+        categoryTimes: report.categoryTimes,
+        totalTime: report.totalTime,
+      },
+      label: sessionRun.label,
+      passed,
+      sessionId: sessionRun.sessionId,
+      snapshot: {
+        categoryCounts: effectiveSnapshotCounts,
+      },
+    })
+
+    console.log(`- [${sessionRun.label}] session_id: ${sessionRun.sessionId}`)
+    console.log(`  total_time cocok dengan jumlah kategori: ${totalTimeMatchesBreakdown}`)
+    console.log(`  semua *_count bernilai non-negatif: ${countsAreNonNegative}`)
+    console.log(`  *_count ekspor cocok dengan snapshot sesi: ${countsMatchSnapshot}`)
+  }
 
   const summary = buildMachineReadableSummary({
-    countsAreNonNegative,
-    countsMatchSnapshot,
-    exportCounts,
-    report,
-    sessionId,
-    snapshotCounts: effectiveSnapshotCounts,
-    totalTimeMatchesBreakdown,
+    sessionResults,
     workbookPath,
   })
 
-  console.log("Ringkasan verifikasi sesi ekspor:")
-  console.log(`- total_time cocok dengan jumlah kategori: ${totalTimeMatchesBreakdown}`)
-  console.log(`- semua *_count bernilai non-negatif: ${countsAreNonNegative}`)
-  console.log(`- *_count ekspor cocok dengan snapshot sesi: ${countsMatchSnapshot}`)
   console.log(`VERIFY_SESSION_EXPORT_RESULT=${JSON.stringify(summary)}`)
 
   if (!summary.passed) {

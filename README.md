@@ -56,7 +56,7 @@ Menjalankan smoke test browser:
 npm run test:e2e
 ```
 
-Menjalankan smoke test preview build (mobile fast-scroll media):
+Menjalankan smoke test preview build (desktop + mobile fast-scroll media):
 
 ```bash
 npm run test:e2e:preview
@@ -245,7 +245,7 @@ npm run verify:session-export
 
 `verify:session-export` akan:
 
-- menjalankan satu sesi disposable nyata lewat browser preview,
+- menjalankan dua sesi disposable nyata lewat browser preview (desktop + mobile),
 - submit sesi ke backend yang aktif,
 - mengekspor workbook sesi,
 - memverifikasi integritas baris `session_id` tersebut.
@@ -254,7 +254,7 @@ Kriteria lulus:
 
 - semua perintah di atas sukses tanpa error,
 - `test:e2e:preview` tidak menemukan console `error`,
-- untuk sesi disposable, hanya satu video aktif yang memegang playback pada saat scroll cepat,
+- untuk sesi disposable desktop dan mobile, hanya satu video aktif yang memegang playback pada saat scroll cepat,
 - output `VERIFY_SESSION_EXPORT_RESULT` bernilai `"passed": true`,
 - `total_time` sama dengan jumlah semua `*_ms`,
 - semua `*_count` bernilai non-negatif,

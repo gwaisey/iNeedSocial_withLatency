@@ -208,7 +208,7 @@ export function AutoPlayVideo({
     >
       {!resolvedPoster && !hasLoadedFrame && (
         <div
-          className={`absolute inset-0 skeleton ${skeletonClassName} ${placeholderClassName}`}
+          className={`absolute inset-0 ${skeletonClassName} ${placeholderClassName}`}
         />
       )}
       {resolvedPoster && shouldShowPosterLayer && (
