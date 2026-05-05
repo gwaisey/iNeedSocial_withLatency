@@ -29,6 +29,8 @@ type FocusedStartupState = {
 type StartupSampleResult = {
   checked: boolean
   passed: boolean
+  postId: string | null
+  reason: "not-focused" | "not-playing" | "passed" | "poster-visible"
 }
 
 const FOCUSED_VIDEO_STARTUP_TIMEOUT_MS = 2_000
@@ -116,9 +118,39 @@ async function waitForStablePlayback(page: Page, direction: "down" | "up", step:
         page.evaluate(() => {
           const viewportTop = 0
           const viewportBottom = window.innerHeight
+          const viewportLeft = 0
+          const viewportRight = window.innerWidth
           const posts = Array.from(
             document.querySelectorAll<HTMLElement>("[data-regular-post-id]")
           )
+
+          const findVisibleVideo = (post: HTMLElement) => {
+            let visibleVideo: HTMLVideoElement | null = null
+            let bestVisibleArea = 0
+
+            for (const video of Array.from(post.querySelectorAll("video"))) {
+              if (!(video instanceof HTMLVideoElement)) {
+                continue
+              }
+
+              const rect = video.getBoundingClientRect()
+              const overlapWidth =
+                Math.min(rect.right, viewportRight) - Math.max(rect.left, viewportLeft)
+              const overlapHeight =
+                Math.min(rect.bottom, viewportBottom) - Math.max(rect.top, viewportTop)
+              if (overlapWidth <= 0 || overlapHeight <= 0 || rect.width <= 0 || rect.height <= 0) {
+                continue
+              }
+
+              const visibleArea = overlapWidth * overlapHeight
+              if (visibleArea > bestVisibleArea) {
+                bestVisibleArea = visibleArea
+                visibleVideo = video
+              }
+            }
+
+            return visibleVideo
+          }
 
           let focusedVideoPostId: string | null = null
           let focusedVisibleRatio = 0
@@ -126,8 +158,8 @@ async function waitForStablePlayback(page: Page, direction: "down" | "up", step:
           let focusedPosterVisibleWhilePlaying = false
 
           for (const post of posts) {
-            const video = post.querySelector("video")
-            if (!(video instanceof HTMLVideoElement)) {
+            const video = findVisibleVideo(post)
+            if (!video) {
               continue
             }
 
@@ -147,7 +179,7 @@ async function waitForStablePlayback(page: Page, direction: "down" | "up", step:
                 !video.ended &&
                 video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
 
-              const poster = post.querySelector('img[aria-hidden="true"]')
+              const poster = video.parentElement?.querySelector('img[aria-hidden="true"]')
               if (focusedVideoPlaying && poster instanceof HTMLImageElement) {
                 const posterOpacity = Number.parseFloat(
                   window.getComputedStyle(poster).opacity || "1"
@@ -224,16 +256,46 @@ async function waitForFocusedVideoStartup(
   step: number
 ): Promise<StartupSampleResult> {
   if (!isStartupStep(step)) {
-    return { checked: false, passed: true }
+    return { checked: false, passed: true, postId: null, reason: "not-focused" }
   }
 
   const readFocusedStartupState = () =>
     page.evaluate(() => {
       const viewportTop = 0
       const viewportBottom = window.innerHeight
+      const viewportLeft = 0
+      const viewportRight = window.innerWidth
       const posts = Array.from(
         document.querySelectorAll<HTMLElement>("[data-regular-post-id]")
       )
+
+      const findVisibleVideo = (post: HTMLElement) => {
+        let visibleVideo: HTMLVideoElement | null = null
+        let bestVisibleArea = 0
+
+        for (const video of Array.from(post.querySelectorAll("video"))) {
+          if (!(video instanceof HTMLVideoElement)) {
+            continue
+          }
+
+          const rect = video.getBoundingClientRect()
+          const overlapWidth =
+            Math.min(rect.right, viewportRight) - Math.max(rect.left, viewportLeft)
+          const overlapHeight =
+            Math.min(rect.bottom, viewportBottom) - Math.max(rect.top, viewportTop)
+          if (overlapWidth <= 0 || overlapHeight <= 0 || rect.width <= 0 || rect.height <= 0) {
+            continue
+          }
+
+          const visibleArea = overlapWidth * overlapHeight
+          if (visibleArea > bestVisibleArea) {
+            bestVisibleArea = visibleArea
+            visibleVideo = video
+          }
+        }
+
+        return visibleVideo
+      }
 
       let focusedVideoPostId: string | null = null
       let focusedVisibleRatio = 0
@@ -241,8 +303,8 @@ async function waitForFocusedVideoStartup(
       let focusedPosterVisibleWhilePlaying = false
 
       for (const post of posts) {
-        const video = post.querySelector("video")
-        if (!(video instanceof HTMLVideoElement)) {
+        const video = findVisibleVideo(post)
+        if (!video) {
           continue
         }
 
@@ -261,7 +323,7 @@ async function waitForFocusedVideoStartup(
             !video.ended &&
             video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
 
-          const poster = post.querySelector('img[aria-hidden="true"]')
+          const poster = video.parentElement?.querySelector('img[aria-hidden="true"]')
           if (focusedVideoPlaying && poster instanceof HTMLImageElement) {
             const posterOpacity = Number.parseFloat(
               window.getComputedStyle(poster).opacity || "1"
@@ -283,11 +345,21 @@ async function waitForFocusedVideoStartup(
 
   const initialState = await readFocusedStartupState()
   if (!initialState.focusedIsRelevant) {
-    return { checked: false, passed: true }
+    return {
+      checked: false,
+      passed: true,
+      postId: initialState.focusedVideoPostId,
+      reason: "not-focused",
+    }
   }
 
   if (initialState.focusedVideoPlaying && !initialState.focusedPosterVisibleWhilePlaying) {
-    return { checked: true, passed: true }
+    return {
+      checked: true,
+      passed: true,
+      postId: initialState.focusedVideoPostId,
+      reason: "passed",
+    }
   }
 
   const deadline = Date.now() + FOCUSED_VIDEO_STARTUP_TIMEOUT_MS
@@ -295,17 +367,32 @@ async function waitForFocusedVideoStartup(
     const nextState = await readFocusedStartupState()
     const focusChanged = nextState.focusedVideoPostId !== initialState.focusedVideoPostId
     if (!nextState.focusedIsRelevant || focusChanged) {
-      return { checked: true, passed: true }
+      return {
+        checked: true,
+        passed: true,
+        postId: initialState.focusedVideoPostId,
+        reason: "passed",
+      }
     }
 
     if (nextState.focusedVideoPlaying && !nextState.focusedPosterVisibleWhilePlaying) {
-      return { checked: true, passed: true }
+      return {
+        checked: true,
+        passed: true,
+        postId: initialState.focusedVideoPostId,
+        reason: "passed",
+      }
     }
 
     await page.waitForTimeout(120)
   }
 
-  return { checked: true, passed: false }
+  return {
+    checked: true,
+    passed: false,
+    postId: initialState.focusedVideoPostId,
+    reason: initialState.focusedVideoPlaying ? "poster-visible" : "not-playing",
+  }
 }
 
 async function getRenderedCarouselPostIds(page: Page) {
@@ -456,12 +543,14 @@ test("preview build keeps full-feed autoplay stable and validates every carousel
     const startupResult = await waitForFocusedVideoStartup(page, step)
     if (startupResult.checked) {
       focusedStartupChecks += 1
-      if (!startupResult.passed) {
-        focusedStartupMisses += 1
-        if (focusedStartupMissExamples.length < 6) {
-          focusedStartupMissExamples.push(`down:${step}`)
+        if (!startupResult.passed) {
+          focusedStartupMisses += 1
+          if (focusedStartupMissExamples.length < 6) {
+            focusedStartupMissExamples.push(
+              `down:${step}:${startupResult.postId ?? "unknown"}:${startupResult.reason}`
+            )
+          }
         }
-      }
     }
     const scrollState = await readScrollState(page)
     reachedFeedEndSignals = scrollState.atEnd ? reachedFeedEndSignals + 1 : 0
@@ -488,12 +577,14 @@ test("preview build keeps full-feed autoplay stable and validates every carousel
     const startupResult = await waitForFocusedVideoStartup(page, step)
     if (startupResult.checked) {
       focusedStartupChecks += 1
-      if (!startupResult.passed) {
-        focusedStartupMisses += 1
-        if (focusedStartupMissExamples.length < 6) {
-          focusedStartupMissExamples.push(`up:${step}`)
+        if (!startupResult.passed) {
+          focusedStartupMisses += 1
+          if (focusedStartupMissExamples.length < 6) {
+            focusedStartupMissExamples.push(
+              `up:${step}:${startupResult.postId ?? "unknown"}:${startupResult.reason}`
+            )
+          }
         }
-      }
     }
     const scrollState = await readScrollState(page)
     reachedFeedStartSignals = scrollState.atStart ? reachedFeedStartSignals + 1 : 0

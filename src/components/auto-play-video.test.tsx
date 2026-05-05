@@ -1,6 +1,7 @@
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { AutoPlayVideo } from "./auto-play-video"
+import { VIDEO_FOCUSED_PLAYBACK_RESCUE_DELAY_MS } from "./auto-play-video-config"
 import { resetVideoWarmupState } from "./auto-play-video-warmup"
 import { resetVideoPlaybackCoordinatorForTests } from "./video-playback-coordinator"
 import { resetVideoPreloadBudgetForTests } from "../utils/video-preload-budget"
@@ -326,7 +327,7 @@ describe("AutoPlayVideo", () => {
       expect(
         intersectionObserverInstances.some(
           (observer) =>
-            observer.root === scrollRoot && observer.rootMargin === "12000px 0px"
+            observer.root === scrollRoot && observer.rootMargin === "14000px 0px"
         )
       ).toBe(true)
     })
@@ -362,6 +363,47 @@ describe("AutoPlayVideo", () => {
     })
 
     expect(consoleWarnSpy).not.toHaveBeenCalled()
+  })
+
+  it("retries a focused visible video once when playback has not progressed", async () => {
+    vi.useFakeTimers()
+    const playSpy = vi.fn().mockResolvedValue(undefined)
+    HTMLMediaElement.prototype.play = playSpy
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
+      bottom: 854,
+      height: 854,
+      left: 0,
+      right: 480,
+      toJSON: () => ({}),
+      top: 0,
+      width: 480,
+      x: 0,
+      y: 0,
+    } as DOMRect)
+
+    render(
+      <AutoPlayVideo className="video" isMuted={true} src="/content/videos-default/pinata.mp4" />
+    )
+
+    await act(async () => {
+      await Promise.resolve()
+    })
+
+    expect(playSpy).toHaveBeenCalledTimes(1)
+
+    await act(async () => {
+      vi.advanceTimersByTime(VIDEO_FOCUSED_PLAYBACK_RESCUE_DELAY_MS)
+      await Promise.resolve()
+    })
+
+    expect(playSpy).toHaveBeenCalledTimes(2)
+
+    await act(async () => {
+      vi.advanceTimersByTime(VIDEO_FOCUSED_PLAYBACK_RESCUE_DELAY_MS * 2)
+      await Promise.resolve()
+    })
+
+    expect(playSpy).toHaveBeenCalledTimes(2)
   })
 
   it("preconnects and attaches the next direct MP4 candidate without duplicate preload fetches", async () => {
@@ -479,15 +521,15 @@ describe("AutoPlayVideo", () => {
     expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
 
     rect = {
-      bottom: -15_000,
+      bottom: -17_000,
       height: 600,
       left: 0,
       right: 480,
       toJSON: () => ({}),
-      top: -15_600,
+      top: -17_600,
       width: 480,
       x: 0,
-      y: -15_600,
+      y: -17_600,
     } as DOMRect
 
     fireEvent.scroll(document)

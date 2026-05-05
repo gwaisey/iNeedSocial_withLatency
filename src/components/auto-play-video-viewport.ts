@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from "react"
+import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react"
 import {
   setVideoPreloadScrollDirection,
   type VideoPreloadDirection,
@@ -132,7 +132,7 @@ export function useMountedVideoViewportState({
     setViewportState(INITIAL_VIDEO_VIEWPORT_STATE)
   }, [hasVideoSource, shouldMountVideo])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!hasVideoSource || !shouldMountVideo) {
       return
     }

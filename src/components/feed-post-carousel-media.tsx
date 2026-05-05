@@ -98,7 +98,7 @@ export function FeedPostCarouselMedia({
           isVideoMedia(item) ? (
             <FeedVideoSurface
               key={item.src}
-              canPrewarm={Math.abs(index - activeIdx) <= 1}
+              canPrewarm={Math.abs(index - activeIdx) <= 2}
               className="w-full h-auto shrink-0"
               isActive={index === activeIdx}
               isMuted={isMuted}

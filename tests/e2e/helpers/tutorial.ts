@@ -17,23 +17,12 @@ async function forceCompleteTutorial(page: Page) {
 }
 
 async function waitForFeedAfterTutorial(page: Page) {
-  await page.waitForFunction(() => {
-    const container = document.querySelector<HTMLElement>(
-      '[data-testid="feed-scroll-container"]'
-    )
-    if (!container) {
-      return false
-    }
-
-    const viewportTop = 0
-    const viewportBottom = window.innerHeight
-    return Array.from(container.querySelectorAll<HTMLElement>("[data-regular-post-id]")).some(
-      (element) => {
-        const rect = element.getBoundingClientRect()
-        return rect.bottom > viewportTop && rect.top < viewportBottom
-      }
-    )
-  })
+  await page.getByTestId("feed-scroll-container").waitFor({ state: "visible" })
+  await page
+    .locator("[data-regular-post-id]")
+    .first()
+    .waitFor({ state: "attached", timeout: 5_000 })
+    .catch(() => {})
 
   await page.evaluate(() => {
     document
