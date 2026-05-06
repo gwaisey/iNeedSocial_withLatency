@@ -145,6 +145,24 @@ describe("AutoPlayVideo", () => {
     expect(fallbackLayer?.className).not.toContain("skeleton")
   })
 
+  it("uses the controlled poster layer instead of the native video poster", async () => {
+    const { container } = render(
+      <AutoPlayVideo
+        className="video"
+        isMuted={true}
+        poster="/poster.jpg"
+        src="/content/videos-default/pinata.mp4"
+      />
+    )
+
+    await waitFor(() => {
+      expect(container.querySelector("video")).not.toBeNull()
+    })
+
+    expect(container.querySelector('img[aria-hidden="true"]')).not.toBeNull()
+    expect(container.querySelector("video")).not.toHaveAttribute("poster")
+  })
+
   it("mounts the shell without attaching a real src while the video stays offscreen and out of the preload pool", async () => {
     vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
       bottom: 20_600,

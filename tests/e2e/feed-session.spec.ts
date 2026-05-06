@@ -298,6 +298,63 @@ test("mobile feed scrolls the document so browser chrome can collapse", async ({
     .toBe(0)
 })
 
+test("mobile welcome covers the dynamic viewport after returning from a scrolled feed", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await startStudy(page)
+  await dismissTutorialIfVisible(page)
+  await waitForVisibleFeedPost(page)
+
+  await page.mouse.wheel(0, 2_800)
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY), {
+      message: "Expected mobile document scroll before returning to welcome",
+    })
+    .toBeGreaterThan(500)
+
+  await page.goBack()
+  await page.waitForURL("**/welcome")
+  await expect(page.getByTestId("welcome-page")).toBeVisible()
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const welcomePage = document.querySelector<HTMLElement>(
+          '[data-testid="welcome-page"]'
+        )
+
+        if (!welcomePage) {
+          return {
+            bottomPixelInsideWelcome: false,
+            coversViewport: false,
+            scrollY: window.scrollY,
+          }
+        }
+
+        const rect = welcomePage.getBoundingClientRect()
+        const bottomElement = document.elementFromPoint(
+          window.innerWidth / 2,
+          window.innerHeight - 2
+        )
+
+        return {
+          bottomPixelInsideWelcome: welcomePage.contains(bottomElement),
+          coversViewport: rect.top <= 0 && rect.bottom >= window.innerHeight - 1,
+          scrollY: window.scrollY,
+        }
+      }),
+      {
+        message: "Expected welcome screen to cover the full mobile visual viewport",
+      }
+    )
+    .toEqual({
+      bottomPixelInsideWelcome: true,
+      coversViewport: true,
+      scrollY: 0,
+    })
+})
+
 test("mobile tutorial overlay locks document scrolling until dismissed", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await startStudy(page)

@@ -48,7 +48,7 @@ export class AppErrorBoundary extends Component<
 
     return (
       <div
-        className="min-h-svh flex items-center justify-center bg-app-radial p-6 text-ink"
+        className="viewport-page flex items-center justify-center bg-app-radial p-6 text-ink"
         data-testid="app-error-boundary-fallback"
       >
         <div className="w-full max-w-md rounded-3xl bg-white px-8 py-10 shadow-phone">

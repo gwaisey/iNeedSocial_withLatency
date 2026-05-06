@@ -67,6 +67,7 @@ export function AutoPlayVideo({
   const lastReportedPlayIssueRef = useRef<string | null>(null)
   const [autoPreloadRank, setAutoPreloadRank] = useState<number | null>(null)
   const [isPlaybackOwner, setIsPlaybackOwner] = useState(false)
+  const [shouldKeepPosterCover, setShouldKeepPosterCover] = useState(Boolean(resolvedPoster))
   const [shouldMountVideo, setShouldMountVideo] = useState(false)
   const {
     distanceToViewport,
@@ -178,6 +179,37 @@ export function AutoPlayVideo({
     videoRef,
   })
 
+  useEffect(() => {
+    if (!resolvedPoster) {
+      setShouldKeepPosterCover(false)
+      return
+    }
+
+    if (!hasLoadedFrame) {
+      setShouldKeepPosterCover(true)
+      return
+    }
+
+    let firstFrameId: number | null = null
+    let secondFrameId: number | null = null
+
+    firstFrameId = window.requestAnimationFrame(() => {
+      secondFrameId = window.requestAnimationFrame(() => {
+        setShouldKeepPosterCover(false)
+      })
+    })
+
+    return () => {
+      if (firstFrameId !== null) {
+        window.cancelAnimationFrame(firstFrameId)
+      }
+
+      if (secondFrameId !== null) {
+        window.cancelAnimationFrame(secondFrameId)
+      }
+    }
+  }, [hasLoadedFrame, resolvedPoster])
+
   return (
     <div
       ref={shellRef}
@@ -189,7 +221,7 @@ export function AutoPlayVideo({
           className={`absolute inset-0 ${skeletonClassName} ${placeholderClassName}`}
         />
       )}
-      {resolvedPoster && !hasLoadedFrame && (
+      {resolvedPoster && shouldKeepPosterCover && (
         <img
           alt=""
           aria-hidden="true"
@@ -206,16 +238,16 @@ export function AutoPlayVideo({
         <video
           ref={videoRef}
           autoPlay={shouldAutoplayVisibleVideo}
-          className={`${className} absolute inset-0 h-full w-full object-cover ${hasLoadedFrame ? "opacity-100" : "opacity-0"}`}
+          className={`${className} absolute inset-0 h-full w-full bg-transparent object-cover ${hasLoadedFrame ? "opacity-100" : "opacity-0"}`}
           loop
           muted={isMuted}
           onLoadedData={handleLoadedData}
           onLoadedMetadata={handleLoadedMetadata}
           playsInline
-          poster={resolvedPoster}
           preload={
             shouldRenderVideoSource ? (shouldAggressivelyLoadSource ? "auto" : "metadata") : "none"
           }
+          style={{ backgroundColor: "transparent" }}
         />
       )}
     </div>

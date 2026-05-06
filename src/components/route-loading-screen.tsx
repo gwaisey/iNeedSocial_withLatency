@@ -4,7 +4,7 @@ export function RouteLoadingScreen() {
   return (
     <div
       className="
-        min-h-svh
+        viewport-page
         flex items-center justify-center
         bg-app-radial
         animate-fade-in

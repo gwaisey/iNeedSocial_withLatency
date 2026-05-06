@@ -24,11 +24,13 @@ body,
   margin: 0;
   padding: 0;
   min-height: 100%;
+  background: radial-gradient(circle at 50% 24%, #3e3d4a 0%, #57556a 38%, #7c7995 100%);
 }
 
 body {
   min-height: 100vh;
   min-height: 100svh;
+  min-height: 100dvh;
   overflow-x: hidden;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
@@ -63,6 +65,7 @@ img {
   display: block;
   min-height: 100vh;
   min-height: 100svh;
+  min-height: 100dvh;
   overflow: visible;
   background: linear-gradient(180deg, #f7f4fb 0%, #ebe7f6 100%);
 }
@@ -73,6 +76,7 @@ img {
     /* Exact viewport height so main-content can scroll properly on desktop. */
     height: 100vh;
     height: 100svh;
+    height: 100dvh;
     min-height: 0;
     overflow: hidden;
   }
@@ -105,6 +109,7 @@ img {
   width: 100%;
   min-height: 100vh;
   min-height: 100svh;
+  min-height: 100dvh;
   overflow: visible;
 }
 
@@ -236,4 +241,10 @@ img {
   animation: none;
   background: transparent;
   border-radius: 0;
+}
+
+.viewport-page {
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
 }
