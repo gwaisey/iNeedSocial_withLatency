@@ -123,7 +123,7 @@ export function FeedPage() {
 
   const bgClass = isDark ? "bg-page-dark" : "bg-page-light"
   const textColor = isDark ? "text-white" : "text-ink"
-  const dividerCls = isDark ? "divide-white/8" : "divide-ink/6"
+  const dividerCls = isDark ? "divide-transparent" : "divide-ink/6"
   const borderCls = isDark ? "border-white/8" : "border-ink/8"
 
   return (
