@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest"
+import { afterEach, describe, expect, it, vi } from "vitest"
 import {
   registerVideoPreloadCandidate,
   resetVideoPreloadBudgetForTests,
@@ -8,6 +8,11 @@ import {
 } from "./video-preload-budget"
 
 describe("video preload budget", () => {
+  afterEach(() => {
+    resetVideoPreloadBudgetForTests()
+    vi.unstubAllGlobals()
+  })
+
   it("preloads nearby downward videos while keeping one reverse-scroll video warm", () => {
     resetVideoPreloadBudgetForTests()
 
@@ -262,5 +267,101 @@ describe("video preload budget", () => {
     })
 
     expect(notifyNear).toHaveBeenLastCalledWith(null)
+  })
+
+  it("reduces concurrent preloads on constrained mobile data", () => {
+    resetVideoPreloadBudgetForTests()
+    vi.stubGlobal("navigator", {
+      connection: {
+        downlink: 1.6,
+        effectiveType: "3g",
+        saveData: false,
+      },
+    })
+
+    const notifications = new Map<string, number | null>()
+
+    const connectCandidate = (candidateId: string) => {
+      registerVideoPreloadCandidate(candidateId, (preloadRank) => {
+        notifications.set(candidateId, preloadRank)
+      })
+    }
+
+    connectCandidate("below-nearby")
+    connectCandidate("below-secondary")
+    connectCandidate("below-third")
+    connectCandidate("above-nearby")
+
+    updateVideoPreloadCandidate("below-nearby", {
+      canPrewarm: true,
+      distancePx: 260,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("below-secondary", {
+      canPrewarm: true,
+      distancePx: 900,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("below-third", {
+      canPrewarm: true,
+      distancePx: 1_400,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("above-nearby", {
+      canPrewarm: true,
+      distancePx: 140,
+      direction: "above",
+    })
+
+    expect(notifications.get("below-nearby")).toBeNull()
+    expect(notifications.get("above-nearby")).toBeNull()
+    expect(notifications.get("below-secondary")).toBeNull()
+    expect(notifications.get("below-third")).toBeNull()
+  })
+
+  it("uses the smaller mobile preload pool when coarse pointer is detected", () => {
+    resetVideoPreloadBudgetForTests()
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      addEventListener: vi.fn(),
+      addListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+      matches: query === "(pointer: coarse)",
+      media: query,
+      onchange: null,
+      removeEventListener: vi.fn(),
+      removeListener: vi.fn(),
+    }))
+
+    const notifications = new Map<string, number | null>()
+
+    const connectCandidate = (candidateId: string) => {
+      registerVideoPreloadCandidate(candidateId, (preloadRank) => {
+        notifications.set(candidateId, preloadRank)
+      })
+    }
+
+    connectCandidate("below-nearby")
+    connectCandidate("below-secondary")
+    connectCandidate("above-nearby")
+
+    updateVideoPreloadCandidate("below-nearby", {
+      canPrewarm: true,
+      distancePx: 260,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("below-secondary", {
+      canPrewarm: true,
+      distancePx: 900,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("above-nearby", {
+      canPrewarm: true,
+      distancePx: 140,
+      direction: "above",
+    })
+
+    expect(notifications.get("below-nearby")).toBeNull()
+    expect(notifications.get("above-nearby")).toBeNull()
+    expect(notifications.get("below-secondary")).toBeNull()
   })
 })

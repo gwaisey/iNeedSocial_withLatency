@@ -9,9 +9,9 @@ import {
   type SetStateAction,
 } from "react"
 import type { VideoPreloadRank } from "../utils/video-preload-budget"
+import { getVideoNetworkPreloadPolicy } from "../utils/video-network-policy"
 import {
   isDirectVideoFileSource,
-  VIDEO_AGGRESSIVE_AUTO_LOAD_MAX_RANK,
   VIDEO_READY_STATE_CURRENT_DATA,
   VIDEO_SOURCE_DETACH_GRACE_MS,
   VIDEO_SOURCE_IMMEDIATE_DETACH_DISTANCE_PX,
@@ -76,6 +76,7 @@ export function useAutoPlayVideoSource({
   const shouldAggressivelyLoadSourceRef = useRef(false)
   const [hasAttachedSource, setHasAttachedSource] = useState(false)
   const [hasConnectedPlaybackSource, setHasConnectedPlaybackSource] = useState(false)
+  const aggressiveAutoLoadMaxRank = getVideoNetworkPreloadPolicy().aggressiveAutoLoadMaxRank
 
   useVideoSourceLifecycleReset({
     normalizedSrc: resolvedSrc,
@@ -92,8 +93,9 @@ export function useAutoPlayVideoSource({
     shouldMountVideo &&
     (isInViewport ||
       isPlaybackVisible ||
-      (autoPreloadRank !== null && autoPreloadRank <= VIDEO_AGGRESSIVE_AUTO_LOAD_MAX_RANK))
-  const shouldKeepAttachedSource = hasAttachedSource && (isInViewport || isVisible || canUseAutoPreload)
+      (autoPreloadRank !== null && autoPreloadRank <= aggressiveAutoLoadMaxRank))
+  const shouldKeepAttachedSource =
+    hasAttachedSource && (isInViewport || isVisible || canUseAutoPreload)
 
   const shouldRenderVideoSource =
     hasVideoSource &&
@@ -288,7 +290,7 @@ export function useAutoPlayVideoSource({
     // playback candidate. Avoid auto-loading several offscreen videos at once because
     // browser media connection limits can delay the video the user reaches next.
     if (
-      (autoPreloadRank === null || autoPreloadRank > VIDEO_AGGRESSIVE_AUTO_LOAD_MAX_RANK) &&
+      (autoPreloadRank === null || autoPreloadRank > aggressiveAutoLoadMaxRank) &&
       !isPlaybackVisible &&
       !isInViewport
     ) {
@@ -316,6 +318,7 @@ export function useAutoPlayVideoSource({
     }
   }, [
     autoPreloadRank,
+    aggressiveAutoLoadMaxRank,
     hasAttachedSource,
     hasConnectedPlaybackSource,
     hasVideoSource,

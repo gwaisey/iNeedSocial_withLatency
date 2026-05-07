@@ -1,3 +1,5 @@
+import { getVideoNetworkPreloadPolicy } from "./video-network-policy"
+
 export type VideoPreloadDirection = "above" | "below" | "visible"
 export type VideoPreloadRank = number | null
 
@@ -8,13 +10,6 @@ type VideoPreloadCandidate = {
   notify: (preloadRank: VideoPreloadRank) => void
 }
 
-// Keep auto-preloading focused on nearby videos while giving fast mobile scrolls
-// enough runway in both directions.
-const MAX_AUTO_PRELOAD_VIDEOS = 5
-const MAX_BELOW_PRELOAD_DISTANCE_PX = 14000
-const MAX_ABOVE_PRELOAD_DISTANCE_PX = 14000
-// Keep one nearby opposite-direction video warm so reversing scroll does not start cold.
-const OPPOSITE_DIRECTION_WARM_SLOT_INDEX = 2
 const registry = new Map<string, VideoPreloadCandidate>()
 let preferredPreloadDirection: Exclude<VideoPreloadDirection, "visible"> = "below"
 
@@ -41,7 +36,9 @@ function getEligibleCandidates({
 
 function pickPreloadCandidates(
   preferredCandidates: Array<[string, VideoPreloadCandidate]>,
-  fallbackCandidates: Array<[string, VideoPreloadCandidate]>
+  fallbackCandidates: Array<[string, VideoPreloadCandidate]>,
+  maxAutoPreloadVideos: number,
+  oppositeDirectionWarmSlotIndex: number
 ) {
   const selectedCandidates: Array<[string, VideoPreloadCandidate]> = []
 
@@ -53,11 +50,11 @@ function pickPreloadCandidates(
   }
 
   while (
-    selectedCandidates.length < MAX_AUTO_PRELOAD_VIDEOS &&
+    selectedCandidates.length < maxAutoPreloadVideos &&
     (preferredCandidates.length > 0 || fallbackCandidates.length > 0)
   ) {
     if (
-      selectedCandidates.length === OPPOSITE_DIRECTION_WARM_SLOT_INDEX &&
+      selectedCandidates.length === oppositeDirectionWarmSlotIndex &&
       fallbackCandidates.length > 0
     ) {
       const fallbackCandidate = fallbackCandidates.shift()
@@ -82,22 +79,30 @@ function pickPreloadCandidates(
 }
 
 function recomputeBudget() {
+  const preloadPolicy = getVideoNetworkPreloadPolicy()
   const preferredCandidates = getEligibleCandidates({
     direction: preferredPreloadDirection,
     maxDistancePx:
       preferredPreloadDirection === "below"
-        ? MAX_BELOW_PRELOAD_DISTANCE_PX
-        : MAX_ABOVE_PRELOAD_DISTANCE_PX,
+        ? preloadPolicy.maxBelowPreloadDistancePx
+        : preloadPolicy.maxAbovePreloadDistancePx,
   })
   const fallbackDirection = preferredPreloadDirection === "below" ? "above" : "below"
   const fallbackCandidates = getEligibleCandidates({
     direction: fallbackDirection,
     maxDistancePx:
-      fallbackDirection === "below" ? MAX_BELOW_PRELOAD_DISTANCE_PX : MAX_ABOVE_PRELOAD_DISTANCE_PX,
+      fallbackDirection === "below"
+        ? preloadPolicy.maxBelowPreloadDistancePx
+        : preloadPolicy.maxAbovePreloadDistancePx,
   })
 
   const preloadRanks = new Map<string, number>(
-    pickPreloadCandidates(preferredCandidates, fallbackCandidates)
+    pickPreloadCandidates(
+      preferredCandidates,
+      fallbackCandidates,
+      preloadPolicy.maxAutoPreloadVideos,
+      preloadPolicy.oppositeDirectionWarmSlotIndex
+    )
       .map(([candidateId], index) => [candidateId, index])
   )
 
