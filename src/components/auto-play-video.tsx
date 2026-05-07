@@ -82,7 +82,6 @@ export function AutoPlayVideo({
     hasVideoSource,
     scrollRootRef,
     shellRef,
-    shouldMountVideo,
   })
   const isPlaybackVisible = isVisible || isForwardHandoffCandidate
 
@@ -119,6 +118,25 @@ export function AutoPlayVideo({
     shellRef,
   })
   const canUseAutoPreload = autoPreloadRank !== null
+
+  useEffect(() => {
+    if (!hasVideoSource || !canPrewarm || shouldMountVideo) {
+      return
+    }
+
+    if (canUseAutoPreload || isNearViewport || isInViewport || isVisible) {
+      setShouldMountVideo(true)
+    }
+  }, [
+    canPrewarm,
+    canUseAutoPreload,
+    hasVideoSource,
+    isInViewport,
+    isNearViewport,
+    isVisible,
+    shouldMountVideo,
+  ])
+
   const {
     hasAttachedSource,
     hasConnectedPlaybackSource,

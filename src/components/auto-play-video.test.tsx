@@ -196,6 +196,97 @@ describe("AutoPlayVideo", () => {
     expect(video).toHaveAttribute("preload", "none")
   })
 
+  it("mounts and loads a near video from scroll geometry even when prewarm observation is late", async () => {
+    class NonIntersectingIntersectionObserver implements IntersectionObserver {
+      readonly root: Element | Document | null
+      readonly rootMargin: string
+      readonly thresholds: ReadonlyArray<number>
+
+      constructor(
+        private readonly callback: IntersectionObserverCallback,
+        options: IntersectionObserverInit = {}
+      ) {
+        this.root = options.root ?? null
+        this.rootMargin = options.rootMargin ?? "0px"
+        this.thresholds = Array.isArray(options.threshold)
+          ? options.threshold
+          : [options.threshold ?? 0]
+      }
+
+      disconnect() {}
+
+      observe(target: Element) {
+        this.callback(
+          [
+            {
+              boundingClientRect: target.getBoundingClientRect(),
+              intersectionRatio: 0,
+              intersectionRect: target.getBoundingClientRect(),
+              isIntersecting: false,
+              rootBounds: null,
+              target,
+              time: 0,
+            },
+          ],
+          this
+        )
+      }
+
+      takeRecords() {
+        return []
+      }
+
+      unobserve() {}
+    }
+
+    window.IntersectionObserver = NonIntersectingIntersectionObserver
+
+    let rect = {
+      bottom: 20_600,
+      height: 600,
+      left: 0,
+      right: 360,
+      toJSON: () => ({}),
+      top: 20_000,
+      width: 360,
+      x: 0,
+      y: 20_000,
+    } as DOMRect
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(() => rect)
+
+    const { container } = render(
+      <AutoPlayVideo
+        canPrewarm={true}
+        className="video"
+        isMuted={true}
+        poster="/poster.jpg"
+        src="/content/videos-default/pinata.mp4"
+      />
+    )
+
+    expect(container.querySelector("video")).toBeNull()
+
+    rect = {
+      bottom: 5_600,
+      height: 600,
+      left: 0,
+      right: 360,
+      toJSON: () => ({}),
+      top: 5_000,
+      width: 360,
+      x: 0,
+      y: 5_000,
+    } as DOMRect
+
+    document.dispatchEvent(new Event("scroll"))
+
+    await waitFor(() => {
+      expect(container.querySelector("video")?.getAttribute("src")).toBe(
+        "https://pub-media-example.r2.dev/content/videos-default/pinata.mp4"
+      )
+    })
+  })
+
   it("waits for requestVideoFrameCallback before revealing the video when available", async () => {
     let frameCallback: (() => void) | null = null
 

@@ -223,7 +223,7 @@ export function useVideoCandidateLifecycle({
     }
 
     updateVideoPreloadCandidate(preloadCandidateId, {
-      canPrewarm: canPrewarm && shouldMountVideo,
+      canPrewarm,
       distancePx: distanceToViewport,
       direction: preloadDirection,
     })
@@ -233,7 +233,6 @@ export function useVideoCandidateLifecycle({
     hasVideoSource,
     preloadCandidateId,
     preloadDirection,
-    shouldMountVideo,
   ])
 
   useEffect(() => {
