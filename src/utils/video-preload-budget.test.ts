@@ -269,7 +269,7 @@ describe("video preload budget", () => {
     expect(notifyNear).toHaveBeenLastCalledWith(null)
   })
 
-  it("reduces concurrent preloads on constrained mobile data", () => {
+  it("keeps only one candidate warm on constrained mobile data", () => {
     resetVideoPreloadBudgetForTests()
     vi.stubGlobal("navigator", {
       connection: {
@@ -313,13 +313,13 @@ describe("video preload budget", () => {
       direction: "above",
     })
 
-    expect(notifications.get("below-nearby")).toBeNull()
+    expect(notifications.get("below-nearby")).toBe(0)
     expect(notifications.get("above-nearby")).toBeNull()
     expect(notifications.get("below-secondary")).toBeNull()
     expect(notifications.get("below-third")).toBeNull()
   })
 
-  it("uses the smaller mobile preload pool when coarse pointer is detected", () => {
+  it("keeps only the next two forward candidates warm when coarse pointer is detected", () => {
     resetVideoPreloadBudgetForTests()
     vi.stubGlobal("matchMedia", (query: string) => ({
       addEventListener: vi.fn(),
@@ -360,8 +360,42 @@ describe("video preload budget", () => {
       direction: "above",
     })
 
+    expect(notifications.get("below-nearby")).toBe(0)
+    expect(notifications.get("above-nearby")).toBeNull()
+    expect(notifications.get("below-secondary")).toBe(1)
+  })
+
+  it("disables offscreen video preloads when Save-Data is enabled", () => {
+    resetVideoPreloadBudgetForTests()
+    vi.stubGlobal("navigator", {
+      connection: {
+        downlink: 8,
+        effectiveType: "4g",
+        saveData: true,
+      },
+    })
+
+    const notifications = new Map<string, number | null>()
+
+    registerVideoPreloadCandidate("below-nearby", (preloadRank) => {
+      notifications.set("below-nearby", preloadRank)
+    })
+    registerVideoPreloadCandidate("above-nearby", (preloadRank) => {
+      notifications.set("above-nearby", preloadRank)
+    })
+
+    updateVideoPreloadCandidate("below-nearby", {
+      canPrewarm: true,
+      distancePx: 260,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("above-nearby", {
+      canPrewarm: true,
+      distancePx: 140,
+      direction: "above",
+    })
+
     expect(notifications.get("below-nearby")).toBeNull()
     expect(notifications.get("above-nearby")).toBeNull()
-    expect(notifications.get("below-secondary")).toBeNull()
   })
 })

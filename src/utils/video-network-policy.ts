@@ -21,18 +21,26 @@ export const DEFAULT_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
 }
 
 const MOBILE_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: -1,
+  aggressiveAutoLoadMaxRank: 0,
   maxAbovePreloadDistancePx: 4_500,
-  maxAutoPreloadVideos: 0,
+  maxAutoPreloadVideos: 2,
   maxBelowPreloadDistancePx: 7_000,
-  oppositeDirectionWarmSlotIndex: 1,
+  oppositeDirectionWarmSlotIndex: 2,
 }
 
 const CONSTRAINED_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
   aggressiveAutoLoadMaxRank: -1,
   maxAbovePreloadDistancePx: 3_500,
-  maxAutoPreloadVideos: 0,
+  maxAutoPreloadVideos: 1,
   maxBelowPreloadDistancePx: 6_000,
+  oppositeDirectionWarmSlotIndex: 1,
+}
+
+const SAVE_DATA_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
+  aggressiveAutoLoadMaxRank: -1,
+  maxAbovePreloadDistancePx: 0,
+  maxAutoPreloadVideos: 0,
+  maxBelowPreloadDistancePx: 0,
   oppositeDirectionWarmSlotIndex: 1,
 }
 
@@ -66,7 +74,6 @@ function hasCoarsePointer() {
 function isConstrainedConnection(connection: NetworkInformationLike | undefined) {
   const effectiveType = connection?.effectiveType?.toLowerCase()
   return (
-    connection?.saveData === true ||
     effectiveType === "slow-2g" ||
     effectiveType === "2g" ||
     effectiveType === "3g" ||
@@ -76,6 +83,10 @@ function isConstrainedConnection(connection: NetworkInformationLike | undefined)
 
 export function getVideoNetworkPreloadPolicy(): VideoNetworkPreloadPolicy {
   const connection = getConnection()
+
+  if (connection?.saveData === true) {
+    return SAVE_DATA_VIDEO_NETWORK_PRELOAD_POLICY
+  }
 
   if (isConstrainedConnection(connection)) {
     return CONSTRAINED_VIDEO_NETWORK_PRELOAD_POLICY

@@ -16,6 +16,33 @@ async function forceCompleteTutorial(page: Page) {
   await page.getByTestId("feed-scroll-container").waitFor({ state: "visible" })
 }
 
+async function clickVisibleTutorialAction(page: Page) {
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const skipButton = page.getByTestId("tutorial-skip-button").first()
+    if ((await skipButton.count()) > 0 && await skipButton.isVisible()) {
+      await skipButton.click({ force: true })
+      return true
+    }
+
+    const nextButton = page.getByTestId("tutorial-next-button").first()
+    if ((await nextButton.count()) === 0 || !(await nextButton.isVisible())) {
+      return false
+    }
+
+    await nextButton.click({ force: true })
+    await page.waitForTimeout(80)
+
+    const hasTutorialAction = await page
+      .locator('[data-testid="tutorial-skip-button"], [data-testid="tutorial-next-button"]')
+      .count()
+    if (hasTutorialAction === 0) {
+      return true
+    }
+  }
+
+  return false
+}
+
 async function waitForFeedAfterTutorial(page: Page) {
   await page.getByTestId("feed-scroll-container").waitFor({ state: "visible" })
   await page
@@ -54,18 +81,24 @@ async function hasUnfinishedTutorial(page: Page) {
 }
 
 export async function dismissTutorialIfVisible(page: Page) {
-  const tutorialSkipButton = page.getByTestId("tutorial-skip-button")
-  const tutorialIsVisible = await tutorialSkipButton
-    .waitFor({ state: "visible", timeout: 8_000 })
+  const tutorialAction = page
+    .locator('[data-testid="tutorial-skip-button"], [data-testid="tutorial-next-button"]')
+    .first()
+  const tutorialIsVisible = await tutorialAction
+    .waitFor({ state: "visible", timeout: 15_000 })
     .then(() => true)
     .catch(() => false)
 
   if (tutorialIsVisible) {
-    await tutorialSkipButton.click({ force: true })
+    await clickVisibleTutorialAction(page)
     await page
-      .waitForFunction(() => !document.querySelector('[data-testid="tutorial-skip-button"]'), {
-        timeout: 5_000,
-      })
+      .waitForFunction(
+        () =>
+          !document.querySelector(
+            '[data-testid="tutorial-skip-button"], [data-testid="tutorial-next-button"]'
+          ),
+        { timeout: 5_000 }
+      )
       .catch(() => {})
     await waitForFeedAfterTutorial(page)
     return
