@@ -121,6 +121,7 @@ describe("AutoPlayVideo", () => {
       globalThis.fetch = originalFetch
     }
 
+    vi.unstubAllGlobals()
   })
 
   it("does not render a video element when src is missing", () => {
@@ -461,6 +462,60 @@ describe("AutoPlayVideo", () => {
     })
 
     expect(fetchSpy).not.toHaveBeenCalled()
+  })
+
+  it("range-warms compact R2 video bytes on coarse-pointer devices", async () => {
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
+      bottom: 2_236,
+      height: 836,
+      left: 0,
+      right: 360,
+      toJSON: () => ({}),
+      top: 1_400,
+      width: 360,
+      x: 0,
+      y: 1_400,
+    } as DOMRect)
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      addEventListener: vi.fn(),
+      addListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+      matches: query === "(pointer: coarse)",
+      media: query,
+      onchange: null,
+      removeEventListener: vi.fn(),
+      removeListener: vi.fn(),
+    }))
+
+    const fetchSpy = vi.fn().mockResolvedValue({
+      arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(16)),
+      ok: true,
+    } as unknown as Response)
+    globalThis.fetch = fetchSpy as typeof fetch
+
+    const { container } = render(
+      <AutoPlayVideo className="video" isMuted={true} src="/content/videos-default/pinata.mp4" />
+    )
+
+    const compactPinataUrl = "https://pub-media-example.r2.dev/content/videos/pinata.mp4"
+
+    await waitFor(() => {
+      expect(container.querySelector("video")?.getAttribute("src")).toBe(compactPinataUrl)
+    })
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledWith(
+        compactPinataUrl,
+        expect.objectContaining({
+          cache: "force-cache",
+          credentials: "omit",
+          headers: {
+            Range: "bytes=0-393215",
+          },
+          mode: "cors",
+        })
+      )
+    })
   })
 
   it("keeps nearby offscreen sources attached and unloads them after they are far away", async () => {

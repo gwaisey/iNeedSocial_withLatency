@@ -21,11 +21,19 @@ export const DEFAULT_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
 }
 
 const MOBILE_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: 0,
-  maxAbovePreloadDistancePx: 4_500,
-  maxAutoPreloadVideos: 2,
-  maxBelowPreloadDistancePx: 7_000,
+  aggressiveAutoLoadMaxRank: 1,
+  maxAbovePreloadDistancePx: 6_500,
+  maxAutoPreloadVideos: 3,
+  maxBelowPreloadDistancePx: 9_000,
   oppositeDirectionWarmSlotIndex: 2,
+}
+
+const FAST_MOBILE_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
+  aggressiveAutoLoadMaxRank: 2,
+  maxAbovePreloadDistancePx: 10_000,
+  maxAutoPreloadVideos: 4,
+  maxBelowPreloadDistancePx: 12_000,
+  oppositeDirectionWarmSlotIndex: 3,
 }
 
 const CONSTRAINED_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
@@ -81,6 +89,18 @@ function isConstrainedConnection(connection: NetworkInformationLike | undefined)
   )
 }
 
+function isFastMobileConnection(connection: NetworkInformationLike | undefined) {
+  if (connection?.saveData === true) {
+    return false
+  }
+
+  return (
+    connection?.effectiveType?.toLowerCase() === "4g" &&
+    typeof connection.downlink === "number" &&
+    connection.downlink >= 5
+  )
+}
+
 export function getVideoNetworkPreloadPolicy(): VideoNetworkPreloadPolicy {
   const connection = getConnection()
 
@@ -93,6 +113,10 @@ export function getVideoNetworkPreloadPolicy(): VideoNetworkPreloadPolicy {
   }
 
   if (hasCoarsePointer()) {
+    if (isFastMobileConnection(connection)) {
+      return FAST_MOBILE_VIDEO_NETWORK_PRELOAD_POLICY
+    }
+
     return MOBILE_VIDEO_NETWORK_PRELOAD_POLICY
   }
 

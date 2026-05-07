@@ -319,7 +319,7 @@ describe("video preload budget", () => {
     expect(notifications.get("below-third")).toBeNull()
   })
 
-  it("keeps only the next two forward candidates warm when coarse pointer is detected", () => {
+  it("keeps the next compact mobile candidates warm when coarse pointer is detected", () => {
     resetVideoPreloadBudgetForTests()
     vi.stubGlobal("matchMedia", (query: string) => ({
       addEventListener: vi.fn(),
@@ -342,6 +342,7 @@ describe("video preload budget", () => {
 
     connectCandidate("below-nearby")
     connectCandidate("below-secondary")
+    connectCandidate("below-third")
     connectCandidate("above-nearby")
 
     updateVideoPreloadCandidate("below-nearby", {
@@ -354,6 +355,11 @@ describe("video preload budget", () => {
       distancePx: 900,
       direction: "below",
     })
+    updateVideoPreloadCandidate("below-third", {
+      canPrewarm: true,
+      distancePx: 1_400,
+      direction: "below",
+    })
     updateVideoPreloadCandidate("above-nearby", {
       canPrewarm: true,
       distancePx: 140,
@@ -361,8 +367,76 @@ describe("video preload budget", () => {
     })
 
     expect(notifications.get("below-nearby")).toBe(0)
-    expect(notifications.get("above-nearby")).toBeNull()
     expect(notifications.get("below-secondary")).toBe(1)
+    expect(notifications.get("above-nearby")).toBe(2)
+    expect(notifications.get("below-third")).toBeNull()
+  })
+
+  it("warms more compact mobile candidates on fast reported mobile data", () => {
+    resetVideoPreloadBudgetForTests()
+    vi.stubGlobal("navigator", {
+      connection: {
+        downlink: 10,
+        effectiveType: "4g",
+        saveData: false,
+      },
+    })
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      addEventListener: vi.fn(),
+      addListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+      matches: query === "(pointer: coarse)",
+      media: query,
+      onchange: null,
+      removeEventListener: vi.fn(),
+      removeListener: vi.fn(),
+    }))
+
+    const notifications = new Map<string, number | null>()
+
+    const connectCandidate = (candidateId: string) => {
+      registerVideoPreloadCandidate(candidateId, (preloadRank) => {
+        notifications.set(candidateId, preloadRank)
+      })
+    }
+
+    connectCandidate("below-nearby")
+    connectCandidate("below-secondary")
+    connectCandidate("below-third")
+    connectCandidate("below-fourth")
+    connectCandidate("above-nearby")
+
+    updateVideoPreloadCandidate("below-nearby", {
+      canPrewarm: true,
+      distancePx: 260,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("below-secondary", {
+      canPrewarm: true,
+      distancePx: 900,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("below-third", {
+      canPrewarm: true,
+      distancePx: 1_400,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("below-fourth", {
+      canPrewarm: true,
+      distancePx: 2_200,
+      direction: "below",
+    })
+    updateVideoPreloadCandidate("above-nearby", {
+      canPrewarm: true,
+      distancePx: 140,
+      direction: "above",
+    })
+
+    expect(notifications.get("below-nearby")).toBe(0)
+    expect(notifications.get("below-secondary")).toBe(1)
+    expect(notifications.get("below-third")).toBe(2)
+    expect(notifications.get("above-nearby")).toBe(3)
+    expect(notifications.get("below-fourth")).toBeNull()
   })
 
   it("disables offscreen video preloads when Save-Data is enabled", () => {
