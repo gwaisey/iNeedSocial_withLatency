@@ -264,7 +264,8 @@ describe("AutoPlayVideo", () => {
       />
     )
 
-    expect(container.querySelector("video")).toBeNull()
+    expect(container.querySelector("video")).not.toBeNull()
+    expect(container.querySelector("video")?.getAttribute("src")).toBeNull()
 
     rect = {
       bottom: 5_600,

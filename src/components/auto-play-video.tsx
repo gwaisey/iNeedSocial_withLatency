@@ -252,7 +252,7 @@ export function AutoPlayVideo({
           src={resolvedPoster}
         />
       )}
-      {hasVideoSource && shouldMountVideo && (
+      {hasVideoSource && (
         <video
           ref={videoRef}
           autoPlay={shouldAutoplayVisibleVideo}

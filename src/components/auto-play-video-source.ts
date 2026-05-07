@@ -77,6 +77,14 @@ export function useAutoPlayVideoSource({
   const [hasAttachedSource, setHasAttachedSource] = useState(false)
   const [hasConnectedPlaybackSource, setHasConnectedPlaybackSource] = useState(false)
   const aggressiveAutoLoadMaxRank = getVideoNetworkPreloadPolicy().aggressiveAutoLoadMaxRank
+  const shouldConnectVideoSource =
+    hasVideoSource &&
+    (shouldMountVideo ||
+      canUseAutoPreload ||
+      isNearViewport ||
+      isInViewport ||
+      isVisible ||
+      isPlaybackVisible)
 
   useVideoSourceLifecycleReset({
     normalizedSrc: resolvedSrc,
@@ -90,7 +98,7 @@ export function useAutoPlayVideoSource({
 
   const shouldAggressivelyLoadSource =
     hasVideoSource &&
-    shouldMountVideo &&
+    shouldConnectVideoSource &&
     (isInViewport ||
       isPlaybackVisible ||
       (autoPreloadRank !== null && autoPreloadRank <= aggressiveAutoLoadMaxRank))
@@ -99,7 +107,7 @@ export function useAutoPlayVideoSource({
 
   const shouldRenderVideoSource =
     hasVideoSource &&
-    shouldMountVideo &&
+    shouldConnectVideoSource &&
     (shouldKeepAttachedSource || canUseAutoPreload || isInViewport || isVisible)
 
   useLayoutEffect(() => {
@@ -108,7 +116,7 @@ export function useAutoPlayVideoSource({
 
   useDirectVideoWarmup({
     enabled:
-      shouldMountVideo &&
+      shouldConnectVideoSource &&
       isDirectVideoFileSource(resolvedSrc) &&
       (canUseAutoPreload || isNearViewport || isInViewport || isVisible),
     src: resolvedSrc,
@@ -158,7 +166,7 @@ export function useAutoPlayVideoSource({
 
     const shouldDetachImmediately =
       !hasVideoSource ||
-      !shouldMountVideo ||
+      !shouldConnectVideoSource ||
       (Number.isFinite(distanceToViewport) &&
         distanceToViewport >= VIDEO_SOURCE_IMMEDIATE_DETACH_DISTANCE_PX)
 
@@ -180,6 +188,7 @@ export function useAutoPlayVideoSource({
     hasAttachedSource,
     hasPendingPlayAttemptRef,
     hasVideoSource,
+    shouldConnectVideoSource,
     shouldMountVideo,
     shouldRenderVideoSource,
   ])
