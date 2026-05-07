@@ -9,6 +9,7 @@ import {
 import {
   getResolvedVideoSource,
   getVideoPosterSource,
+  isDirectVideoFileSource,
 } from "./auto-play-video-config"
 import {
   useVideoCandidateLifecycle,
@@ -196,6 +197,10 @@ export function AutoPlayVideo({
     resolvedSrc,
     videoRef,
   })
+  const attachedVideoSource =
+    hasAttachedSource && isDirectVideoFileSource(resolvedSrc)
+      ? resolvedSrc
+      : undefined
 
   useEffect(() => {
     if (!resolvedPoster) {
@@ -265,6 +270,7 @@ export function AutoPlayVideo({
           preload={
             shouldRenderVideoSource ? (shouldAggressivelyLoadSource ? "auto" : "metadata") : "none"
           }
+          src={attachedVideoSource}
           style={{ backgroundColor: "transparent" }}
         />
       )}

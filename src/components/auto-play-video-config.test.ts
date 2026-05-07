@@ -61,6 +61,34 @@ describe("auto-play video config", () => {
     )
   })
 
+  it("can force compact video variants independent of device heuristics", () => {
+    vi.stubEnv("VITE_VIDEO_PUBLIC_BASE_URL", "https://pub-media-example.r2.dev")
+    vi.stubEnv("VITE_VIDEO_SOURCE_VARIANT", "compact")
+
+    expect(getResolvedVideoSource("/content/videos-default/pulu2.mp4")).toBe(
+      "https://pub-media-example.r2.dev/content/videos/pulu2.mp4"
+    )
+  })
+
+  it("can force default video variants when compact heuristics would apply", () => {
+    vi.stubEnv("VITE_VIDEO_PUBLIC_BASE_URL", "https://pub-media-example.r2.dev")
+    vi.stubEnv("VITE_VIDEO_SOURCE_VARIANT", "default")
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      addEventListener: vi.fn(),
+      addListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+      matches: query === "(pointer: coarse)",
+      media: query,
+      onchange: null,
+      removeEventListener: vi.fn(),
+      removeListener: vi.fn(),
+    }))
+
+    expect(getResolvedVideoSource("/content/videos-default/pulu2.mp4")).toBe(
+      "https://pub-media-example.r2.dev/content/videos-default/pulu2.mp4"
+    )
+  })
+
   it("can map compact video variants to a configured compact media origin", () => {
     vi.stubEnv("VITE_VIDEO_PUBLIC_BASE_URL", "https://pub-media-example.r2.dev")
     vi.stubEnv("VITE_VIDEO_COMPACT_PUBLIC_BASE_URL", "https://compact-media-example.r2.dev")

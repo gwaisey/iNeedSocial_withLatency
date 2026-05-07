@@ -14,7 +14,7 @@ export const DEFAULT_VIDEO_ASPECT_RATIO = "9 / 16"
 export const VIDEO_READY_STATE_CURRENT_DATA = 2
 export const VIDEO_READY_STATE_FUTURE_DATA = 3
 export const VIDEO_REVEAL_PLAYBACK_PROGRESS_S = 0.02
-export const VIDEO_FOCUSED_PLAYBACK_RESCUE_DELAY_MS = 500
+export const VIDEO_FOCUSED_PLAYBACK_RESCUE_DELAY_MS = 250
 export const VIDEO_VIEWPORT_INTERSECTION_THRESHOLDS = [
   0,
   VIDEO_PLAY_STOP_VISIBLE_RATIO,
@@ -51,6 +51,19 @@ function getCompactVideoPublicBaseUrl() {
   return getVideoPublicBaseUrl()
 }
 
+function shouldPreferCompactVideoSource() {
+  const configuredVariant = import.meta.env.VITE_VIDEO_SOURCE_VARIANT?.trim().toLowerCase()
+  if (configuredVariant === "default") {
+    return false
+  }
+
+  if (configuredVariant === "compact") {
+    return true
+  }
+
+  return import.meta.env.PROD || shouldUseCompactVideoSource()
+}
+
 function buildAspectRatio(width: number, height: number) {
   if (width <= 0 || height <= 0) {
     return undefined
@@ -82,7 +95,7 @@ function getPreferredVideoSource(src?: string) {
     return normalizedSrc
   }
 
-  if (!shouldUseCompactVideoSource()) {
+  if (!shouldPreferCompactVideoSource()) {
     return normalizedSrc
   }
 

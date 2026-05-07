@@ -69,7 +69,11 @@ function attemptVisibleVideoPlayback({
   }
 
   if (hasPendingPlayAttemptRef.current) {
-    return false
+    if (!forceLoad || !video.paused) {
+      return false
+    }
+
+    hasPendingPlayAttemptRef.current = false
   }
 
   const shouldStartMuted = !isMuted

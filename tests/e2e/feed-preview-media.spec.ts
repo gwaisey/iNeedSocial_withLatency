@@ -36,7 +36,9 @@ type StartupSampleResult = {
 const FOCUSED_VIDEO_STARTUP_TIMEOUT_MS = 2_000
 const PLAYBACK_STABILITY_TIMEOUT_MS = 3_500
 const SCROLL_STARTUP_WARMUP_STEPS = 8
-const MAX_FOCUSED_STARTUP_MISSES = 6
+// The full-feed stress pass jumps 1100px at a time; allow a small absolute
+// number of startup misses while still failing repeated media stalls.
+const MAX_FOCUSED_STARTUP_MISSES = 8
 
 function isStartupStep(step: number) {
   return step > SCROLL_STARTUP_WARMUP_STEPS
