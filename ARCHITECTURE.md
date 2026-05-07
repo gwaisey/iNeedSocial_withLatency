@@ -130,8 +130,9 @@ Interaksi feed ringan disimpan terpisah dari payload durasi sesi:
 
 ### Video
 
-- Sumber lokal `/content/videos/*` dinormalisasi ke `/content/videos-default/*`.
-- Path lokal tersebut dipetakan ke media origin publik (`VITE_VIDEO_PUBLIC_BASE_URL`) atau default origin R2 di build produksi.
+- Sumber feed utama memakai `/content/videos-default/*`.
+- Browser mobile, koneksi lambat, dan mode hemat data memakai varian ringkas `/content/videos/*`.
+- Path default dipetakan ke media origin publik (`VITE_VIDEO_PUBLIC_BASE_URL`) atau default origin R2 di build produksi; path ringkas memakai `VITE_VIDEO_COMPACT_PUBLIC_BASE_URL` jika tersedia, lalu fallback ke origin video utama.
 - Visibilitas dipantau dengan `IntersectionObserver` dan subscription scroll yang sama.
 - Video hanya autoplay saat terlihat.
 - Video di carousel hanya autoplay pada slide aktif.

@@ -13,11 +13,11 @@ export type VideoNetworkPreloadPolicy = {
 }
 
 export const DEFAULT_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: 4,
-  maxAbovePreloadDistancePx: 14_000,
-  maxAutoPreloadVideos: 5,
-  maxBelowPreloadDistancePx: 14_000,
-  oppositeDirectionWarmSlotIndex: 2,
+  aggressiveAutoLoadMaxRank: 5,
+  maxAbovePreloadDistancePx: 18_000,
+  maxAutoPreloadVideos: 7,
+  maxBelowPreloadDistancePx: 18_000,
+  oppositeDirectionWarmSlotIndex: 3,
 }
 
 const MOBILE_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
@@ -97,4 +97,9 @@ export function getVideoNetworkPreloadPolicy(): VideoNetworkPreloadPolicy {
   }
 
   return DEFAULT_VIDEO_NETWORK_PRELOAD_POLICY
+}
+
+export function shouldUseCompactVideoSource() {
+  const connection = getConnection()
+  return connection?.saveData === true || isConstrainedConnection(connection) || hasCoarsePointer()
 }

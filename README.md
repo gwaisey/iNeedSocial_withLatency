@@ -77,6 +77,7 @@ Salin `.env.example` menjadi `.env` untuk pengembangan lokal. Untuk deployment p
 ```bash
 VITE_FEED_SOURCE=mock
 VITE_VIDEO_PUBLIC_BASE_URL=https://pub-xxxxxxxx.r2.dev
+VITE_VIDEO_COMPACT_PUBLIC_BASE_URL=
 VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
@@ -90,6 +91,8 @@ Jika `VITE_FEED_SOURCE` kosong atau tidak valid, aplikasi otomatis kembali ke `m
 
 `VITE_VIDEO_PUBLIC_BASE_URL` adalah asal utama video feed. Aplikasi akan memetakan path lokal `public/content/videos-default/*` menjadi URL absolut berbentuk `${VITE_VIDEO_PUBLIC_BASE_URL}/content/videos-default/*`.
 Gunakan URL origin public R2 (misalnya `https://pub-xxxxxxxx.r2.dev`) agar browser bisa melakukan range request (`206 Partial Content`) untuk autoplay yang lebih cepat.
+
+Untuk browser mobile, koneksi lambat, atau mode hemat data, aplikasi memilih varian ringkas `public/content/videos/*`. Jika `VITE_VIDEO_COMPACT_PUBLIC_BASE_URL` diisi, varian ringkas dipetakan ke origin tersebut; jika kosong, varian ringkas memakai origin utama `VITE_VIDEO_PUBLIC_BASE_URL`.
 
 Jika `VITE_VIDEO_PUBLIC_BASE_URL` tidak diisi, build produksi akan memakai origin public R2 default yang tertanam di kode, sedangkan mode pengembangan lokal tetap menggunakan path lokal `public/content/videos-default/*`.
 

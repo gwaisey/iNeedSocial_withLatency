@@ -1,4 +1,5 @@
 import { KNOWN_VIDEO_POSTER_DIMENSIONS } from "./auto-play-video-poster-dimensions"
+import { shouldUseCompactVideoSource } from "../utils/video-network-policy"
 
 export const VIDEO_PRELOAD_ROOT_MARGIN = "14000px 0px"
 export const VIDEO_PLAY_START_VISIBLE_RATIO = 0.35
@@ -23,6 +24,7 @@ export const VIDEO_VIEWPORT_INTERSECTION_THRESHOLDS = [
 ]
 
 const learnedVideoAspectRatios = new Map<string, string>()
+const COMPACT_VIDEO_SOURCE_PREFIX = "/content/videos/"
 const DEFAULT_VIDEO_SOURCE_PREFIX = "/content/videos-default/"
 const LEGACY_VIDEO_SOURCE_PREFIX = "/content/videos/"
 const DEFAULT_PUBLIC_VIDEO_BASE_URL = "https://pub-d618661628e3497397ad6ab54d430ff8.r2.dev"
@@ -38,6 +40,15 @@ function getVideoPublicBaseUrl() {
   }
 
   return undefined
+}
+
+function getCompactVideoPublicBaseUrl() {
+  const baseUrl = import.meta.env.VITE_VIDEO_COMPACT_PUBLIC_BASE_URL?.trim()
+  if (baseUrl) {
+    return baseUrl.replace(/\/$/, "")
+  }
+
+  return getVideoPublicBaseUrl()
 }
 
 function buildAspectRatio(width: number, height: number) {
@@ -65,10 +76,32 @@ function normalizeLocalVideoSource(src?: string) {
   return normalizedSrc
 }
 
-function getPublicVideoSource(src?: string) {
+function getPreferredVideoSource(src?: string) {
   const normalizedSrc = normalizeLocalVideoSource(src)
+  if (!normalizedSrc?.startsWith(DEFAULT_VIDEO_SOURCE_PREFIX)) {
+    return normalizedSrc
+  }
+
+  if (!shouldUseCompactVideoSource()) {
+    return normalizedSrc
+  }
+
+  return normalizedSrc.replace(DEFAULT_VIDEO_SOURCE_PREFIX, COMPACT_VIDEO_SOURCE_PREFIX)
+}
+
+function getPublicVideoSource(src?: string) {
+  const normalizedSrc = getPreferredVideoSource(src)
+  if (!normalizedSrc) {
+    return undefined
+  }
+
+  if (normalizedSrc.startsWith(COMPACT_VIDEO_SOURCE_PREFIX)) {
+    const compactBaseUrl = getCompactVideoPublicBaseUrl()
+    return compactBaseUrl ? `${compactBaseUrl}${normalizedSrc}` : normalizedSrc
+  }
+
   const publicBaseUrl = getVideoPublicBaseUrl()
-  if (!normalizedSrc?.startsWith(DEFAULT_VIDEO_SOURCE_PREFIX) || !publicBaseUrl) {
+  if (!normalizedSrc.startsWith(DEFAULT_VIDEO_SOURCE_PREFIX) || !publicBaseUrl) {
     return undefined
   }
 
@@ -76,7 +109,7 @@ function getPublicVideoSource(src?: string) {
 }
 
 export function getNormalizedVideoSource(src?: string) {
-  const normalizedSrc = normalizeLocalVideoSource(src)
+  const normalizedSrc = getPreferredVideoSource(src)
   const publicSrc = getPublicVideoSource(normalizedSrc)
   if (publicSrc) {
     return publicSrc

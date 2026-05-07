@@ -64,17 +64,17 @@ describe("video preload budget", () => {
 
     expect(notifications.get("video-a")).toBeNull()
     expect(notifications.get("video-b")).toBe(0)
-    expect(notifications.get("video-c")).toBe(2)
+    expect(notifications.get("video-c")).toBe(3)
     expect(notifications.get("video-d")).toBe(1)
-    expect(notifications.get("video-e")).toBe(3)
+    expect(notifications.get("video-e")).toBe(2)
     expect(notifications.get("video-f")).toBe(4)
 
     unregisterVideoPreloadCandidate("video-a")
 
     expect(notifications.get("video-b")).toBe(0)
-    expect(notifications.get("video-c")).toBe(2)
+    expect(notifications.get("video-c")).toBe(3)
     expect(notifications.get("video-d")).toBe(1)
-    expect(notifications.get("video-e")).toBe(3)
+    expect(notifications.get("video-e")).toBe(2)
     expect(notifications.get("video-f")).toBe(4)
   })
 
@@ -117,10 +117,10 @@ describe("video preload budget", () => {
 
     setVideoPreloadScrollDirection("up")
 
-    expect(notifications.get("below-nearby")).toBe(2)
+    expect(notifications.get("below-nearby")).toBe(3)
     expect(notifications.get("above-nearby")).toBe(0)
     expect(notifications.get("above-secondary")).toBe(1)
-    expect(notifications.get("above-far")).toBe(3)
+    expect(notifications.get("above-far")).toBe(2)
   })
 
   it("does not count visible candidates toward the forward preload budget", () => {
@@ -196,9 +196,9 @@ describe("video preload budget", () => {
     expect(notifications.get("visible-d")).toBeNull()
     expect(notifications.get("up-next-a")).toBe(0)
     expect(notifications.get("up-next-b")).toBe(1)
-    expect(notifications.get("up-next-c")).toBe(3)
+    expect(notifications.get("up-next-c")).toBe(2)
     expect(notifications.get("up-next-d")).toBe(4)
-    expect(notifications.get("above-nearby")).toBe(2)
+    expect(notifications.get("above-nearby")).toBe(3)
   })
 
   it("still allows above-viewport preloads when there are no forward candidates", () => {
@@ -253,7 +253,7 @@ describe("video preload budget", () => {
     })
     updateVideoPreloadCandidate("far", {
       canPrewarm: true,
-      distancePx: 14_600,
+      distancePx: 18_600,
       direction: "below",
     })
 

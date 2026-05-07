@@ -539,15 +539,15 @@ describe("AutoPlayVideo", () => {
     expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
 
     rect = {
-      bottom: -17_000,
+      bottom: -19_000,
       height: 600,
       left: 0,
       right: 480,
       toJSON: () => ({}),
-      top: -17_600,
+      top: -19_600,
       width: 480,
       x: 0,
-      y: -17_600,
+      y: -19_600,
     } as DOMRect
 
     fireEvent.scroll(document)
