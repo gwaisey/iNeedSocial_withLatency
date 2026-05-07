@@ -8,6 +8,7 @@ import {
 } from "../components/feed/feed-page-layout"
 import { RightPanel } from "../components/layout/RightPanel"
 import { Sidebar } from "../components/layout/Sidebar"
+import { VideoDebugPanel } from "../components/video-debug-panel"
 import { useStudyState } from "../context/study-context"
 import { useFeedCompletionCtaVisibility } from "../hooks/use-feed-completion-cta-visibility"
 import { useFeedLoader } from "../hooks/use-feed-loader"
@@ -213,6 +214,7 @@ export function FeedPage() {
         showTutorial={showTutorial}
         showTutorialDelayBlocker={showTutorialDelayBlocker}
       />
+      <VideoDebugPanel />
     </div>
   )
 }

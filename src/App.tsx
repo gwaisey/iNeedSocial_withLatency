@@ -1,5 +1,5 @@
-import { Suspense, lazy, type ReactElement } from "react"
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
+import { Suspense, lazy, useEffect, type ReactElement } from "react"
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom"
 import {
   getSessionStorage,
   isStudySessionEnded,
@@ -9,6 +9,7 @@ import { StudyProvider, useStudyState } from "./context/study-context"
 import { RouteLoadingScreen } from "./components/route-loading-screen"
 import { SplashPage } from "./pages/splash-page"
 import { WelcomePage } from "./pages/welcome-page"
+import { syncVideoDebugFlagFromSearch } from "./utils/video-debug-log"
 
 const FeedPageLazy = lazy(() =>
   import("./pages/feed-page").then((module) => ({ default: module.FeedPage }))
@@ -37,10 +38,21 @@ function RequireEndedStudySession({ children }: Readonly<{ children: ReactElemen
   return children
 }
 
+function VideoDebugRouteLatch() {
+  const location = useLocation()
+
+  useEffect(() => {
+    syncVideoDebugFlagFromSearch(location.search)
+  }, [location.search])
+
+  return null
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <StudyProvider>
+        <VideoDebugRouteLatch />
         <Routes>
           <Route path="/" element={<Navigate replace to="/splash" />} />
           <Route path="/splash" element={<SplashPage />} />

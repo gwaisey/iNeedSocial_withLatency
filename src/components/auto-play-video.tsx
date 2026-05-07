@@ -11,6 +11,7 @@ import {
   getVideoPosterSource,
   isDirectVideoFileSource,
 } from "./auto-play-video-config"
+import { useAutoPlayVideoDebug } from "./auto-play-video-debug"
 import {
   useVideoCandidateLifecycle,
   useVideoPrewarmMount,
@@ -201,6 +202,29 @@ export function AutoPlayVideo({
     hasAttachedSource && isDirectVideoFileSource(resolvedSrc)
       ? resolvedSrc
       : undefined
+
+  useAutoPlayVideoDebug({
+    attachedVideoSource,
+    autoPreloadRank,
+    canUseAutoPreload,
+    hasAttachedSource,
+    hasConnectedPlaybackSource,
+    hasLoadedFrame,
+    isActive,
+    isInViewport,
+    isMuted,
+    isPlaybackOwner,
+    isPlaybackVisible,
+    isVisible,
+    resolvedSrc,
+    shellRef,
+    shouldAggressivelyLoadSource,
+    shouldAutoplayVisibleVideo,
+    shouldMountVideo,
+    shouldRenderVideoSource,
+    src,
+    videoRef,
+  })
 
   useEffect(() => {
     if (!resolvedPoster) {
