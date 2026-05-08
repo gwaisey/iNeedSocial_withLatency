@@ -121,7 +121,7 @@ export function FeedPostCarouselMedia({
               onLoad={(image) => {
                 updateSlideHeight(index, buildImageAspectRatioHeight(image))
               }}
-              priority={Math.abs(index - activeIdx) <= 1 ? "high" : "low"}
+              priority={Math.abs(index - activeIdx) <= 2 ? "high" : "low"}
               shellClassName="w-full shrink-0"
               tokens={tokens}
             />
