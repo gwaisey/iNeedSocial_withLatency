@@ -69,6 +69,56 @@ async function waitForTrackedTimeToStayAt(page: Page, expectedTotal: number, sta
   )
 }
 
+async function waitForTrackedTimeToStabilize(page: Page, stableMs = 700) {
+  await page.waitForFunction(
+    ({ stableDuration }) => {
+      const win = window as Window & {
+        __stableTrackedTimeSince?: number
+        __stableTrackedTimeValue?: number
+      }
+      const sessionId = window.sessionStorage.getItem("ineedsocial:study:active-session")
+      const raw = sessionId
+        ? window.sessionStorage.getItem(`ineedsocial:study:${sessionId}:feed-session`)
+        : null
+      const snapshot = raw ? (JSON.parse(raw) as { genreTimes?: Record<string, number> }) : null
+      const total = Object.values(snapshot?.genreTimes ?? {}).reduce(
+        (runningTotal, value) => runningTotal + Number(value),
+        0
+      )
+
+      if (win.__stableTrackedTimeValue !== total) {
+        win.__stableTrackedTimeValue = total
+        win.__stableTrackedTimeSince = performance.now()
+        return false
+      }
+
+      return (
+        typeof win.__stableTrackedTimeSince === "number" &&
+        performance.now() - win.__stableTrackedTimeSince >= stableDuration
+      )
+    },
+    {
+      stableDuration: stableMs,
+    }
+  )
+
+  return sumGenreTimes(await readSessionSnapshot(page))
+}
+
+async function dispatchDocumentVisibility(page: Page, visibilityState: DocumentVisibilityState) {
+  await page.evaluate((nextVisibilityState) => {
+    Object.defineProperty(document, "visibilityState", {
+      configurable: true,
+      get: () => nextVisibilityState,
+    })
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      get: () => nextVisibilityState === "hidden",
+    })
+    document.dispatchEvent(new Event("visibilitychange"))
+  }, visibilityState)
+}
+
 async function seedEndedStudySession(page: Page, sessionId: string) {
   await page.addInitScript((targetSessionId) => {
     window.sessionStorage.setItem("ineedsocial:study:active-session", targetSessionId)
@@ -188,6 +238,33 @@ test("repeated lifecycle flushes do not double-count tracked time", async ({ pag
   const totalAfterSecondFlush = sumGenreTimes(snapshotAfterSecondFlush)
 
   expect(totalAfterSecondFlush).toBe(totalAfterFirstFlush)
+})
+
+test("document hidden pauses feed timing until the page is visible again", async ({ page }) => {
+  await startStudy(page)
+  await dismissTutorialIfVisible(page)
+
+  await page.getByTestId("theme-toggle-button").click()
+  await page.waitForURL("**/feed?theme=dark")
+  await waitForTrackedTimeToExceed(page, 0)
+
+  await dispatchDocumentVisibility(page, "hidden")
+  const totalAfterHide = await waitForTrackedTimeToStabilize(page)
+
+  expect(totalAfterHide).toBeGreaterThan(0)
+
+  await page.waitForTimeout(1_000)
+  await page.evaluate(() => window.dispatchEvent(new Event("pagehide")))
+
+  const snapshotAfterHiddenPageHide = await readSessionSnapshot(page)
+  expect(sumGenreTimes(snapshotAfterHiddenPageHide)).toBe(totalAfterHide)
+
+  await dispatchDocumentVisibility(page, "visible")
+  await page.waitForTimeout(500)
+  await page.evaluate(() => window.dispatchEvent(new Event("pagehide")))
+
+  const snapshotAfterResumeFlush = await readSessionSnapshot(page)
+  expect(sumGenreTimes(snapshotAfterResumeFlush)).toBeGreaterThan(totalAfterHide)
 })
 
 test("welcome asks for confirmation before replacing an unfinished session", async ({ page }) => {

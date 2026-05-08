@@ -248,6 +248,12 @@ npm run test:e2e:preview
 npm run verify:session-export
 ```
 
+Setelah perubahan sudah ter-deploy ke URL production, jalankan juga:
+
+```bash
+npm run test:e2e:production
+```
+
 `verify:session-export` akan:
 
 - menjalankan dua sesi disposable nyata lewat browser preview (desktop + mobile),
@@ -261,6 +267,7 @@ Kriteria lulus:
 - `test:e2e:preview` tidak menemukan console `error`,
 - untuk sesi disposable desktop dan mobile, hanya satu video aktif yang memegang playback pada saat scroll cepat,
 - output `VERIFY_SESSION_EXPORT_RESULT` bernilai `"passed": true`,
+- `test:e2e:production` lulus untuk desktop dan mobile pada URL production,
 - `total_time` sama dengan jumlah semua `*_ms`,
 - semua `*_count` bernilai non-negatif,
 - `*_count` di workbook sama dengan snapshot kategori akhir di aplikasi.
