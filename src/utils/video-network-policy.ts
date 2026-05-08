@@ -14,12 +14,12 @@ export type VideoNetworkPreloadPolicy = {
 }
 
 export const DEFAULT_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: 2,
-  maxAbovePreloadDistancePx: 16_000,
-  maxAutoPreloadVideos: 4,
-  maxBelowPreloadDistancePx: 16_000,
+  aggressiveAutoLoadMaxRank: 3,
+  maxAbovePreloadDistancePx: 18_000,
+  maxAutoPreloadVideos: 5,
+  maxBelowPreloadDistancePx: 18_000,
   oppositeDirectionWarmSlotIndex: 2,
-  sourceDetachGraceMs: 6_000,
+  sourceDetachGraceMs: 8_000,
 }
 
 const MOBILE_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
