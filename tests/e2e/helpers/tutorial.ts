@@ -90,16 +90,25 @@ export async function dismissTutorialIfVisible(page: Page) {
     .catch(() => false)
 
   if (tutorialIsVisible) {
-    await clickVisibleTutorialAction(page)
-    await page
-      .waitForFunction(
-        () =>
-          !document.querySelector(
-            '[data-testid="tutorial-skip-button"], [data-testid="tutorial-next-button"]'
-          ),
-        { timeout: 5_000 }
-      )
-      .catch(() => {})
+    const clickedTutorialAction = await clickVisibleTutorialAction(page)
+    const tutorialDismissed =
+      clickedTutorialAction &&
+      (await page
+        .waitForFunction(
+          () =>
+            !document.querySelector(
+              '[data-testid="tutorial-skip-button"], [data-testid="tutorial-next-button"]'
+            ),
+          { timeout: 5_000 }
+        )
+        .then(() => true)
+        .catch(() => false))
+
+    if (!tutorialDismissed) {
+      await forceCompleteTutorial(page)
+      return
+    }
+
     await waitForFeedAfterTutorial(page)
     return
   }

@@ -14,7 +14,8 @@
     "generate:video-posters": "node ./scripts/generate-video-posters.mjs",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "test:e2e:preview": "npm run build && playwright test -c playwright.preview.config.ts"
+    "test:e2e:preview": "npm run build && playwright test -c playwright.preview.config.ts",
+    "test:e2e:production": "playwright test -c playwright.production.config.ts"
   },
   "keywords": [],
   "author": "",

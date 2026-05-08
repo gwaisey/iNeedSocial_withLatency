@@ -499,6 +499,7 @@ async function runDisposableSession({
     return {
       label,
       sessionId: postSubmit.sessionId,
+      snapshotReport: postSubmit.snapshot?.finalReport ?? null,
       snapshotCounts:
         postSubmit.snapshot?.genreCounts ??
         preSubmit.snapshot.genreCounts,
@@ -512,6 +513,24 @@ function assertCountsMatch(snapshotCounts, exportedCounts) {
   return GENRE_KEYS.every(
     (genre) => normalizeNumber(snapshotCounts?.[genre]) === normalizeNumber(exportedCounts?.[genre])
   )
+}
+
+function assertCategoryTimesMatch(expectedReport, exportedTimes) {
+  if (!expectedReport) {
+    return true
+  }
+
+  return GENRE_KEYS.every(
+    (genre) => normalizeNumber(expectedReport[`${genre}_ms`]) === normalizeNumber(exportedTimes[genre])
+  )
+}
+
+function assertTotalTimeMatches(expectedReport, exportedTotalTime) {
+  if (!expectedReport) {
+    return true
+  }
+
+  return normalizeNumber(expectedReport.total_time) === normalizeNumber(exportedTotalTime)
 }
 
 async function main() {
@@ -569,18 +588,30 @@ async function main() {
     const effectiveSnapshotCounts = sessionRun.snapshotCounts ?? exportCounts
 
     const totalTimeMatchesBreakdown = report.totalTime === report.categoryTimeSum
+    const totalTimeMatchesSnapshot = assertTotalTimeMatches(
+      sessionRun.snapshotReport,
+      report.totalTime
+    )
+    const categoryTimesMatchSnapshot = assertCategoryTimesMatch(
+      sessionRun.snapshotReport,
+      report.categoryTimes
+    )
     const countsAreNonNegative = report.countsAreNonNegative
     const countsMatchSnapshot = assertCountsMatch(effectiveSnapshotCounts, exportCounts)
     const passed =
       totalTimeMatchesBreakdown &&
+      totalTimeMatchesSnapshot &&
+      categoryTimesMatchSnapshot &&
       countsAreNonNegative &&
       countsMatchSnapshot
 
     sessionResults.push({
       checks: {
+        categoryTimesMatchSnapshot,
         countsAreNonNegative,
         countsMatchSnapshot,
         totalTimeMatchesBreakdown,
+        totalTimeMatchesSnapshot,
       },
       exported: {
         categoryCounts: exportCounts,
@@ -593,11 +624,14 @@ async function main() {
       sessionId: sessionRun.sessionId,
       snapshot: {
         categoryCounts: effectiveSnapshotCounts,
+        report: sessionRun.snapshotReport,
       },
     })
 
     console.log(`- [${sessionRun.label}] session_id: ${sessionRun.sessionId}`)
     console.log(`  total_time cocok dengan jumlah kategori: ${totalTimeMatchesBreakdown}`)
+    console.log(`  total_time ekspor cocok dengan finalReport app: ${totalTimeMatchesSnapshot}`)
+    console.log(`  *_ms ekspor cocok dengan finalReport app: ${categoryTimesMatchSnapshot}`)
     console.log(`  semua *_count bernilai non-negatif: ${countsAreNonNegative}`)
     console.log(`  *_count ekspor cocok dengan snapshot sesi: ${countsMatchSnapshot}`)
   }
