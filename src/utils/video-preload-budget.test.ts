@@ -66,7 +66,7 @@ describe("video preload budget", () => {
     expect(notifications.get("video-b")).toBe(0)
     expect(notifications.get("video-c")).toBe(2)
     expect(notifications.get("video-d")).toBe(1)
-    expect(notifications.get("video-e")).toBeNull()
+    expect(notifications.get("video-e")).toBe(3)
     expect(notifications.get("video-f")).toBeNull()
 
     unregisterVideoPreloadCandidate("video-a")
@@ -74,7 +74,7 @@ describe("video preload budget", () => {
     expect(notifications.get("video-b")).toBe(0)
     expect(notifications.get("video-c")).toBe(2)
     expect(notifications.get("video-d")).toBe(1)
-    expect(notifications.get("video-e")).toBeNull()
+    expect(notifications.get("video-e")).toBe(3)
     expect(notifications.get("video-f")).toBeNull()
   })
 
@@ -120,7 +120,7 @@ describe("video preload budget", () => {
     expect(notifications.get("below-nearby")).toBe(2)
     expect(notifications.get("above-nearby")).toBe(0)
     expect(notifications.get("above-secondary")).toBe(1)
-    expect(notifications.get("above-far")).toBeNull()
+    expect(notifications.get("above-far")).toBe(3)
   })
 
   it("does not count visible candidates toward the forward preload budget", () => {
@@ -196,7 +196,7 @@ describe("video preload budget", () => {
     expect(notifications.get("visible-d")).toBeNull()
     expect(notifications.get("up-next-a")).toBe(0)
     expect(notifications.get("up-next-b")).toBe(1)
-    expect(notifications.get("up-next-c")).toBeNull()
+    expect(notifications.get("up-next-c")).toBe(3)
     expect(notifications.get("up-next-d")).toBeNull()
     expect(notifications.get("above-nearby")).toBe(2)
   })
@@ -319,7 +319,7 @@ describe("video preload budget", () => {
     expect(notifications.get("below-third")).toBeNull()
   })
 
-  it("keeps only the next compact mobile candidate warm when coarse pointer is detected", () => {
+  it("keeps a small compact mobile preload set warm when coarse pointer is detected", () => {
     resetVideoPreloadBudgetForTests()
     vi.stubGlobal("matchMedia", (query: string) => ({
       addEventListener: vi.fn(),
@@ -368,11 +368,11 @@ describe("video preload budget", () => {
 
     expect(notifications.get("below-nearby")).toBe(0)
     expect(notifications.get("below-secondary")).toBeNull()
-    expect(notifications.get("above-nearby")).toBeNull()
+    expect(notifications.get("above-nearby")).toBe(1)
     expect(notifications.get("below-third")).toBeNull()
   })
 
-  it("does not trust fast reported mobile data enough to fan out preloads", () => {
+  it("allows a small fast mobile preload fanout", () => {
     resetVideoPreloadBudgetForTests()
     vi.stubGlobal("navigator", {
       connection: {
@@ -433,9 +433,9 @@ describe("video preload budget", () => {
     })
 
     expect(notifications.get("below-nearby")).toBe(0)
-    expect(notifications.get("below-secondary")).toBeNull()
+    expect(notifications.get("below-secondary")).toBe(1)
     expect(notifications.get("below-third")).toBeNull()
-    expect(notifications.get("above-nearby")).toBeNull()
+    expect(notifications.get("above-nearby")).toBe(2)
     expect(notifications.get("below-fourth")).toBeNull()
   })
 

@@ -109,7 +109,7 @@ export function useAutoPlayVideoSource({
   const shouldRenderVideoSource =
     hasVideoSource &&
     shouldConnectVideoSource &&
-    (shouldKeepAttachedSource || canUseAutoPreload || isInViewport || isVisible)
+    (shouldKeepAttachedSource || canUseAutoPreload || isNearViewport || isInViewport || isVisible)
 
   useLayoutEffect(() => {
     shouldAggressivelyLoadSourceRef.current = shouldAggressivelyLoadSource

@@ -598,7 +598,7 @@ describe("AutoPlayVideo", () => {
     expect(fetchSpy).not.toHaveBeenCalled()
   })
 
-  it("keeps recently offscreen sources through the detach grace and unloads them after they are far away", async () => {
+  it("keeps recently offscreen preload candidates attached and unloads them after they are far away", async () => {
     HTMLMediaElement.prototype.play = vi.fn(() => new Promise<void>(() => {}))
 
     let rect = {
@@ -660,7 +660,7 @@ describe("AutoPlayVideo", () => {
     expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
 
     await act(async () => {
-      vi.advanceTimersByTime(4_499)
+      vi.advanceTimersByTime(5_999)
       await Promise.resolve()
     })
 
@@ -671,7 +671,7 @@ describe("AutoPlayVideo", () => {
       await Promise.resolve()
     })
 
-    expect(container.querySelector("video")?.getAttribute("src")).toBeNull()
+    expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
 
     rect = {
       bottom: -19_000,

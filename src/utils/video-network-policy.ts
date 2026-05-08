@@ -14,30 +14,30 @@ export type VideoNetworkPreloadPolicy = {
 }
 
 export const DEFAULT_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: 1,
-  maxAbovePreloadDistancePx: 12_000,
-  maxAutoPreloadVideos: 3,
-  maxBelowPreloadDistancePx: 12_000,
+  aggressiveAutoLoadMaxRank: 2,
+  maxAbovePreloadDistancePx: 16_000,
+  maxAutoPreloadVideos: 4,
+  maxBelowPreloadDistancePx: 16_000,
   oppositeDirectionWarmSlotIndex: 2,
-  sourceDetachGraceMs: 4_500,
+  sourceDetachGraceMs: 6_000,
 }
 
 const MOBILE_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: -1,
-  maxAbovePreloadDistancePx: 900,
-  maxAutoPreloadVideos: 1,
-  maxBelowPreloadDistancePx: 1_600,
+  aggressiveAutoLoadMaxRank: 0,
+  maxAbovePreloadDistancePx: 1_600,
+  maxAutoPreloadVideos: 2,
+  maxBelowPreloadDistancePx: 3_200,
   oppositeDirectionWarmSlotIndex: 1,
-  sourceDetachGraceMs: 600,
+  sourceDetachGraceMs: 1_800,
 }
 
 const FAST_MOBILE_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: -1,
-  maxAbovePreloadDistancePx: 1_200,
-  maxAutoPreloadVideos: 1,
-  maxBelowPreloadDistancePx: 2_000,
-  oppositeDirectionWarmSlotIndex: 1,
-  sourceDetachGraceMs: 600,
+  aggressiveAutoLoadMaxRank: 1,
+  maxAbovePreloadDistancePx: 2_400,
+  maxAutoPreloadVideos: 3,
+  maxBelowPreloadDistancePx: 5_000,
+  oppositeDirectionWarmSlotIndex: 2,
+  sourceDetachGraceMs: 2_500,
 }
 
 const CONSTRAINED_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
