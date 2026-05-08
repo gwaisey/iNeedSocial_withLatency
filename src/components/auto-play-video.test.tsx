@@ -589,7 +589,7 @@ describe("AutoPlayVideo", () => {
       <AutoPlayVideo className="video" isMuted={true} src="/content/videos-default/pinata.mp4" />
     )
 
-    const compactPinataUrl = "https://pub-media-example.r2.dev/content/videos/pinata.mp4"
+    const compactPinataUrl = "/content/videos/pinata.mp4"
 
     await waitFor(() => {
       expect(container.querySelector("video")?.getAttribute("src")).toBe(compactPinataUrl)

@@ -46,7 +46,7 @@ function getCompactVideoPublicBaseUrl() {
     return baseUrl.replace(/\/$/, "")
   }
 
-  return getVideoPublicBaseUrl()
+  return undefined
 }
 
 function shouldPreferCompactVideoSource() {

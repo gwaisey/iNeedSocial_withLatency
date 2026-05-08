@@ -43,7 +43,7 @@ describe("auto-play video config", () => {
     expect(isDirectVideoFileSource(r2PinataUrl)).toBe(true)
   })
 
-  it("maps compact video variants to the primary public media origin on coarse-pointer devices", () => {
+  it("keeps compact video variants same-origin on coarse-pointer devices", () => {
     vi.stubEnv("VITE_VIDEO_PUBLIC_BASE_URL", "https://pub-media-example.r2.dev")
     vi.stubGlobal("matchMedia", (query: string) => ({
       addEventListener: vi.fn(),
@@ -57,7 +57,7 @@ describe("auto-play video config", () => {
     }))
 
     expect(getResolvedVideoSource("/content/videos-default/pulu2.mp4")).toBe(
-      "https://pub-media-example.r2.dev/content/videos/pulu2.mp4"
+      "/content/videos/pulu2.mp4"
     )
   })
 
@@ -66,7 +66,7 @@ describe("auto-play video config", () => {
     vi.stubEnv("VITE_VIDEO_SOURCE_VARIANT", "compact")
 
     expect(getResolvedVideoSource("/content/videos-default/pulu2.mp4")).toBe(
-      "https://pub-media-example.r2.dev/content/videos/pulu2.mp4"
+      "/content/videos/pulu2.mp4"
     )
   })
 
