@@ -13,7 +13,6 @@ import { getVideoNetworkPreloadPolicy } from "../utils/video-network-policy"
 import {
   isDirectVideoFileSource,
   VIDEO_READY_STATE_CURRENT_DATA,
-  VIDEO_SOURCE_DETACH_GRACE_MS,
   VIDEO_SOURCE_IMMEDIATE_DETACH_DISTANCE_PX,
 } from "./auto-play-video-config"
 import {
@@ -76,7 +75,9 @@ export function useAutoPlayVideoSource({
   const shouldAggressivelyLoadSourceRef = useRef(false)
   const [hasAttachedSource, setHasAttachedSource] = useState(false)
   const [hasConnectedPlaybackSource, setHasConnectedPlaybackSource] = useState(false)
-  const aggressiveAutoLoadMaxRank = getVideoNetworkPreloadPolicy().aggressiveAutoLoadMaxRank
+  const preloadPolicy = getVideoNetworkPreloadPolicy()
+  const aggressiveAutoLoadMaxRank = preloadPolicy.aggressiveAutoLoadMaxRank
+  const sourceDetachGraceMs = preloadPolicy.sourceDetachGraceMs
   const shouldConnectVideoSource =
     hasVideoSource &&
     (shouldMountVideo ||
@@ -175,6 +176,11 @@ export function useAutoPlayVideoSource({
       return
     }
 
+    if (sourceDetachGraceMs <= 0) {
+      detachPlaybackSource()
+      return
+    }
+
     if (detachSourceTimeoutRef.current !== null) {
       return
     }
@@ -182,7 +188,7 @@ export function useAutoPlayVideoSource({
     detachSourceTimeoutRef.current = window.setTimeout(() => {
       detachSourceTimeoutRef.current = null
       detachPlaybackSource()
-    }, VIDEO_SOURCE_DETACH_GRACE_MS)
+    }, sourceDetachGraceMs)
   }, [
     distanceToViewport,
     hasAttachedSource,
@@ -191,6 +197,7 @@ export function useAutoPlayVideoSource({
     shouldConnectVideoSource,
     shouldMountVideo,
     shouldRenderVideoSource,
+    sourceDetachGraceMs,
   ])
 
   useEffect(() => {

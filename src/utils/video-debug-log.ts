@@ -1,6 +1,7 @@
 const VIDEO_DEBUG_FLAG_STORAGE_KEY = "ineedsocial:video-debug-enabled"
 const VIDEO_DEBUG_LOG_STORAGE_KEY = "ineedsocial:video-debug-log"
-const MAX_VIDEO_DEBUG_ENTRIES = 300
+const MAX_VIDEO_DEBUG_ENTRIES = 800
+const VIDEO_DEBUG_RANGE_PROBE_TIMEOUT_MS = 8_000
 
 type NetworkInformationLike = {
   readonly downlink?: number
@@ -312,6 +313,12 @@ export function probeVideoDebugRange(src: string, context?: Record<string, unkno
 
   probedVideoSources.add(src)
   const startedAt = performance.now()
+  const abortController =
+    typeof AbortController === "function" ? new AbortController() : null
+  const timeoutId =
+    abortController && typeof window !== "undefined"
+      ? window.setTimeout(() => abortController.abort(), VIDEO_DEBUG_RANGE_PROBE_TIMEOUT_MS)
+      : null
   appendVideoDebugEntry("range-probe-start", { ...context, src })
 
   void fetch(src, {
@@ -321,6 +328,7 @@ export function probeVideoDebugRange(src: string, context?: Record<string, unkno
       Range: "bytes=0-1",
     },
     mode: "cors",
+    signal: abortController?.signal,
   })
     .then((response) => {
       appendVideoDebugEntry("range-probe-result", {
@@ -346,6 +354,11 @@ export function probeVideoDebugRange(src: string, context?: Record<string, unkno
         error: normalizeError(error),
         src,
       })
+    })
+    .finally(() => {
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId)
+      }
     })
 }
 

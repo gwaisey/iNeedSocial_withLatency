@@ -556,7 +556,7 @@ describe("AutoPlayVideo", () => {
     expect(fetchSpy).not.toHaveBeenCalled()
   })
 
-  it("range-warms compact R2 video bytes on coarse-pointer devices", async () => {
+  it("preconnects without issuing duplicate range fetches on coarse-pointer devices", async () => {
     vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
       bottom: 2_236,
       height: 836,
@@ -595,22 +595,10 @@ describe("AutoPlayVideo", () => {
       expect(container.querySelector("video")?.getAttribute("src")).toBe(compactPinataUrl)
     })
 
-    await waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
-        compactPinataUrl,
-        expect.objectContaining({
-          cache: "force-cache",
-          credentials: "omit",
-          headers: {
-            Range: "bytes=0-393215",
-          },
-          mode: "cors",
-        })
-      )
-    })
+    expect(fetchSpy).not.toHaveBeenCalled()
   })
 
-  it("keeps nearby offscreen sources attached and unloads them after they are far away", async () => {
+  it("keeps recently offscreen sources through the detach grace and unloads them after they are far away", async () => {
     HTMLMediaElement.prototype.play = vi.fn(() => new Promise<void>(() => {}))
 
     let rect = {
@@ -651,15 +639,15 @@ describe("AutoPlayVideo", () => {
     vi.useFakeTimers()
 
     rect = {
-      bottom: -6_000,
+      bottom: -13_000,
       height: 600,
       left: 0,
       right: 480,
       toJSON: () => ({}),
-      top: -6_600,
+      top: -13_600,
       width: 480,
       x: 0,
-      y: -6_600,
+      y: -13_600,
     } as DOMRect
 
     fireEvent.scroll(document)
@@ -683,7 +671,7 @@ describe("AutoPlayVideo", () => {
       await Promise.resolve()
     })
 
-    expect(container.querySelector("video")?.getAttribute("src")).toBe(r2PinataUrl)
+    expect(container.querySelector("video")?.getAttribute("src")).toBeNull()
 
     rect = {
       bottom: -19_000,

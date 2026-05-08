@@ -57,7 +57,7 @@ function attemptVisibleVideoPlayback({
 }) {
   const shouldRequestLoad =
     video.readyState < VIDEO_READY_STATE_CURRENT_DATA &&
-    (!forceLoad || video.networkState !== HTMLMediaElement.NETWORK_LOADING)
+    (forceLoad || video.networkState !== HTMLMediaElement.NETWORK_LOADING)
 
   if (shouldRequestLoad) {
     video.preload = "auto"

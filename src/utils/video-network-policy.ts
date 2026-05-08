@@ -10,38 +10,43 @@ export type VideoNetworkPreloadPolicy = {
   readonly maxAutoPreloadVideos: number
   readonly maxBelowPreloadDistancePx: number
   readonly oppositeDirectionWarmSlotIndex: number
+  readonly sourceDetachGraceMs: number
 }
 
 export const DEFAULT_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: 5,
-  maxAbovePreloadDistancePx: 18_000,
-  maxAutoPreloadVideos: 7,
-  maxBelowPreloadDistancePx: 18_000,
-  oppositeDirectionWarmSlotIndex: 3,
+  aggressiveAutoLoadMaxRank: 1,
+  maxAbovePreloadDistancePx: 12_000,
+  maxAutoPreloadVideos: 3,
+  maxBelowPreloadDistancePx: 12_000,
+  oppositeDirectionWarmSlotIndex: 2,
+  sourceDetachGraceMs: 4_500,
 }
 
 const MOBILE_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: 1,
-  maxAbovePreloadDistancePx: 6_500,
-  maxAutoPreloadVideos: 3,
-  maxBelowPreloadDistancePx: 9_000,
-  oppositeDirectionWarmSlotIndex: 2,
+  aggressiveAutoLoadMaxRank: -1,
+  maxAbovePreloadDistancePx: 900,
+  maxAutoPreloadVideos: 1,
+  maxBelowPreloadDistancePx: 1_600,
+  oppositeDirectionWarmSlotIndex: 1,
+  sourceDetachGraceMs: 600,
 }
 
 const FAST_MOBILE_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
-  aggressiveAutoLoadMaxRank: 2,
-  maxAbovePreloadDistancePx: 10_000,
-  maxAutoPreloadVideos: 4,
-  maxBelowPreloadDistancePx: 12_000,
-  oppositeDirectionWarmSlotIndex: 3,
+  aggressiveAutoLoadMaxRank: -1,
+  maxAbovePreloadDistancePx: 1_200,
+  maxAutoPreloadVideos: 1,
+  maxBelowPreloadDistancePx: 2_000,
+  oppositeDirectionWarmSlotIndex: 1,
+  sourceDetachGraceMs: 600,
 }
 
 const CONSTRAINED_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
   aggressiveAutoLoadMaxRank: -1,
-  maxAbovePreloadDistancePx: 3_500,
-  maxAutoPreloadVideos: 1,
-  maxBelowPreloadDistancePx: 6_000,
+  maxAbovePreloadDistancePx: 0,
+  maxAutoPreloadVideos: 0,
+  maxBelowPreloadDistancePx: 0,
   oppositeDirectionWarmSlotIndex: 1,
+  sourceDetachGraceMs: 0,
 }
 
 const SAVE_DATA_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
@@ -50,6 +55,7 @@ const SAVE_DATA_VIDEO_NETWORK_PRELOAD_POLICY: VideoNetworkPreloadPolicy = {
   maxAutoPreloadVideos: 0,
   maxBelowPreloadDistancePx: 0,
   oppositeDirectionWarmSlotIndex: 1,
+  sourceDetachGraceMs: 0,
 }
 
 function getConnection() {

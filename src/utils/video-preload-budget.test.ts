@@ -64,18 +64,18 @@ describe("video preload budget", () => {
 
     expect(notifications.get("video-a")).toBeNull()
     expect(notifications.get("video-b")).toBe(0)
-    expect(notifications.get("video-c")).toBe(3)
+    expect(notifications.get("video-c")).toBe(2)
     expect(notifications.get("video-d")).toBe(1)
-    expect(notifications.get("video-e")).toBe(2)
-    expect(notifications.get("video-f")).toBe(4)
+    expect(notifications.get("video-e")).toBeNull()
+    expect(notifications.get("video-f")).toBeNull()
 
     unregisterVideoPreloadCandidate("video-a")
 
     expect(notifications.get("video-b")).toBe(0)
-    expect(notifications.get("video-c")).toBe(3)
+    expect(notifications.get("video-c")).toBe(2)
     expect(notifications.get("video-d")).toBe(1)
-    expect(notifications.get("video-e")).toBe(2)
-    expect(notifications.get("video-f")).toBe(4)
+    expect(notifications.get("video-e")).toBeNull()
+    expect(notifications.get("video-f")).toBeNull()
   })
 
   it("preloads above-viewport candidates first while scrolling up", () => {
@@ -117,10 +117,10 @@ describe("video preload budget", () => {
 
     setVideoPreloadScrollDirection("up")
 
-    expect(notifications.get("below-nearby")).toBe(3)
+    expect(notifications.get("below-nearby")).toBe(2)
     expect(notifications.get("above-nearby")).toBe(0)
     expect(notifications.get("above-secondary")).toBe(1)
-    expect(notifications.get("above-far")).toBe(2)
+    expect(notifications.get("above-far")).toBeNull()
   })
 
   it("does not count visible candidates toward the forward preload budget", () => {
@@ -196,9 +196,9 @@ describe("video preload budget", () => {
     expect(notifications.get("visible-d")).toBeNull()
     expect(notifications.get("up-next-a")).toBe(0)
     expect(notifications.get("up-next-b")).toBe(1)
-    expect(notifications.get("up-next-c")).toBe(2)
-    expect(notifications.get("up-next-d")).toBe(4)
-    expect(notifications.get("above-nearby")).toBe(3)
+    expect(notifications.get("up-next-c")).toBeNull()
+    expect(notifications.get("up-next-d")).toBeNull()
+    expect(notifications.get("above-nearby")).toBe(2)
   })
 
   it("still allows above-viewport preloads when there are no forward candidates", () => {
@@ -269,7 +269,7 @@ describe("video preload budget", () => {
     expect(notifyNear).toHaveBeenLastCalledWith(null)
   })
 
-  it("keeps only one candidate warm on constrained mobile data", () => {
+  it("disables offscreen candidates on constrained mobile data", () => {
     resetVideoPreloadBudgetForTests()
     vi.stubGlobal("navigator", {
       connection: {
@@ -313,13 +313,13 @@ describe("video preload budget", () => {
       direction: "above",
     })
 
-    expect(notifications.get("below-nearby")).toBe(0)
+    expect(notifications.get("below-nearby")).toBeNull()
     expect(notifications.get("above-nearby")).toBeNull()
     expect(notifications.get("below-secondary")).toBeNull()
     expect(notifications.get("below-third")).toBeNull()
   })
 
-  it("keeps the next compact mobile candidates warm when coarse pointer is detected", () => {
+  it("keeps only the next compact mobile candidate warm when coarse pointer is detected", () => {
     resetVideoPreloadBudgetForTests()
     vi.stubGlobal("matchMedia", (query: string) => ({
       addEventListener: vi.fn(),
@@ -367,12 +367,12 @@ describe("video preload budget", () => {
     })
 
     expect(notifications.get("below-nearby")).toBe(0)
-    expect(notifications.get("below-secondary")).toBe(1)
-    expect(notifications.get("above-nearby")).toBe(2)
+    expect(notifications.get("below-secondary")).toBeNull()
+    expect(notifications.get("above-nearby")).toBeNull()
     expect(notifications.get("below-third")).toBeNull()
   })
 
-  it("warms more compact mobile candidates on fast reported mobile data", () => {
+  it("does not trust fast reported mobile data enough to fan out preloads", () => {
     resetVideoPreloadBudgetForTests()
     vi.stubGlobal("navigator", {
       connection: {
@@ -433,9 +433,9 @@ describe("video preload budget", () => {
     })
 
     expect(notifications.get("below-nearby")).toBe(0)
-    expect(notifications.get("below-secondary")).toBe(1)
-    expect(notifications.get("below-third")).toBe(2)
-    expect(notifications.get("above-nearby")).toBe(3)
+    expect(notifications.get("below-secondary")).toBeNull()
+    expect(notifications.get("below-third")).toBeNull()
+    expect(notifications.get("above-nearby")).toBeNull()
     expect(notifications.get("below-fourth")).toBeNull()
   })
 
