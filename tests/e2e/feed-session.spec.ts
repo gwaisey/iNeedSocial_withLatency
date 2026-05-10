@@ -1,102 +1,29 @@
 import { expect, test, type Page } from "@playwright/test"
-
-type FeedOverrideMode = "malformed" | "passthrough"
-
-function sumGenreTimes(snapshot: {
-  genreTimes?: Record<string, number>
-} | null) {
-  return Object.values(snapshot?.genreTimes ?? {}).reduce(
-    (total, value) => total + value,
-    0
-  )
-}
-
-async function readSessionSnapshot(page: Page) {
-  return page.evaluate(() => {
-    const sessionId = window.sessionStorage.getItem("ineedsocial:study:active-session")
-    if (!sessionId) {
-      return null
-    }
-
-    const raw = window.sessionStorage.getItem(`ineedsocial:study:${sessionId}:feed-session`)
-    return raw
-      ? (JSON.parse(raw) as {
-          genreTimes?: Record<string, number>
-          hasSubmitted?: boolean
-          session_id?: string
-          status?: string
-          submissionHasError?: boolean
-          submissionMessage?: string | null
-        })
-      : null
-  })
-}
-
-async function isPostLikedInSession(page: Page, postId: string | null) {
-  return page.evaluate((targetPostId) => {
-    if (!targetPostId) {
-      return false
-    }
-
-    const sessionId = window.sessionStorage.getItem("ineedsocial:study:active-session")
-    if (!sessionId) {
-      return false
-    }
-
-    const raw = window.sessionStorage.getItem(`ineedsocial:study:${sessionId}:liked`)
-    if (!raw) {
-      return false
-    }
-
-    try {
-      const likedPosts = JSON.parse(raw) as Record<string, boolean>
-      return Boolean(likedPosts[targetPostId])
-    } catch {
-      return false
-    }
-  }, postId)
-}
-
-async function dismissTutorialIfVisible(page: Page) {
-  const tutorialSkipButton = page.getByTestId("tutorial-skip-button")
-  const tutorialIsVisible = await tutorialSkipButton
-    .waitFor({ state: "visible", timeout: 5_000 })
-    .then(() => true)
-    .catch(() => false)
-
-  if (tutorialIsVisible) {
-    await page.getByTestId("tutorial-skip-button").click({ force: true })
-    await page
-      .waitForFunction(() => !document.querySelector('[data-testid="tutorial-skip-button"]'), {
-        timeout: 5_000,
-      })
-      .catch(() => {})
-  }
-}
-
-async function getFeedScrollTop(page: Page) {
-  return page.getByTestId("feed-scroll-container").evaluate((element) => element.scrollTop)
-}
-
-async function setFeedScrollTop(page: Page, top: number) {
-  await page.getByTestId("feed-scroll-container").evaluate((element, nextTop) => {
-    element.scrollTop = nextTop
-    element.dispatchEvent(new Event("scroll"))
-  }, top)
-}
-
-async function waitForFeedScrollTopAtLeast(page: Page, minimumTop: number) {
-  await expect
-    .poll(async () => getFeedScrollTop(page), {
-      message: `Expected feed scrollTop to reach at least ${minimumTop}px`,
-    })
-    .toBeGreaterThan(minimumTop)
-}
+import {
+  getFeedScrollTop,
+  getFirstVisiblePostId,
+  setFeedScrollTop,
+  waitForFeedScrollTopAtLeast,
+  waitForVisibleFeedPost,
+} from "./helpers/feed"
+import {
+  delayFeedResponses,
+  installControllableFeedOverride,
+} from "./helpers/feed-override"
+import {
+  isPostLikedInSession,
+  readSessionSnapshot,
+  seedCompletedTutorialSession,
+  startStudy,
+  sumGenreTimes,
+} from "./helpers/session"
+import { dismissTutorialIfVisible } from "./helpers/tutorial"
 
 async function waitForTrackedTimeToExceed(page: Page, minimumMs = 0) {
   await expect
     .poll(async () => sumGenreTimes(await readSessionSnapshot(page)), {
       message: `Expected tracked time to exceed ${minimumMs}ms`,
+      timeout: 10_000,
     })
     .toBeGreaterThan(minimumMs)
 }
@@ -142,151 +69,54 @@ async function waitForTrackedTimeToStayAt(page: Page, expectedTotal: number, sta
   )
 }
 
-async function getFirstVisiblePostId(page: Page) {
-  return page.evaluate(() => {
-    const container = document.querySelector<HTMLElement>('[data-testid="feed-scroll-container"]')
-    if (!container) {
-      return null
-    }
-
-    const containerRect = container.getBoundingClientRect()
-    const posts = container.querySelectorAll<HTMLElement>("[data-regular-post-id]")
-
-    for (const element of posts) {
-      const rect = element.getBoundingClientRect()
-      const isVisible = rect.bottom > containerRect.top && rect.top < containerRect.bottom
-
-      if (isVisible) {
-        return element.getAttribute("data-regular-post-id")
+async function waitForTrackedTimeToStabilize(page: Page, stableMs = 700) {
+  await page.waitForFunction(
+    ({ stableDuration }) => {
+      const win = window as Window & {
+        __stableTrackedTimeSince?: number
+        __stableTrackedTimeValue?: number
       }
-    }
+      const sessionId = window.sessionStorage.getItem("ineedsocial:study:active-session")
+      const raw = sessionId
+        ? window.sessionStorage.getItem(`ineedsocial:study:${sessionId}:feed-session`)
+        : null
+      const snapshot = raw ? (JSON.parse(raw) as { genreTimes?: Record<string, number> }) : null
+      const total = Object.values(snapshot?.genreTimes ?? {}).reduce(
+        (runningTotal, value) => runningTotal + Number(value),
+        0
+      )
 
-    return null
-  })
-}
-
-async function waitForVisibleFeedPost(page: Page) {
-  await expect
-    .poll(async () => getFirstVisiblePostId(page), {
-      message: "Expected at least one feed post to be visible in the viewport",
-    })
-    .not.toBeNull()
-}
-
-async function waitForRenderedImageMedia(page: Page, postId: string) {
-  await page.waitForFunction((targetPostId) => {
-    const post = document.querySelector<HTMLElement>(`[data-regular-post-id="${targetPostId}"]`)
-    if (!post) {
-      return false
-    }
-
-    const images = Array.from(post.querySelectorAll("img[alt]"))
-    if (!images.length) {
-      return false
-    }
-
-    return images.some((node) => {
-      if (!(node instanceof HTMLImageElement)) {
+      if (win.__stableTrackedTimeValue !== total) {
+        win.__stableTrackedTimeValue = total
+        win.__stableTrackedTimeSince = performance.now()
         return false
       }
 
-      const style = window.getComputedStyle(node)
-      return node.complete && node.naturalWidth > 0 && style.opacity !== "0"
-    })
-  }, postId)
-}
-
-async function seedActiveStudySession(page: Page, sessionId: string) {
-  await page.addInitScript((targetSessionId) => {
-    window.sessionStorage.setItem("ineedsocial:study:active-session", targetSessionId)
-  }, sessionId)
-}
-
-async function installControllableFeedOverride(
-  page: Page,
-  {
-    initialMode = "malformed",
-    sessionId,
-  }: {
-    initialMode?: FeedOverrideMode
-    sessionId?: string
-  } = {}
-) {
-  await page.addInitScript(
-    ({ startingMode, targetSessionId }) => {
-      if (targetSessionId) {
-        window.sessionStorage.setItem("ineedsocial:study:active-session", targetSessionId)
-      }
-
-      const originalFetch = window.fetch.bind(window)
-      ;(window as Window & { __feedOverrideMode?: FeedOverrideMode }).__feedOverrideMode =
-        startingMode
-
-      window.fetch = async (input, init) => {
-        const requestUrl =
-          typeof input === "string"
-            ? input
-            : input instanceof URL
-              ? input.href
-              : input.url
-
-        if (
-          (window as Window & { __feedOverrideMode?: FeedOverrideMode }).__feedOverrideMode ===
-            "malformed" &&
-          (requestUrl.includes("/content/feed.json") || requestUrl.includes("/api/feed"))
-        ) {
-          return new Response(JSON.stringify({ posts: "rusak" }), {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            status: 200,
-          })
-        }
-
-        return originalFetch(input, init)
-      }
+      return (
+        typeof win.__stableTrackedTimeSince === "number" &&
+        performance.now() - win.__stableTrackedTimeSince >= stableDuration
+      )
     },
     {
-      startingMode: initialMode,
-      targetSessionId: sessionId ?? null,
+      stableDuration: stableMs,
     }
   )
 
-  return {
-    async setMode(nextMode: FeedOverrideMode) {
-      await page.evaluate((mode) => {
-        ;(window as Window & { __feedOverrideMode?: FeedOverrideMode }).__feedOverrideMode = mode
-      }, nextMode)
-    },
-  }
+  return sumGenreTimes(await readSessionSnapshot(page))
 }
 
-async function delayFeedResponses(page: Page, delayMs: number) {
-  await page.addInitScript((delay) => {
-    const originalFetch = window.fetch.bind(window)
-
-    window.fetch = async (input, init) => {
-      const requestUrl =
-        typeof input === "string"
-          ? input
-          : input instanceof URL
-            ? input.href
-            : input.url
-
-      if (requestUrl.includes("/content/feed.json") || requestUrl.includes("/api/feed")) {
-        await new Promise((resolve) => window.setTimeout(resolve, delay))
-      }
-
-      return originalFetch(input, init)
-    }
-  }, delayMs)
-}
-
-async function startStudy(page: Page) {
-  await page.goto("/")
-  await page.waitForURL("**/welcome")
-  await page.getByTestId("start-study-button").click()
-  await page.waitForURL("**/feed?theme=light")
+async function dispatchDocumentVisibility(page: Page, visibilityState: DocumentVisibilityState) {
+  await page.evaluate((nextVisibilityState) => {
+    Object.defineProperty(document, "visibilityState", {
+      configurable: true,
+      get: () => nextVisibilityState,
+    })
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      get: () => nextVisibilityState === "hidden",
+    })
+    document.dispatchEvent(new Event("visibilitychange"))
+  }, visibilityState)
 }
 
 async function seedEndedStudySession(page: Page, sessionId: string) {
@@ -363,6 +193,7 @@ test("refresh keeps the same study session state in the feed", async ({ page }) 
 
   await setFeedScrollTop(page, 1_600)
   await waitForFeedScrollTopAtLeast(page, 1_200)
+  await waitForTrackedTimeToExceed(page, 0)
   const firstVisiblePostBeforeRefresh = await getFirstVisiblePostId(page)
 
   await page.reload()
@@ -407,6 +238,33 @@ test("repeated lifecycle flushes do not double-count tracked time", async ({ pag
   const totalAfterSecondFlush = sumGenreTimes(snapshotAfterSecondFlush)
 
   expect(totalAfterSecondFlush).toBe(totalAfterFirstFlush)
+})
+
+test("document hidden pauses feed timing until the page is visible again", async ({ page }) => {
+  await startStudy(page)
+  await dismissTutorialIfVisible(page)
+
+  await page.getByTestId("theme-toggle-button").click()
+  await page.waitForURL("**/feed?theme=dark")
+  await waitForTrackedTimeToExceed(page, 0)
+
+  await dispatchDocumentVisibility(page, "hidden")
+  const totalAfterHide = await waitForTrackedTimeToStabilize(page)
+
+  expect(totalAfterHide).toBeGreaterThan(0)
+
+  await page.waitForTimeout(1_000)
+  await page.evaluate(() => window.dispatchEvent(new Event("pagehide")))
+
+  const snapshotAfterHiddenPageHide = await readSessionSnapshot(page)
+  expect(sumGenreTimes(snapshotAfterHiddenPageHide)).toBe(totalAfterHide)
+
+  await dispatchDocumentVisibility(page, "visible")
+  await page.waitForTimeout(500)
+  await page.evaluate(() => window.dispatchEvent(new Event("pagehide")))
+
+  const snapshotAfterResumeFlush = await readSessionSnapshot(page)
+  expect(sumGenreTimes(snapshotAfterResumeFlush)).toBeGreaterThan(totalAfterHide)
 })
 
 test("welcome asks for confirmation before replacing an unfinished session", async ({ page }) => {
@@ -469,26 +327,159 @@ test("browser back and forward preserve an unfinished session", async ({ page })
   expect(await isPostLikedInSession(page, likedPostId)).toBe(true)
 })
 
-test("photo and carousel media render again after leaving and returning to feed", async ({
+test("mobile feed scrolls the document so browser chrome can collapse", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await seedCompletedTutorialSession(page, "study_mobile_document_scroll")
+
+  await page.goto("/feed?theme=light")
+  await page.getByTestId("feed-scroll-container").waitFor({ state: "visible" })
+  await waitForVisibleFeedPost(page)
+
+  await expect
+    .poll(
+      () =>
+        page.evaluate(() => {
+          const feed = document.querySelector<HTMLElement>(
+            '[data-testid="feed-scroll-container"]'
+          )
+
+          return {
+            documentCanScroll:
+              document.documentElement.scrollHeight > window.innerHeight + 1_000,
+            feedOverflowY: feed ? getComputedStyle(feed).overflowY : null,
+            feedScrollTop: feed?.scrollTop ?? null,
+          }
+        }),
+      {
+        message: "Expected the mobile feed to use document scrolling",
+      }
+    )
+    .toEqual({
+      documentCanScroll: true,
+      feedOverflowY: "visible",
+      feedScrollTop: 0,
+    })
+
+  await page.mouse.wheel(0, 1_400)
+
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY), {
+      message: "Expected mobile feed gestures to move document scrollY",
+    })
+    .toBeGreaterThan(500)
+
+  await expect
+    .poll(() => getFeedScrollTop(page), {
+      message: "Expected mobile feed element not to own the scroll position",
+    })
+    .toBe(0)
+})
+
+test("mobile welcome covers the dynamic viewport after returning from a scrolled feed", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
   await startStudy(page)
   await dismissTutorialIfVisible(page)
+  await waitForVisibleFeedPost(page)
 
-  await waitForRenderedImageMedia(page, "post-snoopy")
-  await setFeedScrollTop(page, 1_050)
-  await waitForFeedScrollTopAtLeast(page, 650)
-  await waitForRenderedImageMedia(page, "post-carousel")
+  await page.mouse.wheel(0, 2_800)
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY), {
+      message: "Expected mobile document scroll before returning to welcome",
+    })
+    .toBeGreaterThan(500)
 
   await page.goBack()
   await page.waitForURL("**/welcome")
+  await expect(page.getByTestId("welcome-page")).toBeVisible()
 
-  await page.goForward()
-  await page.waitForURL("**/feed?theme=light")
-  await waitForRenderedImageMedia(page, "post-snoopy")
-  await setFeedScrollTop(page, 1_050)
-  await waitForFeedScrollTopAtLeast(page, 650)
-  await waitForRenderedImageMedia(page, "post-carousel")
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const welcomePage = document.querySelector<HTMLElement>(
+          '[data-testid="welcome-page"]'
+        )
+
+        if (!welcomePage) {
+          return {
+            bottomPixelInsideWelcome: false,
+            coversViewport: false,
+            scrollY: window.scrollY,
+          }
+        }
+
+        const rect = welcomePage.getBoundingClientRect()
+        const bottomElement = document.elementFromPoint(
+          window.innerWidth / 2,
+          window.innerHeight - 2
+        )
+
+        return {
+          bottomPixelInsideWelcome: welcomePage.contains(bottomElement),
+          coversViewport: rect.top <= 0 && rect.bottom >= window.innerHeight - 1,
+          scrollY: window.scrollY,
+        }
+      }),
+      {
+        message: "Expected welcome screen to cover the full mobile visual viewport",
+      }
+    )
+    .toEqual({
+      bottomPixelInsideWelcome: true,
+      coversViewport: true,
+      scrollY: 0,
+    })
+})
+
+test("mobile tutorial overlay locks document scrolling until dismissed", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await startStudy(page)
+  await page.waitForFunction(() =>
+    Boolean(
+      document.querySelector(
+        '[data-testid="tutorial-delay-blocker"], [data-testid="tutorial-next-button"]'
+      )
+    )
+  )
+  await waitForVisibleFeedPost(page)
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => ({
+        bodyPosition: document.body.style.position,
+        documentOverflow: document.documentElement.style.overflow,
+        scrollY: window.scrollY,
+      }))
+    )
+    .toEqual({
+      bodyPosition: "fixed",
+      documentOverflow: "hidden",
+      scrollY: 0,
+    })
+
+  await page.mouse.wheel(0, 1_200)
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY), {
+      message: "Expected tutorial overlay to lock mobile document scroll",
+    })
+    .toBe(0)
+
+  await page.getByTestId("tutorial-skip-button").waitFor({ state: "visible" })
+  await page.getByTestId("tutorial-skip-button").click()
+  await page.waitForFunction(() => !document.querySelector('[data-testid="tutorial-skip-button"]'))
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => ({
+        bodyPosition: document.body.style.position,
+        documentOverflow: document.documentElement.style.overflow,
+      }))
+    )
+    .toEqual({
+      bodyPosition: "",
+      documentOverflow: "",
+    })
 })
 
 test("tutorial overlay blocks feed interactions until dismissed", async ({ page }) => {

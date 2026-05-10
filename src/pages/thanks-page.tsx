@@ -120,7 +120,7 @@ export function ThanksPage() {
   }, [sessionId, snapshot, storage])
 
   return (
-    <div className="min-h-svh flex items-center justify-center bg-app-radial p-6 animate-fade-in">
+    <div className="viewport-page flex items-center justify-center bg-app-radial p-6 animate-fade-in">
       {/* Card */}
       <div className="relative w-full max-w-sm bg-white rounded-3xl shadow-phone overflow-hidden px-8 py-14 text-ink">
         {/* Decorative bubbles */}

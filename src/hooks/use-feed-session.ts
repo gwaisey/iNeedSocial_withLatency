@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, type RefObject } from "react"
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react"
 import { getSupabaseStatusMessage } from "../services/supabase"
 import type { FeedSessionStatus } from "../context/study-session-storage"
 import type { Post } from "../types/social"
@@ -38,6 +38,9 @@ export function useFeedSession({
   scrollRef,
   studySessionId,
 }: UseFeedSessionArgs) {
+  const [isDocumentHidden, setIsDocumentHidden] = useState(() =>
+    typeof document === "undefined" ? false : document.visibilityState === "hidden"
+  )
   const snapshot = useFeedSessionSnapshot({
     configMessage: getSupabaseStatusMessage(),
     studySessionId,
@@ -49,7 +52,7 @@ export function useFeedSession({
     initialGenreTimes: snapshot.restoredSnapshot?.genreTimes ?? createEmptyGenreTimes(),
     initialSeenPostIds: new Set(snapshot.restoredSnapshot?.seenPostIds ?? []),
     isLocked: Boolean(snapshot.finalReport),
-    isPaused,
+    isPaused: isPaused || isDocumentHidden,
     posts,
     scrollRef,
   })
@@ -81,16 +84,22 @@ export function useFeedSession({
     persistOnUnmountRef.current = persistSessionSnapshot
   }, [persistSessionSnapshot])
 
-  const persistLifecycleSnapshot = useCallback(() => {
+  const persistLifecycleSnapshot = useCallback((options: { pauseActivePost?: boolean } = {}) => {
     if (hasFlushedLifecycleSnapshotRef.current) {
       return timing.genreTimesRef.current
     }
 
     hasFlushedLifecycleSnapshotRef.current = true
+    if (options.pauseActivePost) {
+      timing.pauseActivePostTracking(Date.now() + 1)
+      persistSessionSnapshot()
+      return timing.genreTimesRef.current
+    }
+
     // Date.now() has millisecond resolution; bump by 1ms so lifecycle flushes never lose time
     // when a scroll/frame update and pagehide happen within the same clock tick.
     return persistSessionSnapshot({ commitActivePost: true, now: Date.now() + 1 })
-  }, [persistSessionSnapshot, timing.genreTimesRef])
+  }, [persistSessionSnapshot, timing])
 
   useEffect(() => {
     persistSessionSnapshot()
@@ -112,15 +121,29 @@ export function useFeedSession({
     }
     const handlePageShow = () => {
       hasFlushedLifecycleSnapshotRef.current = false
+      setIsDocumentHidden(document.visibilityState === "hidden")
+    }
+    const handleVisibilityChange = () => {
+      const nextIsHidden = document.visibilityState === "hidden"
+      setIsDocumentHidden(nextIsHidden)
+
+      if (nextIsHidden) {
+        persistLifecycleSnapshot({ pauseActivePost: true })
+        return
+      }
+
+      hasFlushedLifecycleSnapshotRef.current = false
     }
 
     window.addEventListener("pagehide", handlePageHide)
     window.addEventListener("pageshow", handlePageShow)
     window.addEventListener("beforeunload", handleBeforeUnload)
+    document.addEventListener("visibilitychange", handleVisibilityChange)
     return () => {
       window.removeEventListener("pagehide", handlePageHide)
       window.removeEventListener("pageshow", handlePageShow)
       window.removeEventListener("beforeunload", handleBeforeUnload)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
     }
   }, [persistLifecycleSnapshot])
 

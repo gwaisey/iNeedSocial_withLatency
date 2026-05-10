@@ -98,6 +98,8 @@ export function syncVideoMutedState(video: HTMLVideoElement, isMuted: boolean) {
 export function useVideoReadinessState({
   hasVideoSource,
   isSourceConnected,
+  lastReportedLoadIssueRef,
+  lastReportedPlayIssueRef,
   normalizedSrc,
   onLoadedMetadata,
   posterSrc,
@@ -106,6 +108,8 @@ export function useVideoReadinessState({
 }: {
   readonly hasVideoSource: boolean
   readonly isSourceConnected: boolean
+  readonly lastReportedLoadIssueRef: MutableRefObject<string | null>
+  readonly lastReportedPlayIssueRef: MutableRefObject<string | null>
   readonly normalizedSrc?: string
   readonly onLoadedMetadata?: (event: SyntheticEvent<HTMLVideoElement>) => void
   readonly posterSrc?: string
@@ -114,8 +118,6 @@ export function useVideoReadinessState({
 }) {
   const frameReadyCleanupRef = useRef<(() => void) | null>(null)
   const hasQueuedFrameReadyRef = useRef(false)
-  const lastReportedLoadIssueRef = useRef<string | null>(null)
-  const lastReportedPlayIssueRef = useRef<string | null>(null)
   const [hasLoadedFrame, setHasLoadedFrame] = useState(false)
   const [shellAspectRatio, setShellAspectRatio] = useState(
     () => getKnownVideoAspectRatio(normalizedSrc, posterSrc) ?? DEFAULT_VIDEO_ASPECT_RATIO
@@ -135,7 +137,7 @@ export function useVideoReadinessState({
     setShellAspectRatio(
       getKnownVideoAspectRatio(normalizedSrc, posterSrc) ?? DEFAULT_VIDEO_ASPECT_RATIO
     )
-  }, [normalizedSrc, posterSrc])
+  }, [lastReportedLoadIssueRef, lastReportedPlayIssueRef, normalizedSrc, posterSrc])
 
   useEffect(() => {
     if (isSourceConnected) {

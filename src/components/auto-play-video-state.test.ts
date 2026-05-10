@@ -272,7 +272,7 @@ describe("auto-play video state", () => {
 
     expect(
       shouldEarlyLoadNearViewport({
-        distanceToViewport: 5_400,
+        distanceToViewport: 9_400,
         hasLoadedFrame: false,
         isActive: true,
         readyState: 0,
@@ -301,7 +301,7 @@ describe("auto-play video state", () => {
         scrollDirection: "down",
         targetBottom: 920,
         targetTop: 620,
-        visibleFraction: 0.1,
+        visibleFraction: 0.08,
       })
     ).toBe(false)
 
@@ -342,7 +342,7 @@ describe("auto-play video state", () => {
     ).toBe(false)
   })
 
-  it("prioritizes a forward handoff candidate once it reaches the normal play threshold", () => {
+  it("prioritizes a forward handoff candidate once it reaches the handoff threshold", () => {
     expect(
       getVideoPlaybackPriority({
         centerOffset: 620,
@@ -357,7 +357,7 @@ describe("auto-play video state", () => {
         isForwardHandoffCandidate: true,
         visibleFraction: 0.2,
       })
-    ).toBe(620)
+    ).toBe(-1)
 
     expect(
       getVideoPlaybackPriority({

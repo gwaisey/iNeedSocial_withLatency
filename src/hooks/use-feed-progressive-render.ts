@@ -13,10 +13,19 @@ type UseFeedProgressiveRenderArgs = {
   scrollRef: ScrollContainerRef
 }
 
-const INITIAL_RENDER_COUNT = 24
-const RENDER_STEP = 18
-const LOAD_MORE_OFFSET_PX = 2600
+const INITIAL_RENDER_COUNT = 36
+const RENDER_STEP = 30
+const LOAD_MORE_OFFSET_PX = 5200
 const ESTIMATED_POST_HEIGHT_PX = 960
+const BACKGROUND_RENDER_DELAY_MS = 160
+
+type WindowWithIdleCallback = Window & {
+  cancelIdleCallback?: (handle: number) => void
+  requestIdleCallback?: (
+    callback: IdleRequestCallback,
+    options?: IdleRequestOptions
+  ) => number
+}
 
 export function useFeedProgressiveRender({
   isFeedReady,
@@ -96,7 +105,37 @@ export function useFeedProgressiveRender({
         window.cancelAnimationFrame(animationFrameId)
       }
     }
-  }, [isFeedReady, posts, scrollRef])
+  }, [isFeedReady, posts, scrollRef, visibleCount])
+
+  useEffect(() => {
+    if (!isFeedReady || !posts?.length || visibleCount >= posts.length) {
+      return
+    }
+
+    const win = window as WindowWithIdleCallback
+    let idleCallbackId: number | null = null
+    let timeoutId: number | null = null
+
+    const renderNextChunk = () => {
+      setVisibleCount((current) => Math.min(posts.length, current + RENDER_STEP))
+    }
+
+    if (typeof win.requestIdleCallback === "function") {
+      idleCallbackId = win.requestIdleCallback(renderNextChunk, { timeout: 500 })
+    } else {
+      timeoutId = window.setTimeout(renderNextChunk, BACKGROUND_RENDER_DELAY_MS)
+    }
+
+    return () => {
+      if (idleCallbackId !== null && typeof win.cancelIdleCallback === "function") {
+        win.cancelIdleCallback(idleCallbackId)
+      }
+
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId)
+      }
+    }
+  }, [isFeedReady, posts, visibleCount])
 
   const visiblePosts = useMemo(
     () => (posts ? posts.slice(0, visibleCount) : []),

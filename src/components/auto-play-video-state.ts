@@ -292,7 +292,7 @@ export function getVideoPlaybackPriority({
   readonly isForwardHandoffCandidate: boolean
   readonly visibleFraction: number
 }) {
-  if (isForwardHandoffCandidate && visibleFraction >= VIDEO_PLAY_START_VISIBLE_RATIO) {
+  if (isForwardHandoffCandidate && visibleFraction >= VIDEO_PLAY_HANDOFF_VISIBLE_RATIO) {
     return -1
   }
 

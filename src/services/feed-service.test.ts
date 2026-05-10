@@ -85,7 +85,7 @@ describe("feed-service helpers", () => {
             username: "uji",
             likes: "10",
             caption: "uji",
-            media: [{ src: "/content/videos/sample.mp4", alt: "uji" }],
+            media: [{ src: "/content/videos-default/sample.mp4", alt: "uji" }],
             genre: "humor",
           },
         ],
@@ -111,19 +111,19 @@ describe("feed-service helpers", () => {
     ).toThrow("Format feed tidak valid.")
   })
 
-  it("allows video posts backed by a local mp4 file", () => {
+  it("allows video posts backed by direct mp4 media sources", () => {
     expect(() =>
       validateFeedPayload({
         posts: [
           {
-            id: "post-local-video",
+            id: "post-direct-video",
             type: "video",
             username: "uji",
             likes: "10",
             caption: "uji",
             media: [
               {
-                src: "/content/videos/pinata.mp4",
+                src: "/content/videos-default/pinata.mp4",
                 alt: "uji",
               },
             ],
@@ -145,7 +145,7 @@ describe("feed-service helpers", () => {
             likes: "10",
             caption: "uji",
             media: [
-              { src: "/content/videos/sample.mp4", alt: "video" },
+              { src: "/content/videos-default/sample.mp4", alt: "video" },
               { src: "/content/files/sample.jpg", alt: "image" },
             ],
             genre: "humor",

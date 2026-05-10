@@ -2,13 +2,13 @@
 
 ## Gambaran Umum
 
-iNeedSocial adalah aplikasi React single-page untuk studi penelitian berbasis feed. Alur peserta dibuat sesederhana mungkin:
+iNeedSocial adalah aplikasi React single-page untuk studi berbasis feed. Alur peserta dibuat singkat:
 
 ```text
 /splash -> /welcome -> /feed -> /thank-you
 ```
 
-Aplikasi ini bersifat mock-first. Konten feed berasal dari `public/content/feed.json`, sedangkan ringkasan sesi dapat disimpan ke Supabase secara opsional. Client browser hanya menangani penulisan yang aman untuk peserta dan status akhir sesi di halaman terima kasih.
+Aplikasi ini bersifat mock-first. Feed dasar berasal dari `public/content/feed.json`, sesi peserta disimpan secara opsional ke Supabase, dan media video utama dipetakan ke Cloudflare R2 public origin sebagai sumber MP4 langsung.
 
 ## Struktur Runtime
 
@@ -17,8 +17,9 @@ Browser
   -> React SPA
      -> React Router
      -> StudyProvider
-     -> Feed service
+     -> feed/session/media helpers
      -> Supabase session service
+     -> runtime monitoring buffer
 
 Lokal admin
   -> Skrip ekspor semua sesi
@@ -29,12 +30,17 @@ Lokal admin
 File utama:
 
 - `src/App.tsx` mendefinisikan route dan mempertahankan `/timer` sebagai redirect ke `/feed`.
-- `src/pages/feed-page.tsx` mengorkestrasi layout feed, status loading, tutorial, dan pemulihan posisi scroll saat ganti tema.
-- `src/hooks/use-feed-session.ts` menangani atribusi waktu per post, pemulihan snapshot sesi setelah refresh, finalisasi sesi, serta penyimpanan status sesi peserta.
-- `src/services/feed-service.ts` memilih sumber data feed berdasarkan env, memvalidasi payload feed, lalu menormalisasi data feed.
+- `src/pages/feed-page.tsx` mengorkestrasi layout feed, loading state, tutorial, tema, dan scroll restoration.
+- `src/components/app-error-boundary.tsx` menangkap crash render/runtime tak terduga di level aplikasi.
+- `src/components/auto-play-video.tsx` mengelola mount, preload, autoplay, poster, dan readiness video.
+- `src/components/auto-play-video-config.ts` menormalkan sumber MP4, memetakan ke media origin publik, serta menentukan poster dan aspect ratio.
+- `src/components/auto-play-video-source.ts` menangani warmup, attach/detach source, dan load hints.
+- `src/utils/runtime-monitoring.ts` menyimpan buffer diagnostik lokal untuk error dan rejection yang tidak tertangani.
+- `src/services/feed-service.ts` memilih sumber data feed berdasarkan env, memvalidasi payload, lalu menormalisasi data.
 - `src/services/supabase.ts` memvalidasi konfigurasi Supabase frontend dan menyimpan satu ringkasan sesi secara idempoten berdasarkan `session_id`.
 - `scripts/export-all-sessions.mjs` adalah jalur ekspor admin lokal untuk seluruh data sesi menggunakan service-role key privat.
-- `src/context/study-context.tsx` menyimpan state komentar, suka, repost, dan session id aktif dengan namespace berbasis sesi studi.
+- `scripts/verify-session-export.mjs` menjalankan verifikasi disposable live session + integritas hasil ekspor workbook.
+- `src/context/study-context.tsx` menyimpan state suka, repost, dan session id aktif dengan namespace berbasis sesi studi.
 - `src/context/study-session-storage.ts` menyimpan interaksi, progres tutorial, dan snapshot timer/feed di `sessionStorage`.
 - `src/types/social.ts` berisi tipe feed, genre, dan payload sesi.
 
@@ -120,12 +126,19 @@ Interaksi feed ringan disimpan terpisah dari payload durasi sesi:
 
 - Mendukung swipe dan navigasi tombol.
 - Tinggi kontainer menyesuaikan dimensi slide aktif.
+- Kontrol mute hanya muncul saat slide aktif memang video.
 
 ### Video
 
-- Visibilitas dipantau dengan `IntersectionObserver`.
-- Video berhenti saat keluar dari area terlihat.
-- Video carousel hanya autoplay pada slide aktif.
+- Sumber feed utama memakai `/content/videos-default/*`.
+- Browser mobile, koneksi lambat, dan mode hemat data memakai varian ringkas `/content/videos/*`.
+- Path default dipetakan ke media origin publik (`VITE_VIDEO_PUBLIC_BASE_URL`) atau default origin R2 di build produksi; path ringkas memakai `VITE_VIDEO_COMPACT_PUBLIC_BASE_URL` jika tersedia, lalu fallback ke origin video utama.
+- Bucket R2 mengizinkan CORS `GET`/`HEAD` dengan header `Range` agar warmup byte-range kecil dari browser bisa membantu startup video mobile.
+- Visibilitas dipantau dengan `IntersectionObserver` dan subscription scroll yang sama.
+- Video hanya autoplay saat terlihat.
+- Video di carousel hanya autoplay pada slide aktif.
+- Video berhenti saat keluar dari area terlihat dan source dilepas setelah grace period.
+- Prewarm dan preload dibedakan untuk kandidat terdekat agar playback tidak berebut koneksi.
 - Status mute diterapkan lewat effect, bukan callback ref.
 
 ## Penanganan Error
@@ -136,6 +149,12 @@ Pemuatan feed eksplisit:
 - tampilkan state retry inline jika pemuatan gagal,
 - retry tanpa memuat ulang seluruh aplikasi,
 - log error mentah ke `console.error` sambil tetap menampilkan pesan fallback yang aman untuk peserta.
+
+Runtime crash juga ditahan:
+
+- app-level error boundary menangkap error render tak terduga,
+- `runtime-monitoring` menyimpan buffer event lokal untuk `window.onerror` dan `unhandledrejection`,
+- detail teknis tetap lokal dan tidak dikirim ke backend.
 
 Penyimpanan Supabase frontend juga eksplisit:
 
@@ -172,8 +191,9 @@ Artefak hasil generate bukan bagian dari source:
 - `dist/`
 - `*.tsbuildinfo`
 - output Vite hasil generate
+- file temp lokal seperti `tmp/`
 
-Konfigurasi Vite TypeScript di `vite.config.ts` tetap menjadi sumber kebenaran tunggal.
+Service worker di `public/sw.js` mendaftarkan aset PWA dasar dan sengaja tidak caching request video/range agar playback tidak rusak setelah refresh.
 
 ## Quality Gates
 
@@ -183,12 +203,18 @@ Repo menyediakan quality gate minimum berikut:
 - `npm run lint`
 - `npm run test`
 - `npm run test:e2e`
+- `npm run test:e2e:preview`
+- `npm run verify:session-export`
 
 Pengujian saat ini berfokus pada:
 
 - pemilihan sumber feed dan normalisasi payload,
 - validasi bentuk feed yang salah,
-- alokasi pembulatan durasi kategori,
+- alokasi durasi kategori,
 - namespace storage berbasis sesi,
 - retry dan idempotensi penyimpanan sesi,
-- smoke flow browser untuk refresh sesi feed dan state error feed.
+- playback media video, poster, dan carousel,
+- smoke flow browser untuk refresh sesi feed dan state error feed,
+- stress preview build (desktop + mobile fast scroll) untuk kepemilikan playback video aktif tunggal,
+- verifikasi integritas baris sesi hasil export (`total_time`, `*_ms`, `*_count`) pada session disposable desktop + mobile,
+- artifact produksi dan metadata deploy.

@@ -1,11 +1,16 @@
 import { ChevronRight, X } from "lucide-react"
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import {
   getSessionStorage,
   readTutorialState,
   writeTutorialState,
 } from "../../context/study-session-storage"
 import { useStudyState } from "../../context/study-context"
+import { useTutorialDialogFocus } from "./use-tutorial-dialog-focus"
+import {
+  getTutorialTooltipPosition,
+  useTutorialSpotlight,
+} from "./use-tutorial-spotlight"
 
 type Side = "above" | "below"
 
@@ -55,8 +60,6 @@ const STEPS: TutorialStep[] = [
   },
 ]
 
-type SpotRect = { x: number; y: number; w: number; h: number }
-
 interface TutorialOverlayProps {
   readonly onDone: () => void
 }
@@ -67,8 +70,6 @@ export function TutorialOverlay({ onDone }: TutorialOverlayProps) {
   const [idx, setIdx] = useState(() =>
     readTutorialState(getSessionStorage(), currentSessionId).currentStep
   )
-  const [spot, setSpot] = useState<SpotRect | null>(null)
-  const [winH, setWinH] = useState(window.innerHeight)
   const dialogRef = useRef<HTMLDivElement | null>(null)
   const primaryActionRef = useRef<HTMLButtonElement | null>(null)
   const skipActionRef = useRef<HTMLButtonElement | null>(null)
@@ -80,6 +81,19 @@ export function TutorialOverlay({ onDone }: TutorialOverlayProps) {
   const gap = 14
   const titleId = `tutorial-title-${idx}`
   const descriptionId = `tutorial-description-${idx}`
+  const { spot, windowHeight } = useTutorialSpotlight(step.selector)
+  const handleDialogKeyDown = useTutorialDialogFocus({
+    primaryActionRef,
+    skipActionRef,
+    stepIndex: idx,
+  })
+  const { tooltipBottom, tooltipTop } = getTutorialTooltipPosition({
+    gap,
+    pad,
+    side: step.side,
+    spot,
+    windowHeight,
+  })
 
   useEffect(() => {
     writeTutorialState(getSessionStorage(), currentSessionId, {
@@ -87,72 +101,6 @@ export function TutorialOverlay({ onDone }: TutorialOverlayProps) {
       currentStep: idx,
     })
   }, [currentSessionId, idx])
-
-  useEffect(() => {
-    if (!step.selector) {
-      setSpot(null)
-      return
-    }
-
-    let animationFrame = 0
-
-    const updateSpot = () => {
-      const element = document.querySelector(step.selector as string)
-      if (!element) {
-        return
-      }
-
-      const rect = element.getBoundingClientRect()
-      setSpot({ x: rect.left, y: rect.top, w: rect.width, h: rect.height })
-      setWinH(window.innerHeight)
-    }
-
-    const scheduleUpdateSpot = () => {
-      window.cancelAnimationFrame(animationFrame)
-      animationFrame = window.requestAnimationFrame(updateSpot)
-    }
-
-    const timeoutId = window.setTimeout(scheduleUpdateSpot, 60)
-    window.addEventListener("resize", scheduleUpdateSpot)
-    document.addEventListener("scroll", scheduleUpdateSpot, true)
-
-    return () => {
-      window.clearTimeout(timeoutId)
-      window.cancelAnimationFrame(animationFrame)
-      window.removeEventListener("resize", scheduleUpdateSpot)
-      document.removeEventListener("scroll", scheduleUpdateSpot, true)
-    }
-  }, [idx, step.selector])
-
-  useEffect(() => {
-    let retryCount = 0
-    let retryTimeoutId = 0
-
-    const focusPrimaryAction = () => {
-      const primaryAction = primaryActionRef.current
-      if (!primaryAction) {
-        return
-      }
-
-      primaryAction.focus()
-      if (document.activeElement === primaryAction || retryCount >= 4) {
-        return
-      }
-
-      retryCount += 1
-      retryTimeoutId = window.setTimeout(focusPrimaryAction, 50)
-    }
-
-    focusPrimaryAction()
-    const initialTimeoutId = window.setTimeout(focusPrimaryAction, 0)
-    const focusFrame = window.requestAnimationFrame(focusPrimaryAction)
-
-    return () => {
-      window.clearTimeout(initialTimeoutId)
-      window.clearTimeout(retryTimeoutId)
-      window.cancelAnimationFrame(focusFrame)
-    }
-  }, [idx])
 
   const handleNext = useCallback(() => {
     if (isLast) {
@@ -175,20 +123,6 @@ export function TutorialOverlay({ onDone }: TutorialOverlayProps) {
     onDone()
   }, [currentSessionId, idx, onDone])
 
-  let tooltipTop: number | undefined
-  let tooltipBottom: number | undefined
-
-  if (spot) {
-    const spotBottom = spot.y + spot.h + pad
-    const spotTopGap = spot.y - pad
-
-    if (step.side === "below") {
-      tooltipTop = Math.min(spotBottom + gap, winH - 220)
-    } else {
-      tooltipBottom = Math.max(winH - spotTopGap + gap, 220)
-    }
-  }
-
   const dots = (
     <div className="flex items-center gap-1.5">
       {STEPS.map((_, index) => (
@@ -201,38 +135,6 @@ export function TutorialOverlay({ onDone }: TutorialOverlayProps) {
       ))}
     </div>
   )
-
-  const handleDialogKeyDown = useCallback((event: ReactKeyboardEvent<HTMLDivElement>) => {
-    if (event.key !== "Tab") {
-      return
-    }
-
-    const focusableButtons = [skipActionRef.current, primaryActionRef.current].filter(
-      (button): button is HTMLButtonElement => Boolean(button)
-    )
-
-    if (focusableButtons.length === 0) {
-      return
-    }
-
-    const firstButton = focusableButtons[0]
-    const lastButton = focusableButtons[focusableButtons.length - 1]
-    const activeElement = document.activeElement
-    const focusIsInsideTutorial = focusableButtons.includes(activeElement as HTMLButtonElement)
-
-    if (event.shiftKey) {
-      if (!focusIsInsideTutorial || activeElement === firstButton) {
-        event.preventDefault()
-        lastButton.focus()
-      }
-      return
-    }
-
-    if (!focusIsInsideTutorial || activeElement === lastButton) {
-      event.preventDefault()
-      firstButton.focus()
-    }
-  }, [])
 
   return (
     <div className="fixed inset-0 z-[200] pointer-events-auto">

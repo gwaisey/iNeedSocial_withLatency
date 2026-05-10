@@ -1,3 +1,5 @@
+import { getVideoNetworkPreloadPolicy } from "./video-network-policy"
+
 export type VideoPreloadDirection = "above" | "below" | "visible"
 export type VideoPreloadRank = number | null
 
@@ -8,11 +10,6 @@ type VideoPreloadCandidate = {
   notify: (preloadRank: VideoPreloadRank) => void
 }
 
-// Keep auto-preloading focused on the next few videos so we buffer enough data
-// for instant playback once a video becomes visible, especially on real networks.
-const MAX_AUTO_PRELOAD_VIDEOS = 4
-const MAX_BELOW_PRELOAD_DISTANCE_PX = 12000
-const MAX_ABOVE_PRELOAD_DISTANCE_PX = 900
 const registry = new Map<string, VideoPreloadCandidate>()
 let preferredPreloadDirection: Exclude<VideoPreloadDirection, "visible"> = "below"
 
@@ -37,24 +34,75 @@ function getEligibleCandidates({
     })
 }
 
+function pickPreloadCandidates(
+  preferredCandidates: Array<[string, VideoPreloadCandidate]>,
+  fallbackCandidates: Array<[string, VideoPreloadCandidate]>,
+  maxAutoPreloadVideos: number,
+  oppositeDirectionWarmSlotIndex: number
+) {
+  const selectedCandidates: Array<[string, VideoPreloadCandidate]> = []
+
+  const addPreferredCandidate = () => {
+    const nextPreferredCandidate = preferredCandidates.shift()
+    if (nextPreferredCandidate) {
+      selectedCandidates.push(nextPreferredCandidate)
+    }
+  }
+
+  while (
+    selectedCandidates.length < maxAutoPreloadVideos &&
+    (preferredCandidates.length > 0 || fallbackCandidates.length > 0)
+  ) {
+    if (
+      selectedCandidates.length === oppositeDirectionWarmSlotIndex &&
+      fallbackCandidates.length > 0
+    ) {
+      const fallbackCandidate = fallbackCandidates.shift()
+      if (fallbackCandidate) {
+        selectedCandidates.push(fallbackCandidate)
+      }
+      continue
+    }
+
+    if (preferredCandidates.length > 0) {
+      addPreferredCandidate()
+      continue
+    }
+
+    const fallbackCandidate = fallbackCandidates.shift()
+    if (fallbackCandidate) {
+      selectedCandidates.push(fallbackCandidate)
+    }
+  }
+
+  return selectedCandidates
+}
+
 function recomputeBudget() {
+  const preloadPolicy = getVideoNetworkPreloadPolicy()
   const preferredCandidates = getEligibleCandidates({
     direction: preferredPreloadDirection,
     maxDistancePx:
       preferredPreloadDirection === "below"
-        ? MAX_BELOW_PRELOAD_DISTANCE_PX
-        : MAX_ABOVE_PRELOAD_DISTANCE_PX,
+        ? preloadPolicy.maxBelowPreloadDistancePx
+        : preloadPolicy.maxAbovePreloadDistancePx,
   })
   const fallbackDirection = preferredPreloadDirection === "below" ? "above" : "below"
   const fallbackCandidates = getEligibleCandidates({
     direction: fallbackDirection,
     maxDistancePx:
-      fallbackDirection === "below" ? MAX_BELOW_PRELOAD_DISTANCE_PX : MAX_ABOVE_PRELOAD_DISTANCE_PX,
+      fallbackDirection === "below"
+        ? preloadPolicy.maxBelowPreloadDistancePx
+        : preloadPolicy.maxAbovePreloadDistancePx,
   })
 
   const preloadRanks = new Map<string, number>(
-    (preferredCandidates.length > 0 ? preferredCandidates : fallbackCandidates)
-      .slice(0, MAX_AUTO_PRELOAD_VIDEOS)
+    pickPreloadCandidates(
+      preferredCandidates,
+      fallbackCandidates,
+      preloadPolicy.maxAutoPreloadVideos,
+      preloadPolicy.oppositeDirectionWarmSlotIndex
+    )
       .map(([candidateId], index) => [candidateId, index])
   )
 

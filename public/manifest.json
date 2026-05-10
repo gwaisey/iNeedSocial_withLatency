@@ -1,7 +1,7 @@
 {
   "name": "iNeedSocial",
   "short_name": "iNeedSocial",
-  "description": "Social media study application",
+  "description": "Aplikasi studi media sosial",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",

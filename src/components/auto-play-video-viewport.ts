@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from "react"
+import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react"
 import {
   setVideoPreloadScrollDirection,
   type VideoPreloadDirection,
@@ -109,12 +109,10 @@ export function useMountedVideoViewportState({
   hasVideoSource,
   scrollRootRef,
   shellRef,
-  shouldMountVideo,
 }: {
   readonly hasVideoSource: boolean
   readonly scrollRootRef?: RefObject<HTMLElement | null>
   readonly shellRef: RefObject<HTMLDivElement | null>
-  readonly shouldMountVideo: boolean
 }) {
   const wasVisibleRef = useRef(false)
   const lastScrollOffsetRef = useRef<number | null>(null)
@@ -122,7 +120,7 @@ export function useMountedVideoViewportState({
   const [viewportState, setViewportState] = useState(INITIAL_VIDEO_VIEWPORT_STATE)
 
   useEffect(() => {
-    if (hasVideoSource && shouldMountVideo) {
+    if (hasVideoSource) {
       return
     }
 
@@ -130,10 +128,10 @@ export function useMountedVideoViewportState({
     lastScrollOffsetRef.current = null
     scrollDirectionRef.current = "none"
     setViewportState(INITIAL_VIDEO_VIEWPORT_STATE)
-  }, [hasVideoSource, shouldMountVideo])
+  }, [hasVideoSource])
 
-  useEffect(() => {
-    if (!hasVideoSource || !shouldMountVideo) {
+  useLayoutEffect(() => {
+    if (!hasVideoSource) {
       return
     }
 
@@ -212,7 +210,7 @@ export function useMountedVideoViewportState({
       intersectionObserver.disconnect()
       unsubscribe()
     }
-  }, [hasVideoSource, scrollRootRef, shellRef, shouldMountVideo])
+  }, [hasVideoSource, scrollRootRef, shellRef])
 
   return {
     ...viewportState,

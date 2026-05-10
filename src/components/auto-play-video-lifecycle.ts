@@ -132,6 +132,10 @@ export function reportVideoPlayIssue({
   readonly lastReportedIssueRef: MutableRefObject<string | null>
   readonly src?: string
 }) {
+  if (classification === "interrupted") {
+    return
+  }
+
   const signature =
     `${classification}:${error instanceof Error ? `${error.name}:${error.message}` : String(error)}`
   if (lastReportedIssueRef.current === signature) {
@@ -219,7 +223,7 @@ export function useVideoCandidateLifecycle({
     }
 
     updateVideoPreloadCandidate(preloadCandidateId, {
-      canPrewarm: canPrewarm && shouldMountVideo,
+      canPrewarm,
       distancePx: distanceToViewport,
       direction: preloadDirection,
     })
@@ -229,7 +233,6 @@ export function useVideoCandidateLifecycle({
     hasVideoSource,
     preloadCandidateId,
     preloadDirection,
-    shouldMountVideo,
   ])
 
   useEffect(() => {

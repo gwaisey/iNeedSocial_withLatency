@@ -82,24 +82,36 @@ export function useFeedTiming({
     return nextGenreTimes
   }, [])
 
-  const finalizeAttributedTiming = useCallback(() => {
-    const nextGenreTimes = commitActivePostDuration()
+  const clearActivePostTracking = useCallback(() => {
+    if (evaluationFrameRef.current !== null) {
+      window.cancelAnimationFrame(evaluationFrameRef.current)
+      evaluationFrameRef.current = null
+    }
+
     activePostIdRef.current = null
     activePostStartedAtRef.current = null
     pendingActiveStartedAtRef.current = null
+  }, [])
+
+  const pauseActivePostTracking = useCallback(
+    (now = Date.now()) => {
+      const nextGenreTimes = commitActivePostDuration(now)
+      clearActivePostTracking()
+      return nextGenreTimes
+    },
+    [clearActivePostTracking, commitActivePostDuration]
+  )
+
+  const finalizeAttributedTiming = useCallback(() => {
+    const nextGenreTimes = pauseActivePostTracking()
     return nextGenreTimes
-  }, [commitActivePostDuration])
+  }, [pauseActivePostTracking])
 
   useEffect(() => {
     genreMapRef.current = new Map((posts ?? []).map((post) => [post.id, post.genre] as const))
 
     if (isLocked || isPaused) {
-      if (activePostIdRef.current && activePostStartedAtRef.current !== null) {
-        commitActivePostDuration()
-      }
-      activePostIdRef.current = null
-      activePostStartedAtRef.current = null
-      pendingActiveStartedAtRef.current = null
+      pauseActivePostTracking()
       return
     }
 
@@ -111,7 +123,7 @@ export function useFeedTiming({
     ) {
       pendingActiveStartedAtRef.current = Date.now()
     }
-  }, [commitActivePostDuration, isLocked, isPaused, posts])
+  }, [isLocked, isPaused, pauseActivePostTracking, posts])
 
   const findDominantPostId = useCallback(() => {
     const container = scrollRef.current
@@ -240,6 +252,7 @@ export function useFeedTiming({
 
   return {
     commitActivePostDuration,
+    pauseActivePostTracking,
     finalizeAttributedTiming,
     genreCounts,
     genreCountsRef,

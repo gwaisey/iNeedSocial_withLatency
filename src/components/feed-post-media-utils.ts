@@ -13,8 +13,8 @@ export type MediaSurfaceTokens = {
 
 export function isVideoMedia(media?: Pick<MediaItem, "src">) {
   const hasVideoExtension = isDirectVideoFileSource(media?.src)
-  
-  // Di withLatency, kita cek folder /videos/ atau ekstensi .mp4
+
+  // Jika link-nya mengandung /videos/ atau .mp4, ini media video file langsung.
   return hasVideoExtension || (media?.src?.includes("/videos/") ?? false)
 }
 
