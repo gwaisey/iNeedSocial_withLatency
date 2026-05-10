@@ -28,24 +28,10 @@ const LEGACY_VIDEO_SOURCE_PREFIX = "/content/videos/"
 const DEFAULT_PUBLIC_VIDEO_BASE_URL = "https://pub-d618661628e3497397ad6ab54d430ff8.r2.dev"
 
 function getVideoPublicBaseUrl() {
-  const baseUrl = import.meta.env.VITE_VIDEO_PUBLIC_BASE_URL?.trim()
-  if (baseUrl) {
-    return baseUrl.replace(/\/$/, "")
-  }
-
-  if (import.meta.env.PROD) {
-    return DEFAULT_PUBLIC_VIDEO_BASE_URL
-  }
-
   return undefined
 }
 
 function getCompactVideoPublicBaseUrl() {
-  const baseUrl = import.meta.env.VITE_VIDEO_COMPACT_PUBLIC_BASE_URL?.trim()
-  if (baseUrl) {
-    return baseUrl.replace(/\/$/, "")
-  }
-
   return undefined
 }
 

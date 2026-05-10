@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { getProgressiveLatency } from "../../config/latency"
-
-export const RevealContext = createContext<boolean>(true)
+import { RevealContext } from "./reveal-context"
 
 export function ExitSessionDialog({
   onCancel,
@@ -76,26 +75,26 @@ export function FeedErrorState({
 }
 
 function SinglePostSkeleton({ isDark }: { isDark: boolean }) {
-  const skeletonClass = isDark ? "bg-white/10" : "bg-ink/8"
+  const skeletonClass = isDark ? "skeleton-dark" : "skeleton"
 
   return (
     <div>
       <div className="flex items-center gap-3 px-3 py-3">
-        <div className={`h-9 w-9 rounded-full animate-pulse ${skeletonClass}`} />
+        <div className={`h-9 w-9 rounded-full ${skeletonClass}`} />
         <div className="space-y-1.5 flex-1">
-          <div className={`h-3 w-24 rounded-full animate-pulse ${skeletonClass}`} />
-          <div className={`h-2.5 w-14 rounded-full animate-pulse ${skeletonClass}`} />
+          <div className={`h-3 w-24 rounded-full ${skeletonClass}`} />
+          <div className={`h-2.5 w-14 rounded-full ${skeletonClass}`} />
         </div>
       </div>
-      <div className={`w-full aspect-[4/5] animate-pulse ${skeletonClass}`} />
+      <div className={`w-full aspect-[4/5] ${skeletonClass}`} />
       <div className="flex items-center gap-3 px-3 py-2">
-        <div className={`h-5 w-12 rounded-full animate-pulse ${skeletonClass}`} />
-        <div className={`h-5 w-12 rounded-full animate-pulse ${skeletonClass}`} />
-        <div className={`h-5 w-8 rounded-full animate-pulse ${skeletonClass}`} />
+        <div className={`h-5 w-12 rounded-full ${skeletonClass}`} />
+        <div className={`h-5 w-12 rounded-full ${skeletonClass}`} />
+        <div className={`h-5 w-8 rounded-full ${skeletonClass}`} />
       </div>
       <div className="px-3 py-3 space-y-2">
-        <div className={`h-3 w-20 rounded-full animate-pulse ${skeletonClass}`} />
-        <div className={`h-3 w-48 rounded-full animate-pulse ${skeletonClass}`} />
+        <div className={`h-3 w-20 rounded-full ${skeletonClass}`} />
+        <div className={`h-3 w-48 rounded-full ${skeletonClass}`} />
       </div>
     </div>
   )

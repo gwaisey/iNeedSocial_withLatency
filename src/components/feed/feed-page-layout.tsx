@@ -102,6 +102,7 @@ function FeedPostList({
       {posts.map((post, index) => (
         <div
           key={`${post.id}-${index}`}
+          className="feed-post-item"
           data-post-id={post.id}
           data-regular-post-id={post.id}
         >

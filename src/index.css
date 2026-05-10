@@ -169,10 +169,65 @@ img {
   contain: layout style paint;
 }
 
+/* Post yang belum ter-reveal: tampil kerangka asli tapi media loading */
+.feed-post-shell[data-revealed="false"] {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Shimmer loading overlay pada area media (gambar/video) */
+.feed-post-shell[data-revealed="false"] img,
+.feed-post-shell[data-revealed="false"] video {
+  opacity: 0 !important;
+}
+
+/* Buat area media terlihat "loading" — latar belakang shimmer */
+.feed-post-shell[data-revealed="false"] article > div:nth-child(2) {
+  position: relative;
+  background: linear-gradient(90deg, #ebe7f6 25%, #f7f4fb 50%, #ebe7f6 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+/* Dark theme shimmer */
+.theme-dark .feed-post-shell[data-revealed="false"] article > div:nth-child(2) {
+  background: linear-gradient(90deg, rgba(245,244,251,0.08) 25%, rgba(245,244,251,0.16) 50%, rgba(245,244,251,0.08) 75%);
+  background-size: 800px 100%;
+}
+
+/* Override video black background agar shimmer terlihat */
+.feed-post-shell[data-revealed="false"] .video-skeleton {
+  background: linear-gradient(90deg, #ebe7f6 25%, #f7f4fb 50%, #ebe7f6 75%) !important;
+  background-size: 800px 100% !important;
+  animation: shimmer 1.4s infinite linear !important;
+}
+
+.theme-dark .feed-post-shell[data-revealed="false"] .video-skeleton {
+  background: linear-gradient(90deg, rgba(245,244,251,0.08) 25%, rgba(245,244,251,0.16) 50%, rgba(245,244,251,0.08) 75%) !important;
+  background-size: 800px 100% !important;
+}
+
+/* ─── Scroll Barrier (X/Twitter style) ─────────────────── */
+/* Collapse semua post SETELAH skeleton pertama ke tinggi 0. */
+.feed-post-item:has(> .feed-post-shell[data-revealed="false"]) ~ .feed-post-item {
+  height: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+/* Sembunyikan completion CTA selama masih ada skeleton loading */
+.feed-wrapper:has(.feed-post-shell[data-revealed="false"]) > div:last-child:not(:has(.feed-post-shell)) {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .feed-wrapper {
     max-width: 470px;
     margin: 0 auto;
+
   }
 }
 
@@ -235,11 +290,11 @@ img {
 .skeleton-dark {
   background: linear-gradient(90deg, rgba(245, 244, 251, 0.08) 25%, rgba(245, 244, 251, 0.16) 50%, rgba(245, 244, 251, 0.08) 75%);
   background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
 }
 
 .video-skeleton {
-  animation: none;
-  background: transparent;
+  background: #050505;
   border-radius: 0;
 }
 

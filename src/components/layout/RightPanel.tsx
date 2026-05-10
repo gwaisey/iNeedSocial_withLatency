@@ -26,7 +26,7 @@ export function RightPanel({ theme }: RightPanelProps) {
         <p className={`mb-4 text-xs font-semibold uppercase tracking-wide ${textSecondary}`}>
           Saran untuk Anda
         </p>
-        <div className={`space-y-1 divide-y ${divider}`}>
+        <div className="space-y-1">
           {suggestedUsers.map((user) => (
             <div
               key={user.username}

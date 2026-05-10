@@ -21,7 +21,7 @@ export function isVideoMedia(media?: Pick<MediaItem, "src">) {
 export function getMediaSurfaceTokens(isDark: boolean): MediaSurfaceTokens {
   return {
     placeholder: isDark ? "bg-white/8" : "bg-ink/8",
-    skeletonTone: isDark ? "skeleton-dark" : "",
+    skeletonTone: isDark ? "skeleton skeleton-dark" : "skeleton",
     surface: isDark ? "bg-white/8" : "bg-ink/8",
   }
 }
